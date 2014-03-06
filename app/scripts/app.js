@@ -10,6 +10,10 @@ angular.module('CollaborativeMap', [
   .config(function($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
+        templateUrl: 'partials/start',
+        controller: 'StartCtrl'
+      })
+      .when('/map/:mapid', {
         templateUrl: 'partials/main',
         controller: 'MainCtrl'
       })

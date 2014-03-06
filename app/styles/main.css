@@ -1,38 +1,32 @@
 /* Space out content a bit */
-body {
+ body {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-
 /* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
+ .header, .marketing, .footer {
   padding-left: 15px;
   padding-right: 15px;
 }
-
 /* Custom page header */
-.header {
+ .header {
   border-bottom: 1px solid #e5e5e5;
 }
 /* Make the masthead heading the same height as the navigation */
-.header h3 {
+ .header h3 {
   margin-top: 0;
   margin-bottom: 0;
   line-height: 40px;
   padding-bottom: 19px;
 }
-
 /* Custom page footer */
-.footer {
+ .footer {
   padding-top: 19px;
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
-
 /* Customize container */
-@media (min-width: 768px) {
+ @media (min-width: 768px) {
   .container {
     max-width: 730px;
   }
@@ -40,9 +34,8 @@ body {
 .container-narrow > hr {
   margin: 30px 0;
 }
-
 /* Main marketing message and sign up button */
-.jumbotron {
+ .jumbotron {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
 }
@@ -50,21 +43,17 @@ body {
   font-size: 21px;
   padding: 14px 24px;
 }
-
 /* Supporting marketing content */
-.marketing {
+ .marketing {
   margin: 40px 0;
 }
 .marketing p + h4 {
   margin-top: 28px;
 }
-
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+ @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
+  .header, .marketing, .footer {
     padding-left: 0;
     padding-right: 0;
   }
@@ -77,21 +66,31 @@ body {
     border-bottom: 0;
   }
 }
-
-html,body{
+html, body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
 }
-
-.map-container{
+.map-container {
   height: 100%;
   width: 100%;
   margin: 0;
 }
-
-#map{
+#map {
   height: 100%;
   width: 100%;
+}
+.container {
+  height: 20em;
+  background-color: rgb(231, 231, 231);
+  margin-top: 10em;
+}
+.startContainer {
+  text-align: center;
+  margin-top: 5em;
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
