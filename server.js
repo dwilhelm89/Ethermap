@@ -39,7 +39,7 @@ socketIO.sockets.on('connection', function(socket) {
 });
 
 server.listen(port);
-
+console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));
 
 /*
 // Start server
