@@ -1,7 +1,6 @@
 'use strict';
 
-var express = require('express'),
-  http = require('http');
+var express = require('express');
 
 /**
  * Main application file
@@ -22,23 +21,11 @@ require('./lib/config/express')(app);
 require('./lib/routes')(app);
 
 
+//WebSocket   Starts the 
+var websocketServer = require('./lib/socketio')(app);
+websocketServer.listen(config.port);
 
 
-// Start the app by listening on <port>
-var port = process.env.PORT || config.port;
-
-var server = http.createServer(app);
-var socketIO = require('socket.io').listen(server, {
-  'log level': 3
-});
-socketIO.sockets.on('connection', function(socket) {
-  console.log('connect to something');
-  socket.on('disconnect', function() {
-    console.log('bye bye');
-  });
-});
-
-server.listen(port);
 console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));
 
 /*
