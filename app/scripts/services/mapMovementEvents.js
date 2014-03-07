@@ -108,31 +108,38 @@ angular.module('CollaborativeMap')
 
       }
 
-      function receiveMapDraws(mapId, map) {
+      function addGeoJSONFeature(map, event, drawnItems) {
+        //jshint camelcase:false
+        var newLayer = L.geoJson(event.feature);
+        var tmpLayer;
+        for (var key in newLayer._layers) {
+          tmpLayer = newLayer._layers[key];
+          tmpLayer._leaflet_id = event.fid;
+          tmpLayer.addTo(drawnItems);
+        }
+      }
+
+      function removeLayer(map, event, drawnItems) {
+        var deleteLayer = map._layers[event.fid];
+        if (deleteLayer) {
+          map.removeLayer(deleteLayer);
+          drawnItems.removeLayer(deleteLayer);
+        }
+      }
+
+      function receiveMapDraws(mapId, map, drawnItems) {
         //jshint camelcase:false
         Socket.on(mapId + '-mapDraw', function(res) {
           if (res && res.event) {
             var event = res.event;
-            var newLayer, deleteLayer;
+
             if (event.action === 'created') {
-              newLayer = L.geoJson(event.feature);
-              newLayer._leaflet_id = event.fid;
-              newLayer.addTo(map);
-            }
-            else if (event.action === 'edited') {
-              deleteLayer = map._layers[event.fid];
-              if (deleteLayer) {
-                map.removeLayer(deleteLayer);
-              }
-              newLayer = L.geoJson(event.feature);
-              newLayer._leaflet_id = event.fid;
-              newLayer.addTo(map);
-            }
-            else if(event.action === 'deleted'){
-              deleteLayer = map._layers[event.fid];
-              if (deleteLayer) {
-                map.removeLayer(deleteLayer);
-              }
+              addGeoJSONFeature(map, event, drawnItems);
+            } else if (event.action === 'edited') {
+              removeLayer(map, event, drawnItems);
+              addGeoJSONFeature(map, event, drawnItems);
+            } else if (event.action === 'deleted') {
+              removeLayer(map, event, drawnItems);
             }
 
           }
@@ -152,14 +159,14 @@ angular.module('CollaborativeMap')
 
         },
 
-        enableDrawSynchronization: function(map, mapId) {
+        enableDrawSynchronization: function(map, mapId, drawnItems) {
 
           MapDrawEvents.connectMapEvents(map, function(event) {
             sendMapDraws(mapId, event);
             console.log(event);
           });
 
-          receiveMapDraws(mapId, map);
+          receiveMapDraws(mapId, map, drawnItems);
 
         }
 
@@ -167,18 +174,3 @@ angular.module('CollaborativeMap')
 
     }
   ]);
-
-
-
-/*
-Remove Layer:
-test= _map._layers['139419496851651549']
-_map.hasLayer(test)
-_map.removeLayer(test)
-
-Add Layer:
-var layer = L.geoJson({...});
-layer._leaflet_id = 'fdsafdsa';
-layer.addTo(map);
-
-*/
