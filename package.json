@@ -1,6 +1,11 @@
 {
-  "name": "angularfullstacktest",
-  "version": "0.0.0",
+  "name": "CollaborativeMap",
+  "version": "0.0.1",
+  "description": "Collaborative, version controlled map editor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dwilhelm89/CollaborativeMap"
+  },
   "dependencies": {
     "express": "~3.4.3",
     "lodash": "~2.4.1",
