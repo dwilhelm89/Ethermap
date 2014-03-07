@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .controller('MainCtrl', ['$scope', '$routeParams', 'SynchronizeMap',
-    function($scope, $routeParams, SynchronizeMap) {
+  .controller('MainCtrl', ['$scope', '$routeParams', 'SynchronizeMap', 'Utils',
+    function($scope, $routeParams, SynchronizeMap, Utils) {
 
       function initLeafletDraw() {
         // Initialise the FeatureGroup to store editable layers
@@ -24,9 +24,11 @@ angular.module('CollaborativeMap')
 
 
 
-
       //TODO: random map id generator
-      $scope.mapId = $routeParams.mapid || 'randomMapId';
+      $scope.mapId = $routeParams.mapid;
+
+      //patch L.stamp to get unique layer ids
+      Utils.patchLStamp();
 
       //expose map for debugging purposes
       //var map = window._map = L.mapbox.map('map', 'dnns.h8dkb1bh');

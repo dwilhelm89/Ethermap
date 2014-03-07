@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .controller('StartCtrl', ['$scope', '$location', function($scope, $location){
+  .controller('StartCtrl', ['$scope', '$location', 'Utils', function($scope, $location, Utils){
     
     $scope.startClick = function(){
-      $location.path('/map/' + $scope.mapIdInput);
+      var mapId = $scope.mapIdInput || Utils.createId();
+      $location.path('/map/' + mapId);
     };
 
   }]);
