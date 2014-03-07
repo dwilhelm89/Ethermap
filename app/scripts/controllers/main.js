@@ -13,6 +13,9 @@ angular.module('CollaborativeMap')
         var drawControl = new L.Control.Draw({
           edit: {
             featureGroup: drawnItems
+          },
+          draw: {
+            circle: false
           }
         });
         map.addControl(drawControl);
@@ -42,7 +45,8 @@ angular.module('CollaborativeMap')
       initLeafletDraw();
 
 
-      SynchronizeMap.enableSynchronization(map, $scope.mapId);
+      SynchronizeMap.enableMovementSynchronization(map, $scope.mapId);
+      SynchronizeMap.enableDrawSynchronization(map, $scope.mapId);
 
 
 

@@ -23,10 +23,58 @@ angular.module('CollaborativeMap')
     };
   });
 
+angular.module('CollaborativeMap')
+  .service('MapDrawEvents', function() {
+
+    function eventToMessage(event, type) {
+      //jshint camelcase: false
+      return {
+        'action': type,
+        'feature': event.layer.toGeoJSON(),
+        'fid': event.layer._leaflet_id
+      };
+    }
+
+    return {
+
+      connectMapEvents: function(map, callback) {
+
+        map.on('draw:created', function(event) {
+          callback(eventToMessage(event, 'created'));
+        });
+
+        map.on('draw:edited', function(event) {
+          if (event.layers && event.layers._layers) {
+            var layers = event.layers._layers;
+
+            for (var key in layers) {
+              callback(eventToMessage({
+                layer: layers[key]
+              }, 'edited'));
+            }
+          }
+        });
+
+        map.on('draw:deleted', function(event) {
+          if (event.layers && event.layers._layers) {
+            var layers = event.layers._layers;
+
+            for (var key in layers) {
+              callback(eventToMessage({
+                layer: layers[key]
+              }, 'deleted'));
+            }
+          }
+        });
+      }
+
+    };
+  });
+
 
 angular.module('CollaborativeMap')
-  .service('SynchronizeMap', ['MapMovementEvents', 'Socket',
-    function(MapMovementEvents, Socket) {
+  .service('SynchronizeMap', ['MapMovementEvents', 'MapDrawEvents', 'Socket',
+    function(MapMovementEvents, MapDrawEvents, Socket) {
 
 
       function sendMapMovements(mapId, event) {
@@ -40,10 +88,36 @@ angular.module('CollaborativeMap')
         });
       }
 
-      function receiveMapMovements(mapId, map){
-        Socket.on(mapId + '-mapMovement', function(res){
-          if(res.event && res.event.center && res.event.zoom){
+      function receiveMapMovements(mapId, map) {
+        Socket.on(mapId + '-mapMovement', function(res) {
+          if (res.event && res.event.center && res.event.zoom) {
             map.setView(res.event.center, res.event.zoom);
+          }
+        });
+      }
+
+      function sendMapDraws(mapId, event) {
+        var message = {
+          'event': event,
+          'mapId': mapId
+        };
+
+        Socket.emit('mapDraw', message, function(res) {
+          console.log(res);
+        });
+
+      }
+
+      function receiveMapDraws(mapId, map) {
+        //jshint camelcase:false
+        Socket.on(mapId + '-mapDraw', function(res) {
+          if(res && res.event){
+            var event = res.event;
+            if(event.action === 'created'){
+              var newLayer = L.geoJson(event.feature);
+              newLayer._leaflet_id = event.fid;
+              newLayer.addTo(map);
+            }
           }
         });
       }
@@ -51,7 +125,7 @@ angular.module('CollaborativeMap')
 
       return {
 
-        enableSynchronization: function(map, mapId) {
+        enableMovementSynchronization: function(map, mapId) {
 
           MapMovementEvents.connectMapEvents(map, function(event) {
             sendMapMovements(mapId, event);
@@ -59,9 +133,35 @@ angular.module('CollaborativeMap')
 
           receiveMapMovements(mapId, map);
 
+        },
+
+        enableDrawSynchronization: function(map, mapId) {
+
+          MapDrawEvents.connectMapEvents(map, function(event) {
+            sendMapDraws(mapId, event);
+            console.log(event);
+          });
+
+          receiveMapDraws(mapId, map);
+
         }
 
       };
 
     }
   ]);
+
+
+
+/*
+Remove Layer:
+test= _map._layers['139419496851651549']
+_map.hasLayer(test)
+_map.removeLayer(test)
+
+Add Layer:
+var layer = L.geoJson({...});
+layer._leaflet_id = 'fdsafdsa';
+layer.addTo(map);
+
+*/
