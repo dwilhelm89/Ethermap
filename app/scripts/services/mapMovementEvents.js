@@ -111,13 +111,30 @@ angular.module('CollaborativeMap')
       function receiveMapDraws(mapId, map) {
         //jshint camelcase:false
         Socket.on(mapId + '-mapDraw', function(res) {
-          if(res && res.event){
+          if (res && res.event) {
             var event = res.event;
-            if(event.action === 'created'){
-              var newLayer = L.geoJson(event.feature);
+            var newLayer, deleteLayer;
+            if (event.action === 'created') {
+              newLayer = L.geoJson(event.feature);
               newLayer._leaflet_id = event.fid;
               newLayer.addTo(map);
             }
+            else if (event.action === 'edited') {
+              deleteLayer = map._layers[event.fid];
+              if (deleteLayer) {
+                map.removeLayer(deleteLayer);
+              }
+              newLayer = L.geoJson(event.feature);
+              newLayer._leaflet_id = event.fid;
+              newLayer.addTo(map);
+            }
+            else if(event.action === 'deleted'){
+              deleteLayer = map._layers[event.fid];
+              if (deleteLayer) {
+                map.removeLayer(deleteLayer);
+              }
+            }
+
           }
         });
       }
