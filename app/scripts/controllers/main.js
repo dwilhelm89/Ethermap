@@ -27,6 +27,11 @@ angular.module('CollaborativeMap')
         return drawnItems;
       }
 
+      $scope.toolBarIn = true;
+      $scope.toggleToolbar = function(){
+        $scope.toolBarIn = !$scope.toolBarIn;
+      };
+
       $scope.userName = $rootScope.userName = $rootScope.userName || 'unnamed';
 
       //TODO: random map id generator

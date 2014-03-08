@@ -1,6 +1,14 @@
 <div id="map"></div>
-<div style="position: absolute; height: 100px; width: 100px; right: 0px; top: 0px; background-color: white" id="users">
-  <ul ng-repeat="(key, value) in users">
-    <li>{{value}}</li>
-  </ul>
+
+<div class="toolbox-buttons">
+  <input type="button" class="btn btn-default btn-green" ng-click="toggleToolbar()" value="Users">
+</div>
+
+<div class="toolbox animate-slideIn" ng-class="{'zeroWidth':toolBarIn}">
+
+  <div class="userlist">
+    <ul ng-repeat="(key, value) in users">
+      <li>{{value}}</li>
+    </ul>
+  </div>
 </div>

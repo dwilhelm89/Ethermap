@@ -2,6 +2,12 @@
  body {
   padding-top: 20px;
   padding-bottom: 20px;
+  font-family:'Roboto', sans-serif;
+  background-color: #104349;
+}
+h1, h2, h3 {
+  font-family:'Roboto', sans-serif;
+  font-weight: 300;
 }
 /* Everything but the jumbotron gets side spacing for mobile first views */
  .header, .marketing, .footer {
@@ -94,13 +100,75 @@ html, body {
   margin-left: auto;
   margin-right: auto;
 }
+.border {
+  border: solid 1px lightgray;
+  border-radius: 3px;
+}
 .startLogo {
   margin-left: 180px;
-  margin-top: -120px;
+  margin-top: -130px;
   height: 150px;
   position: absolute;
 }
+input {
+  margin-bottom: 10px;
+}
+.startContainer input[type="button"] {
+  margin-left: 125px;
+}
+.toolbox {
+  position: fixed;
+  right: 0;
+  top: 50px;
+  bottom: 0;
+  height: 100%;
+  width: 300px;
+  background-color: rgb(231, 231, 231);
+}
+.toolbox-buttons {
+  position: fixed;
+  right: 0;
+  top: 0;
+  background-color: #104349;
+  width: 300px;
+  height: 50px;
+}
+.animate-slideIn {
+  /*transition-property*/
+  -webkit-transition-property:width;
+  -moz-transition-property:width;
+  -o-transition-property:width;
+  transition-property:width;
+  /*transition-duration*/
+  -webkit-transition-duration:100ms;
+  -moz-transition-duration:100ms;
+  -o-transition-duration:100ms;
+  transition-duration:100ms;
+  /*transition-timing-function*/
+  -webkit-transition-timing-function:ease-in;
+  -moz-transition-timing-function:ease-in;
+  -o-transition-timing-function:ease-in;
+  transition-timing-function:ease-in;
+}
+.zeroWidth {
+  width: 0;
+}
+.btn-green {
+  background-color: #104349;
+  border-radius: 0;
+  color: rgb(231, 231, 231);
+  border-top: 0;
+  border-bottom: 0;
+  height: 50px;
+  transition: background-color .25s ease-in-out;
+}
+.btn-green:hover, .btn-green:focus, .btn-green:active {
+  background-color: #186169;
+}
 
-.startContainer input[type="button"]{
-  margin-left: 100px;
+.userlist{
+  margin-top: 20px;
+  width: 300px;
+  max-height: 300;
+  overflow: auto;
 }
