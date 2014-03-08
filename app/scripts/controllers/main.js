@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .controller('MainCtrl', ['$scope', '$routeParams', 'SynchronizeMap', 'Utils',
-    function($scope, $routeParams, SynchronizeMap, Utils) {
+  .controller('MainCtrl', ['$scope', '$rootScope', '$routeParams', 'SynchronizeMap', 'Utils',
+    function($scope, $rootScope, $routeParams, SynchronizeMap, Utils) {
 
       function initLeafletDraw() {
         // Initialise the FeatureGroup to store editable layers
@@ -27,7 +27,7 @@ angular.module('CollaborativeMap')
         return drawnItems;
       }
 
-
+      $scope.userName = $rootScope.userName = $rootScope.userName || 'unnamed';
 
       //TODO: random map id generator
       $scope.mapId = $routeParams.mapid;
@@ -47,8 +47,7 @@ angular.module('CollaborativeMap')
       var drawnItems = initLeafletDraw();
 
 
-      SynchronizeMap.enableMovementSynchronization(map, $scope.mapId);
-      SynchronizeMap.enableDrawSynchronization(map, $scope.mapId, drawnItems);
+      SynchronizeMap.init(map, $scope, drawnItems);
 
 
 

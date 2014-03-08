@@ -76,6 +76,8 @@ angular.module('CollaborativeMap')
   .service('SynchronizeMap', ['MapMovementEvents', 'MapDrawEvents', 'Socket',
     function(MapMovementEvents, MapDrawEvents, Socket) {
 
+      var lastMovement = 0;
+      var mapScope = 'blub';
 
       function sendMapMovements(mapId, event) {
         var message = {
@@ -91,7 +93,14 @@ angular.module('CollaborativeMap')
       function receiveMapMovements(mapId, map) {
         Socket.on(mapId + '-mapMovement', function(res) {
           if (res.event && res.event.center && res.event.zoom) {
-            map.setView(res.event.center, res.event.zoom);
+            //prevent back coupling
+            var cTime = new Date()
+              .getTime();
+
+            if (cTime - lastMovement > 300) {
+              map.setView(res.event.center, res.event.zoom);
+              lastMovement = cTime;
+            }
           }
         });
       }
@@ -128,47 +137,65 @@ angular.module('CollaborativeMap')
       }
 
       function receiveMapDraws(mapId, map, drawnItems) {
-        //jshint camelcase:false
+
         Socket.on(mapId + '-mapDraw', function(res) {
           if (res && res.event) {
             var event = res.event;
 
             if (event.action === 'created') {
+
               addGeoJSONFeature(map, event, drawnItems);
+
             } else if (event.action === 'edited') {
+
               removeLayer(map, event, drawnItems);
               addGeoJSONFeature(map, event, drawnItems);
+
             } else if (event.action === 'deleted') {
+
               removeLayer(map, event, drawnItems);
+
             }
 
           }
         });
       }
 
+      function receiveUsers(mapId) {
+        Socket.on(mapId + '-users', function(res) {
+          mapScope.users = res.users;
+        });
+      }
+
+      function login(mapId, userName) {
+        Socket.emit('login', {
+          'mapId': mapId,
+          'user': userName
+        });
+      }
+
 
       return {
 
-        enableMovementSynchronization: function(map, mapId) {
+        init: function(map, scope, drawnItems) {
+          mapScope = scope;
+          login(mapScope.mapId, mapScope.userName);
 
           MapMovementEvents.connectMapEvents(map, function(event) {
-            sendMapMovements(mapId, event);
+            sendMapMovements(scope.mapId, event);
           });
 
-          receiveMapMovements(mapId, map);
-
-        },
-
-        enableDrawSynchronization: function(map, mapId, drawnItems) {
+          receiveMapMovements(scope.mapId, map);
+          receiveUsers(scope.mapId);
 
           MapDrawEvents.connectMapEvents(map, function(event) {
-            sendMapDraws(mapId, event);
-            console.log(event);
+            sendMapDraws(scope.mapId, event);
           });
 
-          receiveMapDraws(mapId, map, drawnItems);
-
+          receiveMapDraws(scope.mapId, map, drawnItems);
         }
+
+
 
       };
 
