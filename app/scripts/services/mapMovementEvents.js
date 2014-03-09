@@ -90,16 +90,24 @@ angular.module('CollaborativeMap')
         });
       }
 
+      function isWachtingUser(userId) {
+        var res = mapScope.isWatchingAll || mapScope.watchUsers[userId] || false;
+        console.log(res);
+        return res;
+      }
+
       function receiveMapMovements(mapId, map) {
         Socket.on(mapId + '-mapMovement', function(res) {
-          if (res.event && res.event.center && res.event.zoom) {
-            //prevent back coupling
-            var cTime = new Date()
-              .getTime();
+          if (res.event && res.event.center && res.event.zoom && res.event.userId) {
+            if (isWachtingUser(res.event.userId)) {
+              //prevent back coupling
+              var cTime = new Date()
+                .getTime();
 
-            if (cTime - lastMovement > 300) {
-              map.setView(res.event.center, res.event.zoom);
-              lastMovement = cTime;
+              if (cTime - lastMovement > 500) {
+                map.setView(res.event.center, res.event.zoom);
+                lastMovement = cTime;
+              }
             }
           }
         });

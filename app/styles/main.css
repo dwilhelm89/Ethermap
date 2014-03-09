@@ -168,7 +168,18 @@ input {
 
 .userlist{
   margin-top: 20px;
+  margin-left: 10px;
   width: 300px;
-  max-height: 300;
+  max-height: 290;
   overflow: auto;
+}
+
+.watching{
+  background-color: #104349;
+  color: white;
+}
+
+.watching, .watching:focus, .watching:active{
+  background-color: #104349;
+  color: white;
 }

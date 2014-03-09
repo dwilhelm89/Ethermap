@@ -28,8 +28,22 @@ angular.module('CollaborativeMap')
       }
 
       $scope.toolBarIn = true;
-      $scope.toggleToolbar = function(){
+      $scope.toggleToolbar = function() {
         $scope.toolBarIn = !$scope.toolBarIn;
+      };
+
+      $scope.watchUsers = {};
+      $scope.watchUser = function(userId) {
+        if ($scope.watchUsers[userId]) {
+          delete $scope.watchUsers[userId];
+        }else{
+          $scope.watchUsers[userId] = true;
+        }
+      };
+
+      $scope.isWatchingAll = false;
+      $scope.watchAll = function(){
+        $scope.isWatchingAll = !$scope.isWatchingAll;
       };
 
       $scope.userName = $rootScope.userName = $rootScope.userName || 'unnamed';
@@ -42,12 +56,14 @@ angular.module('CollaborativeMap')
 
       //expose map for debugging purposes
       //var map = window._map = L.mapbox.map('map', 'dnns.h8dkb1bh');
-      var map = window._map = L.mapbox.map('map').setView([51.95, 7.62], 13);
+      var map = window._map = L.mapbox.map('map')
+        .setView([51.95, 7.62], 13);
 
       // add an OpenStreetMap tile layer
       L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
         attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
-      }).addTo(map);
+      })
+        .addTo(map);
 
       var drawnItems = initLeafletDraw();
 
