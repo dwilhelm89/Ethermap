@@ -162,8 +162,13 @@ input {
   height: 50px;
   transition: background-color .25s ease-in-out;
 }
-.btn-green:hover, .btn-green:focus, .btn-green:active {
+.btn-green:hover {
   background-color: #186169;
+}
+
+.btn-green:active, .btn-green:focus{
+  background-color: #186169;
+  outline: none;
 }
 
 .toolbox-content{
@@ -185,7 +190,8 @@ input {
 }
 
 .hide{
-  display:none;
+  position: absolute;
+  right: -500px;
 }
 
 .noLeftBorder{
