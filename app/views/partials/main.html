@@ -10,8 +10,9 @@
     <div class="toolbox-content" ng-class="{'hide': views.userView}">
         <input type="button" class="btn btn-default" ng-class="{'watching': isWatchingAll}" ng-click="watchAll()" value="Watch all">
         <div ng-repeat="(key, value) in users">
-            <div>
-                <input type="button" class="btn btn-default" ng-class="{'watching': watchUsers[key]}" ng-click="watchUser(key)" value="watch">{{value}}
+            <div ng-animate="'animate'">
+                <input type="button" class="btn btn-default" ng-class="{'watching': watchUsers[key]}" ng-click="watchUser(key)" value="watch">
+                <span ng-click="getUserBounds(key)">{{value}}</span>
             </div>
         </div>
     </div>

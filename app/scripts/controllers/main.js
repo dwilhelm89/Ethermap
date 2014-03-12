@@ -64,6 +64,20 @@ angular.module('CollaborativeMap')
         }
       };
 
+      $scope.userBounds = {};
+
+      $scope.getUserBounds = function(userId){
+        var bounds = $scope.userBounds[userId];
+        if(bounds){
+          var bound = L.rectangle(bounds, {color: '#ff0000', weight: 1, fill:false});
+          bound.addTo(map);
+          map.fitBounds(bound, {'padding': [10,10]});
+          setTimeout(function(){
+            map.removeLayer(bound);
+          }, 3000);
+        }
+      };
+
       $scope.isWatchingAll = false;
       $scope.watchAll = function(){
         $scope.isWatchingAll = !$scope.isWatchingAll;

@@ -5,6 +5,7 @@ angular.module('CollaborativeMap', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
+  'ngAnimate',
   'SocketModule'
 ])
   .config(function($routeProvider, $locationProvider) {

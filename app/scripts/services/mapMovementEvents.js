@@ -7,15 +7,17 @@ angular.module('CollaborativeMap')
       connectMapEvents: function(map, callback) {
 
         map.on('moveend', function(event) {
+          var bounds = event.target.getBounds();
           callback({
-            'center': event.target.getCenter(),
-            'zoom': event.target.getZoom()
+            'nE': [bounds._northEast.lat,bounds._northEast.lng],
+            'sW': [bounds._southWest.lat,bounds._southWest.lng]
           });
         });
         map.on('zoomend', function(event) {
+          var bounds = event.target.getBounds();
           callback({
-            'center': event.target.getCenter(),
-            'zoom': event.target.getZoom()
+            'nE': [bounds._northEast.lat,bounds._northEast.lng],
+            'sW': [bounds._southWest.lat,bounds._southWest.lng]
           });
         });
       }
@@ -98,14 +100,16 @@ angular.module('CollaborativeMap')
 
       function receiveMapMovements(mapId, map) {
         Socket.on(mapId + '-mapMovement', function(res) {
-          if (res.event && res.event.center && res.event.zoom && res.event.userId) {
+          if (res.event && res.event.nE && res.event.sW && res.event.userId) {
+            var newBounds = new L.LatLngBounds(res.event.nE, res.event.sW);
+            mapScope.userBounds[res.event.userId] = newBounds;
             if (isWachtingUser(res.event.userId)) {
               //prevent back coupling
               var cTime = new Date()
                 .getTime();
 
               if (cTime - lastMovement > 500) {
-                map.setView(res.event.center, res.event.zoom);
+                map.fitBounds(newBounds);
                 lastMovement = cTime;
               }
             }
