@@ -27,10 +27,33 @@ angular.module('CollaborativeMap')
         return drawnItems;
       }
 
-      $scope.toolBarIn = true;
-      $scope.toggleToolbar = function() {
-        $scope.toolBarIn = !$scope.toolBarIn;
+      $scope.views = {
+        userView: true,
+        historyView: true,
+        toolBarIn: true
       };
+      $scope.toggleToolbar = function(view) {
+        var vs = $scope.views;
+        if(vs.toolBarIn){
+          vs.toolBarIn = false;
+          vs[view] = false;
+        }else if(!vs[view]){
+          hideAllViews();
+        }else{
+          hideAllViews();
+          vs.toolBarIn = false;
+          vs[view] = false;
+        }
+      };
+
+      function hideAllViews(){
+        var vs = $scope.views;
+        for(var key in vs){
+          vs[key] = true;
+        }
+      }
+
+
 
       $scope.watchUsers = {};
       $scope.watchUser = function(userId) {

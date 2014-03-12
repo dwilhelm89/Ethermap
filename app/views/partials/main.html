@@ -1,17 +1,21 @@
 <div id="map"></div>
 
 <div class="toolbox-buttons">
-  <input type="button" class="btn btn-default btn-green" ng-click="toggleToolbar()" value="Users">
+    <input type="button" class="btn btn-default btn-green noLeftBorder" ng-click="toggleToolbar('userView')" value="Users">
+    <input type="button" class="btn btn-default btn-green noLeftBorder" ng-click="toggleToolbar('historyView')" value="History">
 </div>
 
-<div class="toolbox animate-slideIn" ng-class="{'zeroWidth':toolBarIn}">
+<div class="toolbox animate-slideIn" ng-class="{'zeroWidth':views.toolBarIn}">
 
-  <div class="userlist">
-    <input type="button" class="bnt btn-default" ng-class="{'watching': isWatchingAll}" ng-click="watchAll()" value="Watch all">
-    <div ng-repeat="(key, value) in users">
-      <div>
-        <input type="button" class="bnt btn-default" ng-class="{'watching': watchUsers[key]}" ng-click="watchUser(key)" value="watch">{{value}}
-      </div>
+    <div class="toolbox-content" ng-class="{'hide': views.userView}">
+        <input type="button" class="btn btn-default" ng-class="{'watching': isWatchingAll}" ng-click="watchAll()" value="Watch all">
+        <div ng-repeat="(key, value) in users">
+            <div>
+                <input type="button" class="btn btn-default" ng-class="{'watching': watchUsers[key]}" ng-click="watchUser(key)" value="watch">{{value}}
+            </div>
+        </div>
     </div>
-  </div>
+    <div class="toolbox-content animate-slideIn" ng-class="{'hide': views.historyView}">
+        History
+    </div>
 </div>
