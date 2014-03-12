@@ -30,8 +30,11 @@ angular.module('CollaborativeMap')
       $scope.views = {
         userView: true,
         historyView: true,
-        toolBarIn: true
+        toolBarIn: true,
+        settingsView: true,
+        toolsView: true
       };
+
       $scope.toggleToolbar = function(view) {
         var vs = $scope.views;
         if(vs.toolBarIn){
@@ -71,7 +74,7 @@ angular.module('CollaborativeMap')
         if(bounds){
           var bound = L.rectangle(bounds, {color: '#ff0000', weight: 1, fill:false});
           bound.addTo(map);
-          map.fitBounds(bound, {'padding': [10,10]});
+          map.fitBounds(bound, {'padding': [5,5]});
           setTimeout(function(){
             map.removeLayer(bound);
           }, 3000);

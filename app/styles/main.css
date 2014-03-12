@@ -130,7 +130,7 @@ input {
   right: 0;
   top: 0;
   background-color: #104349;
-  width: 300px;
+  width: 301px;
   height: 50px;
 }
 .animate-slideIn {
@@ -160,6 +160,7 @@ input {
   border-top: 0;
   border-bottom: 0;
   height: 50px;
+  width: 73px;
   transition: background-color .25s ease-in-out;
 }
 .btn-green:hover {
