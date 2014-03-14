@@ -4,18 +4,11 @@ angular.module('CollaborativeMap').
 directive('toolbox', [
   function() {
     return {
-      // name: '',
-      // priority: 1,
-      // terminal: true,
-      //scope: true, // {} = isolate, true = child, false/undefined = no change
-      // controller: function($scope, $element, $attrs, $transclude) {},
-      // require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
       restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
       template: '<div class="toolbox-buttons">    <input type="button" class="btn btn-default btn-green noLeftBorder" ng-click="toggleToolbar(\'userView\')" value="Users">    <input type="button" class="btn btn-default btn-green noLeftBorder" ng-click="toggleToolbar(\'historyView\')" value="History">    <input type="button" class="btn btn-default btn-green noLeftBorder" ng-click="toggleToolbar(\'toolsView\')" value="Tools">    <input type="button" class="btn btn-default btn-green noLeftBorder" ng-click="toggleToolbar(\'settingsView\')" value="Settings"><div class="toolbox animate-slideIn" ng-class="{\'zeroWidth\':views.toolBarIn}"><div class="toolbox-content" ng-class="{\'hide\': views.userView}"><input type="button" class="btn btn-default" ng-class="{\'watching\': isWatchingAll}" ng-click="watchAll()" value="Watch all"><div ng-repeat="(key, value) in users"><div><input type="button" class="btn btn-default" ng-class="{\'watching\': watchUsers[key]}" ng-click="watchUser(key)" value="watch"><span ng-click="getUserBounds(key)">{{value}}</span></div></div></div><div class="toolbox-content" ng-class="{\'hide\': views.historyView}">History</div><div class="toolbox-content" ng-class="{\'hide\': views.toolsView}">Tools</div><div class="toolbox-content" ng-class="{\'hide\': views.settingsView}">Settings</div></div>',
       //templateUrl: '../../views/directives/toolbox.html',
       replace: true,
-      // transclude: true,
-      // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+
       link: function($scope) {
         $scope.views = {
           userView: true,

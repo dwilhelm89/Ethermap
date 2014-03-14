@@ -4,29 +4,6 @@ angular.module('CollaborativeMap')
   .controller('MainCtrl', ['$scope', '$rootScope', '$routeParams', 'SynchronizeMap', 'Utils',
     function($scope, $rootScope, $routeParams, SynchronizeMap, Utils) {
 
-      function initLeafletDraw() {
-        // Initialise the FeatureGroup to store editable layers
-        var drawnItems = new L.FeatureGroup();
-        map.addLayer(drawnItems);
-
-        // Initialise the draw control and pass it the FeatureGroup of editable layers
-        var drawControl = new L.Control.Draw({
-          edit: {
-            featureGroup: drawnItems
-          },
-          draw: {
-            circle: false
-          }
-        });
-        map.addControl(drawControl);
-
-        map.on('draw:created', function(e) {
-          drawnItems.addLayer(e.layer);
-        });
-
-        return drawnItems;
-      }
-
       $scope.userName = $rootScope.userName = $rootScope.userName || 'unnamed';
 
       //TODO: random map id generator
@@ -35,22 +12,9 @@ angular.module('CollaborativeMap')
       //patch L.stamp to get unique layer ids
       Utils.patchLStamp();
 
-      //expose map for debugging purposes
-      //var map = window._map = L.mapbox.map('map', 'dnns.h8dkb1bh');
-      var map = $scope.map = window._map = L.mapbox.map('map')
-        .setView([51.95, 7.62], 13);
-
-      // add an OpenStreetMap tile layer
-      L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
-        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
-      }).addTo(map);
-
-      var drawnItems = initLeafletDraw();
-
-
-      SynchronizeMap.init(map, $scope, drawnItems);
-
-
+      $scope.onMapReady = function() {
+        SynchronizeMap.init($scope.map, $scope, $scope.drawnItems);
+      };
 
     }
   ]);
