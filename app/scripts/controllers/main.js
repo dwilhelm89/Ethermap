@@ -27,65 +27,6 @@ angular.module('CollaborativeMap')
         return drawnItems;
       }
 
-      $scope.views = {
-        userView: true,
-        historyView: true,
-        toolBarIn: true,
-        settingsView: true,
-        toolsView: true
-      };
-
-      $scope.toggleToolbar = function(view) {
-        var vs = $scope.views;
-        if(vs.toolBarIn){
-          vs.toolBarIn = false;
-          vs[view] = false;
-        }else if(!vs[view]){
-          hideAllViews();
-        }else{
-          hideAllViews();
-          vs.toolBarIn = false;
-          vs[view] = false;
-        }
-      };
-
-      function hideAllViews(){
-        var vs = $scope.views;
-        for(var key in vs){
-          vs[key] = true;
-        }
-      }
-
-
-
-      $scope.watchUsers = {};
-      $scope.watchUser = function(userId) {
-        if ($scope.watchUsers[userId]) {
-          delete $scope.watchUsers[userId];
-        }else{
-          $scope.watchUsers[userId] = true;
-        }
-      };
-
-      $scope.userBounds = {};
-
-      $scope.getUserBounds = function(userId){
-        var bounds = $scope.userBounds[userId];
-        if(bounds){
-          var bound = L.rectangle(bounds, {color: '#ff0000', weight: 1, fill:false});
-          bound.addTo(map);
-          map.fitBounds(bound, {'padding': [5,5]});
-          setTimeout(function(){
-            map.removeLayer(bound);
-          }, 3000);
-        }
-      };
-
-      $scope.isWatchingAll = false;
-      $scope.watchAll = function(){
-        $scope.isWatchingAll = !$scope.isWatchingAll;
-      };
-
       $scope.userName = $rootScope.userName = $rootScope.userName || 'unnamed';
 
       //TODO: random map id generator
@@ -96,14 +37,13 @@ angular.module('CollaborativeMap')
 
       //expose map for debugging purposes
       //var map = window._map = L.mapbox.map('map', 'dnns.h8dkb1bh');
-      var map = window._map = L.mapbox.map('map')
+      var map = $scope.map = window._map = L.mapbox.map('map')
         .setView([51.95, 7.62], 13);
 
       // add an OpenStreetMap tile layer
       L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
         attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
-      })
-        .addTo(map);
+      }).addTo(map);
 
       var drawnItems = initLeafletDraw();
 

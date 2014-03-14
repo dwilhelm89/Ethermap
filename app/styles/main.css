@@ -123,7 +123,7 @@ input {
   bottom: 0;
   height: 100%;
   width: 300px;
-  background-color: rgb(231, 231, 231);
+  background-color: rgba(231, 231, 231, 0.9);
 }
 .toolbox-buttons {
   position: fixed;
