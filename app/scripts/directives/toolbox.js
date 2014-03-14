@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('CollaborativeMap').
-directive('toolbox', [
+angular.module('CollaborativeMap').directive('toolbox', [
   function() {
     return {
       restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
@@ -9,7 +8,9 @@ directive('toolbox', [
       //templateUrl: '../../views/directives/toolbox.html',
       replace: true,
 
-      link: function($scope) {
+      link: function postLink($scope) {
+        console.log('toolbox', $scope);
+
         $scope.views = {
           userView: true,
           historyView: true,
