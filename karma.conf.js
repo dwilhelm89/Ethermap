@@ -47,7 +47,7 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: ['Chrome'],
-
+    //CHROME_BIN=chromium-browser grunt test
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
