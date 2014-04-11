@@ -229,3 +229,19 @@ input {
     width: 150px;
     height: 30px;
 }
+
+
+.chat{
+  position: absolute;
+  bottom: 50px;
+
+}
+
+.chatMessages{
+  overflow: auto;
+  background-color: white;
+  position: absolute;
+  top: 10px;
+  bottom: 100px;
+  width: 280px; 
+}

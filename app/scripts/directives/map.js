@@ -10,7 +10,6 @@ angular.module('CollaborativeMap').directive('map', [
       // transclude: true,
       // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
       link: function postLink($scope) {
-        console.log('map', $scope);
 
         //expose map for debugging purposes
         //var map = window._map = L.mapbox.map('map', 'dnns.h8dkb1bh');
@@ -18,9 +17,10 @@ angular.module('CollaborativeMap').directive('map', [
           .setView([51.95, 7.62], 13);
 
         // add an OpenStreetMap tile layer
-        L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
-          attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+
 
         // Initialise the FeatureGroup to store editable layers
         var drawnItems = $scope.drawnItems = new L.FeatureGroup();
