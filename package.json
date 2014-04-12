@@ -6,11 +6,13 @@
     "type": "git",
     "url": "https://github.com/dwilhelm89/CollaborativeMap"
   },
+  "author": "Dennis Wilhelm",
   "dependencies": {
     "express": "~3.4.3",
     "lodash": "~2.4.1",
     "ejs": "~0.8.4",
-    "socket.io": "~0.9.x"
+    "socket.io": "~0.9.x",
+    "nano": "^5.7.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
