@@ -19,7 +19,9 @@
       </div>
 
     </div>
-    <div class="toolbox-content" ng-class="{'hide': views.historyView}">History</div>
+    <div class="toolbox-content" ng-class="{'hide': views.historyView}">
+      <input type="button" class="btn btn-primary" value="Load" ng-click="loadHistory()">
+    </div>
     <div class="toolbox-content" ng-class="{'hide': views.toolsView}">Tools</div>
     <div class="toolbox-content" ng-class="{'hide': views.settingsView}">
       <chat></chat>
