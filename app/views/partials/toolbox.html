@@ -20,7 +20,16 @@
 
     </div>
     <div class="toolbox-content" ng-class="{'hide': views.historyView}">
-      <input type="button" class="btn btn-primary" value="Load" ng-click="loadHistory()">
+      <input type="button" class="btn btn-default" value="Load" ng-click="loadHistory()">
+
+      <div ng-repeat="action in history">
+        <div class="history">{{action.action}}
+          <br>
+          <div class="historyDate">{{action.date}}</div>
+        </div>
+
+      </div>
+
     </div>
     <div class="toolbox-content" ng-class="{'hide': views.toolsView}">Tools</div>
     <div class="toolbox-content" ng-class="{'hide': views.settingsView}">

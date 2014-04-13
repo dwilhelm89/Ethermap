@@ -174,7 +174,6 @@ input {
 
 .toolbox-content{
   margin-top: 20px;
-  margin-left: 10px;
   width: 300px;
   max-height: 290;
   overflow: auto;
@@ -243,5 +242,30 @@ input {
   position: absolute;
   top: 10px;
   bottom: 100px;
-  width: 280px; 
+  width: 300px; 
 }
+
+.chatNew{
+  margin-left: 10px;
+}
+
+.history{
+  background-color: white;
+  height: 50px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  border-color: #ddd;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+}
+
+.history:hover{
+  background-color: #ddd;
+}
+
+.historyDate{
+  font-size: 12px;
+  float:right;
+}
+

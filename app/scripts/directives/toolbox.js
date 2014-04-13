@@ -80,16 +80,27 @@ angular.module('CollaborativeMap')
 
             $http({
               method: 'GET',
-              url: '/api/actions/'+ $scope.mapId
+              url: '/api/history/' + $scope.mapId
             })
               .
-            success(function(data, status, headers, config) {
+            success(function(data) { //, status, headers, config) {
+              data.forEach(function(action) {
+                if (action.date) {
+                  var tmpDate = new Date(action.date);
+                  action.date = tmpDate.getHours() + ':' +
+                  tmpDate.getMinutes() + ' - ' + tmpDate.getDate() + '.' +
+                  (tmpDate.getMonth() + 1) + '.' +
+                  tmpDate.getFullYear();
+                  
+                }
+              });
+              $scope.history = data;
               console.log(data);
               // this callback will be called asynchronously
               // when the response is available
             })
               .
-            error(function(data, status, headers, config) {
+            error(function(data) { //, status, headers, config) {
               console.log(data);
               // called asynchronously if an error occurs
               // or server returns response with an error status.
