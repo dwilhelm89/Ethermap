@@ -166,90 +166,69 @@ input {
 .btn-green:hover {
   background-color: #186169;
 }
-
-.btn-green:active, .btn-green:focus{
+.btn-green:active, .btn-green:focus {
   background-color: #186169;
   outline: none;
 }
-
-.toolbox-content{
+.toolbox-content {
   margin-top: 20px;
   width: 300px;
   max-height: 290;
   overflow: auto;
 }
-
-.watching{
+.watching {
   background-color: #104349;
   color: white;
 }
-
-.watching, .watching:focus, .watching:active{
+.watching, .watching:focus, .watching:active {
   background-color: #104349;
   color: white;
 }
-
-.hide{
+.hide {
   position: absolute;
   right: -500px;
 }
-
-.noLeftBorder{
+.noLeftBorder {
   border-left: none;
 }
-
-
-
-.animate-enter, 
-.animate-leave
-{ 
-    -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
-    position: relative;
-    display: block;
-    overflow: hidden;
-    text-overflow: clip;
-    white-space:nowrap;
-} 
- 
-.animate-leave.animate-leave-active,
-.animate-enter {
-    opacity: 0;
-    width: 0px;
-    height: 0px;
+.animate-enter, .animate-leave {
+  -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space:nowrap;
 }
- 
-.animate-enter.animate-enter-active, 
-.animate-leave {
-    opacity: 1;
-    width: 150px;
-    height: 30px;
+.animate-leave.animate-leave-active, .animate-enter {
+  opacity: 0;
+  width: 0px;
+  height: 0px;
 }
-
-
-.chat{
+.animate-enter.animate-enter-active, .animate-leave {
+  opacity: 1;
+  width: 150px;
+  height: 30px;
+}
+.chat {
   position: absolute;
   bottom: 50px;
-
 }
-
-.chatMessages{
+.chatMessages {
   overflow: auto;
   background-color: white;
   position: absolute;
   top: 10px;
   bottom: 100px;
-  width: 300px; 
+  width: 300px;
 }
-
-.chatNew{
+.chatNew {
   margin-left: 10px;
 }
-
-.history{
+.history {
   background-color: white;
   height: 50px;
   padding-left: 10px;
@@ -259,13 +238,22 @@ input {
   border-style: solid;
   border-width: 0 0 1px 0;
 }
-
-.history:hover{
+.history:hover {
   background-color: #ddd;
 }
-
-.historyDate{
+.historyDate {
   font-size: 12px;
   float:right;
 }
+.historyContainer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 60px;
+  overflow: auto;
+}
 
+.btn{
+  border-radius: 0;
+}

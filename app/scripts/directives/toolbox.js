@@ -32,8 +32,6 @@ angular.module('CollaborativeMap')
             }
           };
 
-          $scope.toggleToolbar('historyView');
-
           function hideAllViews() {
             var vs = $scope.views;
             for (var key in vs) {
@@ -85,27 +83,24 @@ angular.module('CollaborativeMap')
             })
               .
             success(function(data) { //, status, headers, config) {
-              console.log(data);
               data.forEach(function(action) {
                 if (action.date) {
                   var tmpDate = new Date(action.date);
                   action.date = tmpDate.getHours() + ':' +
-                  tmpDate.getMinutes() + ' - ' + tmpDate.getDate() + '.' +
-                  (tmpDate.getMonth() + 1) + '.' +
-                  tmpDate.getFullYear();
-                  
+                    tmpDate.getMinutes() + ':' + tmpDate.getSeconds() +
+                    ' - ' + tmpDate.getDate() + '.' +
+                    (tmpDate.getMonth() + 1) + '.' +
+                    tmpDate.getFullYear();
+
                 }
               });
-              $scope.history = data;
               console.log(data);
-              // this callback will be called asynchronously
-              // when the response is available
+              $scope.history = data.reverse();
+
             })
               .
             error(function(data) { //, status, headers, config) {
               console.log(data);
-              // called asynchronously if an error occurs
-              // or server returns response with an error status.
             });
 
           };

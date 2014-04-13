@@ -22,12 +22,17 @@
     <div class="toolbox-content" ng-class="{'hide': views.historyView}">
       <input type="button" class="btn btn-default" value="Load" ng-click="loadHistory()">
 
-      <div ng-repeat="action in history">
-        <div class="history">{{action.user}}: {{action.action}}
-          <br>
-          <div class="historyDate">{{action.date}}</div>
-        </div>
+      <div class="historyContainer">
 
+        <div ng-repeat="action in history">
+
+          <div class="history">
+            {{action.user}}: {{action.action}} a Feature
+            <br>Revision: {{action.rev.split('-')[0]}}
+            <div class="historyDate">{{action.date}}</div>
+          </div>
+
+        </div>
       </div>
 
     </div>
