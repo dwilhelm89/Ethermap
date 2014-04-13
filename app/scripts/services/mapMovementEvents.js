@@ -28,18 +28,22 @@ angular.module('CollaborativeMap')
 angular.module('CollaborativeMap')
   .service('MapDrawEvents', function() {
 
+    var mapScope;
+
     function eventToMessage(event, type) {
       //jshint camelcase: false
       return {
         'action': type,
         'feature': event.layer.toGeoJSON(),
-        'fid': event.layer._leaflet_id
+        'fid': event.layer._leaflet_id,
+        'user': mapScope.userName
       };
     }
 
     return {
 
-      connectMapEvents: function(map, callback) {
+      connectMapEvents: function(map, scope, callback) {
+        mapScope = scope;
 
         map.on('draw:created', function(event) {
           callback(eventToMessage(event, 'created'));
@@ -79,7 +83,7 @@ angular.module('CollaborativeMap')
     function(MapMovementEvents, MapDrawEvents, Socket) {
 
       var lastMovement = 0;
-      var mapScope = 'blub';
+      var mapScope;
 
       function sendMapMovements(mapId, event) {
         var message = {
@@ -200,7 +204,7 @@ angular.module('CollaborativeMap')
           receiveMapMovements(scope.mapId, map);
           receiveUsers(scope.mapId);
 
-          MapDrawEvents.connectMapEvents(map, function(event) {
+          MapDrawEvents.connectMapEvents(map, scope, function(event) {
             sendMapDraws(scope.mapId, event);
           });
 

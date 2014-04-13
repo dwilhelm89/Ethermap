@@ -23,7 +23,7 @@
       <input type="button" class="btn btn-default" value="Load" ng-click="loadHistory()">
 
       <div ng-repeat="action in history">
-        <div class="history">{{action.action}}
+        <div class="history">{{action.user}}: {{action.action}}
           <br>
           <div class="historyDate">{{action.date}}</div>
         </div>

@@ -32,6 +32,8 @@ angular.module('CollaborativeMap')
             }
           };
 
+          $scope.toggleToolbar('historyView');
+
           function hideAllViews() {
             var vs = $scope.views;
             for (var key in vs) {
@@ -51,7 +53,6 @@ angular.module('CollaborativeMap')
           $scope.userBounds = {};
 
           $scope.getUserBounds = function(userId) {
-            console.log(userId);
             var bounds = $scope.userBounds[userId];
             if (bounds) {
               var bound = L.rectangle(bounds, {
@@ -84,6 +85,7 @@ angular.module('CollaborativeMap')
             })
               .
             success(function(data) { //, status, headers, config) {
+              console.log(data);
               data.forEach(function(action) {
                 if (action.date) {
                   var tmpDate = new Date(action.date);
