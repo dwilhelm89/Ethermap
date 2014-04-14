@@ -50,11 +50,12 @@ angular.module('CollaborativeMap')
             .setView([51.95, 7.62], 13);
 
           // add an OpenStreetMap tile layer
-          L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          })
+          L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
             .addTo(map);
 
+          map.addControl(L.mapbox.infoControl({
+            position: 'bottomleft'
+          }).addInfo('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'));
 
           // Initialise the FeatureGroup to store editable layers
           var drawnItems = $scope.drawnItems = new L.FeatureGroup();
