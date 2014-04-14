@@ -219,7 +219,6 @@ input {
 }
 .chatMessages {
   overflow: auto;
-  background-color: white;
   position: absolute;
   top: 10px;
   bottom: 100px;
@@ -229,14 +228,12 @@ input {
   margin-left: 10px;
 }
 .history {
-  background-color: white;
-  height: 50px;
-  padding-left: 10px;
-  padding-top: 10px;
-  padding-bottom: 30px;
-  border-color: #ddd;
-  border-style: solid;
-  border-width: 0 0 1px 0;
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  padding: 15px;
+  -moz-border-radius: 5px;
+  border-radius: 0;
+  margin: 5px;
 }
 .history:hover {
   background-color: #ddd;
@@ -249,11 +246,23 @@ input {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 60px;
   top: 60px;
   overflow: auto;
 }
 
 .btn{
   border-radius: 0;
+}
+.chatMessage {
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  padding: 15px;
+  -moz-border-radius: 5px;
+  border-radius: 0;
+  margin: 5px;
+}
+.chatUser{
+  font-size: 12px;
+  float: right;
 }

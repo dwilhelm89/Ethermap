@@ -1,7 +1,10 @@
 <div class="chatMessages" ng-model="chatMessages">
-  <div ng-repeat="message in messages">
-    {{message.user}}:{{message.message}}
-    <hr>
+  <div ng-repeat="message in messages" class="chatMessage">
+    <div class="chatUser">
+    {{message.user}}
+    </div>
+    <br>
+    {{message.message}}
   </div>
 
 </div>
