@@ -86,7 +86,7 @@ angular.module('CollaborativeMap')
               data.forEach(function(action) {
                 if (action.date) {
                   var tmpDate = new Date(action.date);
-                  action.date = tmpDate.getHours() + ':' +
+                  action.dateString = tmpDate.getHours() + ':' +
                     tmpDate.getMinutes() + ':' + tmpDate.getSeconds() +
                     ' - ' + tmpDate.getDate() + '.' +
                     (tmpDate.getMonth() + 1) + '.' +
@@ -95,7 +95,7 @@ angular.module('CollaborativeMap')
                 }
               });
               console.log(data);
-              $scope.history = data.reverse();
+              $scope.history = data;
 
             })
               .
