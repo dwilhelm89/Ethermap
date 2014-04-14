@@ -67,7 +67,8 @@ angular.module('CollaborativeMap')
               featureGroup: drawnItems
             },
             draw: {
-              circle: false
+              circle: false,
+              rectangle: false
             }
           });
           map.addControl(drawControl);

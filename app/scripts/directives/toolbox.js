@@ -94,7 +94,6 @@ angular.module('CollaborativeMap')
 
                 }
               });
-              console.log(data);
               $scope.history = data;
 
             })
