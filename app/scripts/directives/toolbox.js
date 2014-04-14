@@ -75,8 +75,6 @@ angular.module('CollaborativeMap')
 
 
           $scope.loadHistory = function() {
-            console.log('load history');
-
             $http({
               method: 'GET',
               url: '/api/history/' + $scope.mapId
