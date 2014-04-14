@@ -192,12 +192,12 @@ input {
   overflow: auto;
 }
 .watching {
-  background-color: #3c4e5a;
-  color: white;
+  background-color: white;
+  color: #3c4e5a;
 }
 .watching, .watching:focus, .watching:active {
-  background-color: #3c4e5a;
-  color: white;
+  background-color: white;
+  color: #3c4e5a;
 }
 .hide {
   position: absolute;
