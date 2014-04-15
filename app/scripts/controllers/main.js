@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .controller('MainCtrl', ['$scope', '$rootScope', '$routeParams', 'SynchronizeMap', 'Utils',
-    function($scope, $rootScope, $routeParams, SynchronizeMap, Utils) {
+  .controller('MainCtrl', ['$scope', '$rootScope', '$routeParams', 'SynchronizeMap', 'MapHandler', 'Utils',
+    function($scope, $rootScope, $routeParams, SynchronizeMap, MapHandler, Utils) {
 
       function loadName() {
         var oldName = localStorage.getItem('cm-user');
@@ -22,6 +22,7 @@ angular.module('CollaborativeMap')
 
       $scope.onMapReady = function() {
         SynchronizeMap.init($scope.map, $scope, $scope.drawnItems);
+        MapHandler.initMapHandler($scope.map);
       };
 
     }

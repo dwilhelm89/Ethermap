@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .directive('toolbox', ['$http',
-    function($http) {
+  .directive('toolbox', ['$http', 'MapHandler',
+    function($http, MapHandler) {
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
         templateUrl: 'partials/toolbox',
@@ -53,18 +53,7 @@ angular.module('CollaborativeMap')
           $scope.getUserBounds = function(userId) {
             var bounds = $scope.userBounds[userId];
             if (bounds) {
-              var bound = L.rectangle(bounds, {
-                color: '#ff0000',
-                weight: 1,
-                fill: false
-              });
-              bound.addTo($scope.map);
-              $scope.map.fitBounds(bound, {
-                'padding': [5, 5]
-              });
-              setTimeout(function() {
-                $scope.map.removeLayer(bound);
-              }, 3000);
+              MapHandler.paintUserBounds(bounds);
             }
           };
 
@@ -124,14 +113,7 @@ angular.module('CollaborativeMap')
 
           //TODO: in map handler auslagern
           $scope.panToFeature = function(id) {
-            var target = $scope.map._layers[id];
-
-            if (target._latlng) {
-              $scope.map.panTo(target._latlng);
-            }else if(target._latlngs){
-              var bounds = target.getBounds();
-              $scope.map.fitBounds(bounds);
-            }
+            MapHandler.panToFeature(id);
           };
 
         }
