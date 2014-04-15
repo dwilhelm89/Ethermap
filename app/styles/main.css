@@ -283,3 +283,6 @@ input {
   max-height: 200px;
   width: 100%;
 }
+.historyDropdown{
+  float: right;
+}

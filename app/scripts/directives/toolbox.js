@@ -92,6 +92,7 @@ angular.module('CollaborativeMap')
 
                 }
               });
+              console.log(data);
               $scope.history = data;
 
             })
@@ -101,6 +102,23 @@ angular.module('CollaborativeMap')
             });
 
           };
+
+          $scope.revertFeature = function(id, rev) {
+            console.log(id, rev);
+          };
+
+          //TODO: in map handler auslagern
+          $scope.panToFeature = function(id) {
+            var target = $scope.map._layers[id];
+
+            if (target._latlng) {
+              $scope.map.panTo(target._latlng);
+            }else if(target._latlngs){
+              var bounds = target.getBounds();
+              $scope.map.fitBounds(bounds);
+            }
+          };
+
         }
       };
     }

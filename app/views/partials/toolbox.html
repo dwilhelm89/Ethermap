@@ -28,6 +28,16 @@
         <div ng-repeat="action in history | orderBy: 'date':true">
 
           <div class="history">
+
+            <div class="historyDropdown dropdown"><a class="dropdown-toggle" role="button" data-toggle="dropdown" href="javascript:;">Actions<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a tabindex="-1" data-ng-click="revertFeature(action.id, action.rev)">Revert</a>
+                </li>
+                <li><a tabindex="-1" data-ng-click="panToFeature(action.id)">Pan to</a>
+                </li>
+              </ul>
+            </div>
+
             {{action.user}}: {{action.action}} a Feature
             <br>Revision: {{action.rev.split('-')[0]}}
             <br>
