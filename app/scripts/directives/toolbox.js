@@ -92,7 +92,6 @@ angular.module('CollaborativeMap')
 
                 }
               });
-              console.log(data);
               $scope.history = data;
 
             })
@@ -103,8 +102,24 @@ angular.module('CollaborativeMap')
 
           };
 
-          $scope.revertFeature = function(id, rev) {
+          $scope.featureHistory = function(id, rev) {
             console.log(id, rev);
+            $scope.revertFeature(id, rev);
+
+          };
+
+          $scope.revertFeature = function(id, rev){
+            /////api/history/revertFeature/:mapId/:fid/:toRev
+            $http({
+              method: 'GET',
+              url: '/api/history/revertFeature/' + $scope.mapId + '/' + id + '/' + rev
+            })
+            .success(function(data) { //, status, headers, config) {
+                console.log(data);
+              })
+            .error(function(data) { //, status, headers, config) {
+              console.log(data);
+            });
           };
 
           //TODO: in map handler auslagern

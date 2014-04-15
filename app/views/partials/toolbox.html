@@ -30,8 +30,10 @@
           <div class="history">
 
             <div class="historyDropdown dropdown"><a class="dropdown-toggle" role="button" data-toggle="dropdown" href="javascript:;">Actions<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a tabindex="-1" data-ng-click="revertFeature(action.id, action.rev)">Revert</a>
+              <ul class="dropdown-menu"><!--
+                <li><a tabindex="-1" data-ng-click="featureHistory(action.id, action.rev)">View History</a>
+                </li>-->
+                <li><a tabindex="-1" data-ng-click="revertFeature(action.id, action.rev)">Revert Feature to</a>
                 </li>
                 <li><a tabindex="-1" data-ng-click="panToFeature(action.id)">Pan to</a>
                 </li>
