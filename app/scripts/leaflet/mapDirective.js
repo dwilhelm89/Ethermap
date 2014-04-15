@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .directive('map', ['$http',
-    function($http) {
+  .directive('map', ['$http', 'MapHandler', 'SynchronizeMap',
+    function($http, MapHandler, SynchronizeMap) {
 
 
       function addGeoJSONFeature(map, feature, drawnItems) {
@@ -46,19 +46,22 @@ angular.module('CollaborativeMap')
 
           //expose map for debugging purposes
           //var map = window._map = L.mapbox.map('map', 'dnns.h8dkb1bh');
-          var map = $scope.map = window._map = L.mapbox.map('map')
+          var map = window._map = L.mapbox.map('map')
             .setView([51.95, 7.62], 13);
+
+          MapHandler.initMapHandler(map);
 
           // add an OpenStreetMap tile layer
           L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
             .addTo(map);
 
           map.addControl(L.mapbox.infoControl({
-            position: 'bottomleft'
-          }).addInfo('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'));
+              position: 'bottomleft'
+            })
+            .addInfo('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'));
 
           // Initialise the FeatureGroup to store editable layers
-          var drawnItems = $scope.drawnItems = new L.FeatureGroup();
+          var drawnItems = new L.FeatureGroup();
           map.addLayer(drawnItems);
 
           // Initialise the draw control and pass it the FeatureGroup of editable layers
@@ -80,7 +83,9 @@ angular.module('CollaborativeMap')
 
           loadFeatures($http, $scope.mapId, map, drawnItems);
 
-          $scope.onMapReady();
+
+          SynchronizeMap.init(map, $scope, drawnItems);
+
         }
       };
     }

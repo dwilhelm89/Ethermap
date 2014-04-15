@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .controller('MainCtrl', ['$scope', '$rootScope', '$routeParams', 'SynchronizeMap', 'MapHandler', 'Utils',
-    function($scope, $rootScope, $routeParams, SynchronizeMap, MapHandler, Utils) {
+  .controller('MainCtrl', ['$scope', '$rootScope', '$routeParams',
+    function($scope, $rootScope, $routeParams) {
 
       function loadName() {
         var oldName = localStorage.getItem('cm-user');
@@ -16,14 +16,6 @@ angular.module('CollaborativeMap')
 
       //TODO: random map id generator
       $scope.mapId = $routeParams.mapid.toLowerCase();
-
-      //patch L.stamp to get unique layer ids
-      Utils.patchLStamp();
-
-      $scope.onMapReady = function() {
-        SynchronizeMap.init($scope.map, $scope, $scope.drawnItems);
-        MapHandler.initMapHandler($scope.map);
-      };
 
     }
   ]);
