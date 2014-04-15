@@ -1,8 +1,8 @@
 <div class="toolbox-buttons">
   <input type="button" class="btn btn-dark" ng-click="toggleToolbar('userView')" value="Users">
-  <input type="button" class="btn btn-dark" ng-click="toggleToolbar('settingsView')" value="Chat">
   <input type="button" class="btn btn-dark" ng-click="toggleToolbar('historyView')" value="History">
   <input type="button" class="btn btn-dark" ng-click="toggleToolbar('toolsView')" value="Tools">
+  <input type="button" class="btn btn-dark" ng-click="toggleToolbar('settingsView')" value="Settings">
 
   <div class="toolbox animate-slideIn" ng-class="{'zeroWidth':views.toolBarIn}">
 
@@ -17,6 +17,7 @@
           </div>
         </div>
       </div>
+      <chat></chat>
 
     </div>
     <div class="toolbox-content" ng-class="{'hide': views.historyView}">
@@ -39,6 +40,7 @@
     </div>
     <div class="toolbox-content" ng-class="{'hide': views.toolsView}">Tools</div>
     <div class="toolbox-content" ng-class="{'hide': views.settingsView}">
-      <chat></chat>
+      Settings
+      <!--<chat></chat>-->
     </div>
   </div>

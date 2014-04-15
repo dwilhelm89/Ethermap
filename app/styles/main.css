@@ -232,7 +232,7 @@ input {
 .chatMessages {
   overflow: auto;
   position: absolute;
-  top: 10px;
+  top: 250px;
   bottom: 100px;
   width: 300px;
 }
@@ -276,4 +276,10 @@ input {
 .chatUser {
   font-size: 12px;
   float: right;
+}
+.users{
+  overflow: auto;
+  position: absolute;
+  max-height: 200px;
+  width: 100%;
 }
