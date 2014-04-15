@@ -166,7 +166,7 @@ input {
   outline: none;
   transition: background-color .25s ease-in-out;
 }
-.btn-dark:hover ,.btn-dark:active, .btn-dark:focus {
+.btn-dark:hover, .btn-dark:active, .btn-dark:focus {
   background-color: white;
   color: #3c4e5a;
   outline: none;
@@ -180,7 +180,7 @@ input {
   margin: 5px;
   transition: background-color .25s ease-in-out;
 }
-.btn-default:hover ,.btn-default:active, .btn-default:focus {
+.btn-default:hover, .btn-default:active, .btn-default:focus {
   background-color: white;
   color: #3c4e5a;
   outline: none;
@@ -277,12 +277,33 @@ input {
   font-size: 12px;
   float: right;
 }
-.users{
+.users {
   overflow: auto;
   position: absolute;
   max-height: 200px;
   width: 100%;
 }
-.historyDropdown{
+.historyDropdown {
   float: right;
+}
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0px;
+  left: initial;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  list-style: none;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
 }
