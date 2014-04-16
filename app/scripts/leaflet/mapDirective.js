@@ -80,6 +80,7 @@ angular.module('CollaborativeMap')
             drawnItems.addLayer(e.layer);
           });
 
+          map.options.drawControlTooltips = true;
 
           loadFeatures($http, $scope.mapId, map, drawnItems);
 
