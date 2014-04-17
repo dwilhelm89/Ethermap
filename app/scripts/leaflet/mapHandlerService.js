@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .service('MapHandler', ['Utils',
-      function(Utils) {
+  .service('MapHandler', ['Utils', 'Socket',
+      function(Utils, Socket) {
 
         var map;
 
@@ -28,6 +28,12 @@ angular.module('CollaborativeMap')
             setTimeout(function() {
               map.removeLayer(bound);
             }, 3000);
+          },
+
+          revertFeature: function(mapId, fid, toRev, user){
+            Socket.emit('revertFeature', {'mapId': mapId, 'fid': fid, 'toRev': toRev, 'user': user }, function(res){
+              console.log(res);
+            });
           },
 
           panToFeature: function(id) {

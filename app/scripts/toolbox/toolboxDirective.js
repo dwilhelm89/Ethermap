@@ -98,17 +98,7 @@ angular.module('CollaborativeMap')
           };
 
           $scope.revertFeature = function(id, rev){
-            /////api/history/revertFeature/:mapId/:fid/:toRev
-            $http({
-              method: 'GET',
-              url: '/api/history/revertFeature/' + $scope.mapId + '/' + id + '/' + rev
-            })
-            .success(function(data) { //, status, headers, config) {
-                console.log(data);
-              })
-            .error(function(data) { //, status, headers, config) {
-              console.log(data);
-            });
+            MapHandler.revertFeature($scope.mapId, id, rev, $scope.userName);
           };
 
           //TODO: in map handler auslagern
