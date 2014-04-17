@@ -91,17 +91,14 @@ angular.module('CollaborativeMap')
 
           };
 
-          $scope.featureHistory = function(id, rev) {
-            console.log(id, rev);
-            $scope.revertFeature(id, rev);
-
+          $scope.showFeatureHistory = function(id) {
+            $scope.toggleHistoryModal(id);
           };
 
           $scope.revertFeature = function(id, rev){
             MapHandler.revertFeature($scope.mapId, id, rev, $scope.userName);
           };
 
-          //TODO: in map handler auslagern
           $scope.panToFeature = function(id) {
             MapHandler.panToFeature(id);
           };
