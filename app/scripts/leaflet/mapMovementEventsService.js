@@ -37,6 +37,10 @@ angular.module('CollaborativeMap')
           callback(this.getBoundsMessage(map));
         }.bind(this), false);
 
+        element.addEventListener('DOMMouseScroll', function() {
+          callback(this.getBoundsMessage(map));
+        }.bind(this), false);
+
       },
 
       getBoundsMessage: function(map) {
