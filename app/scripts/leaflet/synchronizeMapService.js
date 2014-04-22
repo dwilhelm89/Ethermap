@@ -4,7 +4,6 @@ angular.module('CollaborativeMap')
   .service('SynchronizeMap', ['MapMovementEvents', 'MapDrawEvents', 'Socket',
     function(MapMovementEvents, MapDrawEvents, Socket) {
 
-      var lastMovement = 0;
       var mapScope;
 
       function sendMapMovements(mapId, event) {
@@ -30,14 +29,7 @@ angular.module('CollaborativeMap')
             var newBounds = new L.LatLngBounds(res.event.nE, res.event.sW);
             mapScope.userBounds[res.event.userId] = newBounds;
             if (isWachtingUser(res.event.userId)) {
-              //prevent back coupling
-              var cTime = new Date()
-                .getTime();
-
-              if (cTime - lastMovement > 500) {
-                map.fitBounds(newBounds);
-                lastMovement = cTime;
-              }
+              map.fitBounds(newBounds);
             }
           }
         });
