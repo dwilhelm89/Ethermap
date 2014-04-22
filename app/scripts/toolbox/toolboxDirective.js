@@ -95,10 +95,6 @@ angular.module('CollaborativeMap')
             $scope.toggleHistoryModal(id);
           };
 
-          $scope.revertFeature = function(id, rev){
-            MapHandler.revertFeature($scope.mapId, id, rev, $scope.userName);
-          };
-
           $scope.panToFeature = function(id) {
             MapHandler.panToFeature(id);
           };
