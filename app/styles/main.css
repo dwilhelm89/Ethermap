@@ -166,7 +166,7 @@ input {
   outline: none;
   transition: background-color .25s ease-in-out;
 }
-.btn-dark:hover, .btn-dark:active, .btn-dark:focus {
+.btn-dark:hover, .btn-dark:active {
   background-color: white;
   color: #3c4e5a;
   outline: none;
@@ -180,7 +180,7 @@ input {
   margin: 5px;
   transition: background-color .25s ease-in-out;
 }
-.btn-default:hover, .btn-default:active, .btn-default:focus {
+.btn-default:hover, .btn-default:active {
   background-color: white;
   color: #3c4e5a;
   outline: none;
@@ -195,7 +195,7 @@ input {
   background-color: white;
   color: #3c4e5a;
 }
-.watching, .watching:focus, .watching:active {
+.watching, .watching:active, {
   background-color: white;
   color: #3c4e5a;
 }
@@ -307,6 +307,6 @@ input {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box;
 }
-.docRevRevertBtn{
+.docRevRevertBtn {
   display: inline;
 }
