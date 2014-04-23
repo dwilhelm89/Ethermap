@@ -4,7 +4,7 @@
   <input type="button" class="btn btn-dark" ng-click="toggleToolbar('toolsView')" value="Tools">
   <input type="button" class="btn btn-dark" ng-click="toggleToolbar('settingsView')" value="Settings">
 
-  <div class="toolbox animate-slideIn" ng-class="{'zeroWidth':views.toolBarIn}">
+  <div id="toolbox" class="toolbox animate-slideIn" ng-class="{'zeroWidth':views.toolBarIn}">
 
     <div class="toolbox-content" ng-class="{'hide': views.userView}">
       <div class="users">
@@ -50,7 +50,10 @@
       </div>
 
     </div>
-    <div class="toolbox-content" ng-class="{'hide': views.toolsView}">Tools</div>
+    <div class="toolbox-content" ng-class="{'hide': views.toolsView}">
+    Test
+      <featureproperties></featureproperties>
+    </div>
     <div class="toolbox-content" ng-class="{'hide': views.settingsView}">
       Settings
       <!--<chat></chat>-->

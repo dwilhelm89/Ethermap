@@ -2,50 +2,71 @@
 
 angular.module('CollaborativeMap')
   .service('MapHandler', ['Utils', 'Socket',
-      function(Utils, Socket) {
+    function(Utils, Socket) {
 
-        var map;
+      var map, drawnItems, mapScope;
 
-        return {
+      return {
 
-          initMapHandler: function(m) {
-            //patch L.stamp to get unique layer ids
-            Utils.patchLStamp();
+        initMapHandler: function(m, dI, scope) {
+          //patch L.stamp to get unique layer ids
+          Utils.patchLStamp();
 
-            map = m;
-          },
+          map = m;
+          drawnItems = dI;
+          mapScope = scope;
+        },
 
-          paintUserBounds: function(bounds) {
-            var bound = L.rectangle(bounds, {
-              color: '#ff0000',
-              weight: 1,
-              fill: false
-            });
-            bound.addTo(map);
-            map.fitBounds(bound, {
-              'padding': [5, 5]
-            });
-            setTimeout(function() {
-              map.removeLayer(bound);
-            }, 3000);
-          },
+        updateFeature: function(layer) {
+          map.fireEvent('propertyEdited', {
+            'layer': layer.feature,
+            'fid': layer.fid
+          });
+        },
 
-          revertFeature: function(mapId, fid, toRev, user){
-            Socket.emit('revertFeature', {'mapId': mapId, 'fid': fid, 'toRev': toRev, 'user': user }, function(res){
-              console.log(res);
-            });
-          },
+        addClickEvent: function(layer) {
+          layer.on('click', function() {
+            mapScope.selectFeature(layer);
+          });
+        },
 
-          panToFeature: function(id) {
-            var target = map._layers[id];
+        paintUserBounds: function(bounds) {
+          var bound = L.rectangle(bounds, {
+            color: '#ff0000',
+            weight: 1,
+            fill: false
+          });
+          bound.addTo(map);
+          map.fitBounds(bound, {
+            'padding': [5, 5]
+          });
+          setTimeout(function() {
+            map.removeLayer(bound);
+          }, 3000);
+        },
 
-            if (target._latlng) {
-              map.panTo(target._latlng);
-            } else if (target._latlngs) {
-              var bounds = target.getBounds();
-              map.fitBounds(bounds);
-            }
+        revertFeature: function(mapId, fid, toRev, user) {
+          Socket.emit('revertFeature', {
+            'mapId': mapId,
+            'fid': fid,
+            'toRev': toRev,
+            'user': user
+          }, function(res) {
+            console.log(res);
+          });
+        },
+
+        panToFeature: function(id) {
+          var target = map._layers[id];
+
+          if (target._latlng) {
+            map.panTo(target._latlng);
+          } else if (target._latlngs) {
+            var bounds = target.getBounds();
+            map.fitBounds(bounds);
           }
+        }
 
-        };
-      }]);
+      };
+    }
+  ]);

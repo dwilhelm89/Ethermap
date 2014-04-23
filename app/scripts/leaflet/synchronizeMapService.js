@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .service('SynchronizeMap', ['MapMovementEvents', 'MapDrawEvents', 'Socket',
-    function(MapMovementEvents, MapDrawEvents, Socket) {
+  .service('SynchronizeMap', ['MapMovementEvents', 'MapDrawEvents', 'Socket', 'MapHandler',
+    function(MapMovementEvents, MapDrawEvents, Socket, MapHandler) {
 
       var mapScope;
 
@@ -54,6 +54,7 @@ angular.module('CollaborativeMap')
         for (var key in newLayer._layers) {
           tmpLayer = newLayer._layers[key];
           tmpLayer._leaflet_id = event.fid;
+          MapHandler.addClickEvent(tmpLayer);
           tmpLayer.addTo(drawnItems);
         }
       }

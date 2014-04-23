@@ -12,6 +12,7 @@ angular.module('CollaborativeMap')
         for (var key in newLayer._layers) {
           tmpLayer = newLayer._layers[key];
           tmpLayer._leaflet_id = feature._id;
+          MapHandler.addClickEvent(tmpLayer);
           tmpLayer.addTo(drawnItems);
         }
       }
@@ -49,8 +50,6 @@ angular.module('CollaborativeMap')
           var map = window._map = L.mapbox.map('map')
             .setView([51.95, 7.62], 13);
 
-          MapHandler.initMapHandler(map);
-
           // add an OpenStreetMap tile layer
           L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
             .addTo(map);
@@ -84,7 +83,7 @@ angular.module('CollaborativeMap')
 
           loadFeatures($http, $scope.mapId, map, drawnItems);
 
-
+          MapHandler.initMapHandler(map, drawnItems, $scope);
           SynchronizeMap.init(map, $scope, drawnItems);
 
         }
