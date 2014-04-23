@@ -49,7 +49,15 @@ angular.module('CollaborativeMap')
 
       function addGeoJSONFeature(map, event, drawnItems) {
         //jshint camelcase:false
-        var newLayer = L.geoJson(event.feature);
+        var newLayer = L.geoJson(event.feature, {
+          style: L.mapbox.simplestyle.style,
+          pointToLayer: function(feature, latlon) {
+            if (!feature.properties) {
+              feature.properties = {}
+            }
+            return L.mapbox.marker.style(feature, latlon);
+          }
+        });
         var tmpLayer;
         for (var key in newLayer._layers) {
           tmpLayer = newLayer._layers[key];
