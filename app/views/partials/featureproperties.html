@@ -1,12 +1,15 @@
 <div style="margin-left: 3px">
-  <div id="featurePropsForm" ng-repeat="(key, value) in selectedFeature.feature.properties">
+  <div id="featurePropsForm" ng-repeat="prop in selectedFeature.properties">
    <div class="input-group">
-    <label class="input-group-addon propertyLabel" for="{{key}}">{{key}}</label>
-    <input class="propertyInput" type="text" value="{{value}}" id="{{key}}">
+    <label class="input-group-addon propertyLabel" for="{{prop.key}}">{{prop.key}}</label>
+    <input class="propertyInput" type="text" value="{{prop.value}}" id="{{prop.key}}" ng-model="prop.value">
   </div>
-  </div><br>
+  </div>
+  <input type="button" class="btn btn-default" ng-click="savePropertyChanges()" value="Save Changes"><br>
 
-  New Property:<br>
+
+<!-- TODO: only if feature is selected -->
+  <h3>New Property</h3>
   <label for="newKey">Key</label><br>
   <input id="newKey" type="text" ng-model="newKey"><br>
   <label for="newValue">Value</label> <br>

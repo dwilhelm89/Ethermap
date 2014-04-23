@@ -4,27 +4,6 @@ angular.module('CollaborativeMap')
   .directive('map', ['$http', 'MapHandler', 'SynchronizeMap',
     function($http, MapHandler, SynchronizeMap) {
 
-
-      function addGeoJSONFeature(map, feature, drawnItems) {
-        //jshint camelcase:false
-        var newLayer = L.geoJson(feature, {
-          style: L.mapbox.simplestyle.style,
-          pointToLayer: function(feature, latlon) {
-            if (!feature.properties) {
-              feature.properties = {}
-            }
-            return L.mapbox.marker.style(feature, latlon);
-          }
-        });
-        var tmpLayer;
-        for (var key in newLayer._layers) {
-          tmpLayer = newLayer._layers[key];
-          tmpLayer._leaflet_id = feature._id;
-          MapHandler.addClickEvent(tmpLayer);
-          tmpLayer.addTo(drawnItems);
-        }
-      }
-
       function loadFeatures(http, mapId, map, drawnItems) {
         http({
           method: 'GET',
@@ -33,7 +12,10 @@ angular.module('CollaborativeMap')
           .success(function(data) { //, status, headers, config) {
             if (data.rows) {
               data.rows.forEach(function(row) {
-                addGeoJSONFeature(map, row.doc, drawnItems);
+                MapHandler.addGeoJSONFeature(map, {
+                  'feature': row.doc,
+                  'fid': row.doc._id
+                }, drawnItems);
               });
             }
 
@@ -59,8 +41,9 @@ angular.module('CollaborativeMap')
             .setView([51.95, 7.62], 13);
 
           // add an OpenStreetMap tile layer
-          L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
-            .addTo(map);
+          //         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
+          //            .addTo(map);
+          L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png').addTo(map);
 
           map.addControl(L.mapbox.infoControl({
               position: 'bottomleft'
