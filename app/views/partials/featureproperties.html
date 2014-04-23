@@ -1,3 +1,12 @@
-<div>
-{{selectedFeature}}}
+<div style="margin-left: 3px">
+  <div id="featurePropsForm" ng-repeat="(key, value) in selectedFeature.feature.properties">
+    {{key}}<br>
+    <input type="text" value="{{value}}">
+  </div>
+  New Property:<br>
+  Name:<br>
+  <input type="text" ng-model="newKey"><br>
+  Value: <br>
+  <input type="text" ng-model="newValue">
+  <input type="button" class="btn btn-default" ng-click="newProperty()" value="Save">
 </div>

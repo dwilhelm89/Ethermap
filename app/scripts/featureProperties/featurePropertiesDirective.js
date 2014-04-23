@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .directive('featureproperties', ['$compile','MapHandler',
+  .directive('featureproperties', ['$compile', 'MapHandler',
     function($compile, MapHandler) {
 
 
@@ -9,7 +9,6 @@ angular.module('CollaborativeMap')
 
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
-        //template: '<div>test</div>',
         templateUrl: 'partials/featureproperties',
         replace: true,
         link: function postLink($scope) {
@@ -17,11 +16,12 @@ angular.module('CollaborativeMap')
           function activateToolbox() {
             if ($scope.views.toolBarIn) {
               $scope.toggleToolbar('toolsView');
+              $scope.$apply();
             } else if ($scope.views.toolsView) {
               $scope.toggleToolbar('toolsView');
+              $scope.$apply();
             }
-            //recompile already created template (toolbox)
-            $compile($('#toolbox'))($scope);
+
           }
 
           //called from the feature onClick through the map services
@@ -32,11 +32,22 @@ angular.module('CollaborativeMap')
               'feature': feature.toGeoJSON(),
               'fid': feature._leaflet_id
             };
+            $scope.selectedFeature.feature.properties.time = new Date().getTime();
+            $scope.$apply();
           };
 
-          function updateFeature(){
+          function updateFeature() {
             MapHandler.updateFeature($scope.selectedFeature);
           }
+
+          $scope.newProperty = function() {
+            if ($scope.newKey && $scope.newValue) {
+              $scope.selectedFeature.feature.properties[$scope.newKey] = $scope.newValue;
+              $scope.newKey = '';
+              $scope.newValue = '';
+              updateFeature();
+            }
+          };
 
         }
       };

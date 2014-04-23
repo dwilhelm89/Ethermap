@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('CollaborativeMap')
-  .directive('toolbox', ['$http', 'MapHandler',
-    function($http, MapHandler) {
+  .directive('toolbox', ['$http', '$compile', 'MapHandler',
+    function($http, $compile, MapHandler) {
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
         templateUrl: 'partials/toolbox',
