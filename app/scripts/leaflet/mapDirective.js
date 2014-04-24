@@ -85,16 +85,18 @@ angular.module('CollaborativeMap')
           });
           map.addControl(drawControl);
 
-          map.on('draw:created', function(e) {
-            drawnItems.addLayer(e.layer);
-          });
-
           map.options.drawControlTooltips = true;
 
           loadFeatures($http, $scope.mapId, map, drawnItems);
 
           MapHandler.initMapHandler(map, drawnItems, $scope);
           SynchronizeMap.init(map, $scope, drawnItems);
+
+
+          map.on('draw:created', function(e) {
+            MapHandler.addClickEvent(e.layer);
+            drawnItems.addLayer(e.layer);
+          });
 
         }
       };
