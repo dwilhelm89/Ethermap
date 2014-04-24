@@ -12,7 +12,8 @@
     "lodash": "~2.4.1",
     "ejs": "~0.8.4",
     "socket.io": "~0.9.x",
-    "nano": "^5.7.1"
+    "nano": "^5.7.1",
+    "raven": "0.6.3"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
