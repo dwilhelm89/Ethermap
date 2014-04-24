@@ -130,10 +130,10 @@ input {
 }
 .toolbox-buttons {
   position: fixed;
-  right: 0;
-  top: 0;
-  background-color: #3c4e5a;
-  width: 301px;
+  right: -3px;
+  top: 0px;
+  background-color: rgb(60, 78, 90);
+  width: 303px;
   height: 50px;
 }
 .animate-slideIn {

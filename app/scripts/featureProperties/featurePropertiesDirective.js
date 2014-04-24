@@ -73,7 +73,13 @@ angular.module('CollaborativeMap')
           };
 
           $scope.hideNewProperty = true;
-          $scope.addNewProperty = function(){
+          $scope.addNewProperty = function(e){
+            var element = e.currentTarget;
+            if(element.value.indexOf('Add') > -1){
+              element.value = 'Hide new Property';
+            }else{
+              element.value = 'Add new Property';
+            }
             $scope.hideNewProperty = !$scope.hideNewProperty;
           };
           $scope.removeProperty = function(i){

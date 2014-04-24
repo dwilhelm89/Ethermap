@@ -18,6 +18,8 @@ angular.module('CollaborativeMap')
         },
 
         updateFeature: function(layer) {
+          this.removeLayer(map, layer, drawnItems);
+          this.addGeoJSONFeature(map, layer, drawnItems);
           map.fireEvent('propertyEdited', {
             'layer': layer.feature,
             'fid': layer.fid
@@ -84,6 +86,14 @@ angular.module('CollaborativeMap')
             tmpLayer._leaflet_id = event.fid;
             this.addClickEvent(tmpLayer);
             tmpLayer.addTo(drawnItems);
+          }
+        },
+
+        removeLayer: function(map, event, drawnItems) {
+          var deleteLayer = map._layers[event.fid];
+          if (deleteLayer) {
+            map.removeLayer(deleteLayer);
+            drawnItems.removeLayer(deleteLayer);
           }
         }
 

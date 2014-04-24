@@ -86,7 +86,6 @@ angular.module('CollaborativeMap')
           map.addControl(drawControl);
 
           map.on('draw:created', function(e) {
-            MapHandler.addClickEvent(e.layer);
             drawnItems.addLayer(e.layer);
           });
 

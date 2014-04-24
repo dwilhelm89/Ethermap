@@ -45,15 +45,7 @@ angular.module('CollaborativeMap')
         });
 
       }
-      
 
-      function removeLayer(map, event, drawnItems) {
-        var deleteLayer = map._layers[event.fid];
-        if (deleteLayer) {
-          map.removeLayer(deleteLayer);
-          drawnItems.removeLayer(deleteLayer);
-        }
-      }
 
       function receiveMapDraws(mapId, map, drawnItems) {
 
@@ -67,12 +59,12 @@ angular.module('CollaborativeMap')
 
             } else if (event.action === 'edited') {
 
-              removeLayer(map, event, drawnItems);
+              MapHandler.removeLayer(map, event, drawnItems);
               MapHandler.addGeoJSONFeature(map, event, drawnItems);
 
             } else if (event.action === 'deleted') {
 
-              removeLayer(map, event, drawnItems);
+              MapHandler.removeLayer(map, event, drawnItems);
 
             }
 
