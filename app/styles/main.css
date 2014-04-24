@@ -131,7 +131,7 @@ input {
 .toolbox-buttons {
   position: fixed;
   right: -3px;
-  top: 0px;
+  top: 0;
   background-color: rgb(60, 78, 90);
   width: 303px;
   height: 50px;
@@ -166,27 +166,23 @@ input {
   border-right:0;
   height: 50px;
   width: 73px;
-  outline: none;
   transition: background-color .25s ease-in-out;
 }
 .btn-dark:hover, .btn-dark:active {
   background-color: white;
   color: #3c4e5a;
-  outline: none;
 }
 .btn-default {
   background-color: #3c4e5a;
   border-radius: 0;
   color: rgb(231, 231, 231);
   border: 0;
-  outline: none;
   margin: 5px;
   transition: background-color .25s ease-in-out;
 }
 .btn-default:hover, .btn-default:active {
   background-color: white;
   color: #3c4e5a;
-  outline: none;
 }
 .toolbox-content {
   margin-top: 20px;
@@ -198,7 +194,7 @@ input {
   background-color: white;
   color: #3c4e5a;
 }
-.watching, .watching:active, {
+.watching, .watching:active {
   background-color: white;
   color: #3c4e5a;
 }
@@ -292,7 +288,7 @@ input {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  right: 0px;
+  right: 0;
   left: initial;
   z-index: 1000;
   display: none;
@@ -328,4 +324,16 @@ input {
   bottom: 5px;
   height: 59px;
   padding-right: 10px;
+}
+.diff-typeName {
+  color: gray;
+}
+.diff-changed {
+  background-color: #fcff7f;
+}
+.diff-added {
+  background-color: #8bff7f;
+}
+.diff-removed {
+  background-color: #fd7f7f;
 }
