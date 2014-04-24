@@ -61,7 +61,26 @@ angular.module('CollaborativeMap')
             },
             draw: {
               circle: false,
-              rectangle: false
+              rectangle: false,
+              marker: {
+                icon: L.mapbox.marker.icon({})
+              },
+              polyline: {
+                shapeOptions: {
+                  color: '#555555',
+                  fillOpacity: 0.5,
+                  weight: 2,
+                  opacity: 1
+                }
+              },
+              polygon: {
+                shapeOptions: {
+                  color: '#555555',
+                  fillOpacity: 0.5,
+                  weight: 2,
+                  opacity: 1
+                }
+              }
             }
           });
           map.addControl(drawControl);
