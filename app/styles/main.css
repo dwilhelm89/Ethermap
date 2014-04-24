@@ -316,11 +316,16 @@ input {
 .propertyLabel {
   display: block;
   background-color: rgb(192, 192, 192);
-  width: 295px;
+  width: 265px;
   border-radius: 0;
   margin: 0;
   height: 25px;
 }
 .propertyInput {
   width: 295px;
+}
+.propertyRemoveBtn {
+  bottom: 5px;
+  height: 59px;
+  padding-right: 10px;
 }

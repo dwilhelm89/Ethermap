@@ -72,6 +72,17 @@ angular.module('CollaborativeMap')
             updateFeature();
           };
 
+          $scope.hideNewProperty = true;
+          $scope.addNewProperty = function(){
+            $scope.hideNewProperty = !$scope.hideNewProperty;
+          };
+          $scope.removeProperty = function(i){
+            var remKey = $scope.selectedFeature.properties[i].key;
+            delete $scope.selectedFeature.feature.properties[remKey];
+            $scope.selectedFeature.properties.splice(i,1);
+            updateFeature();
+          };
+
         }
       };
     }

@@ -19,7 +19,6 @@ angular.module('CollaborativeMap')
 
       function isWachtingUser(userId) {
         var res = mapScope.isWatchingAll || mapScope.watchUsers[userId] || false;
-        console.log(res);
         return res;
       }
 

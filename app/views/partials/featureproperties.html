@@ -1,18 +1,32 @@
 <div style="margin-left: 3px">
-  <div id="featurePropsForm" ng-repeat="prop in selectedFeature.properties">
-   <div class="input-group">
-    <label class="input-group-addon propertyLabel" for="{{prop.key}}">{{prop.key}}</label>
-    <input class="propertyInput" type="text" value="{{prop.value}}" id="{{prop.key}}" ng-model="prop.value">
+  <div ng-if="selectedFeature">
+    <div id="featurePropsForm" ng-repeat="prop in selectedFeature.properties">
+      <div class="input-group">
+        <label class="input-group-addon propertyLabel" for="{{prop.key}}">{{prop.key}}</label>
+        <input type="text" class="form-control" value="{{prop.value}}" id="{{prop.key}}" ng-model="prop.value">
+        <span class="input-group-btn">
+        <button class="btn btn-default propertyRemoveBtn" type="button" ng-click="removeProperty($index)">-</button>
+      </span>
+      </div>
+    </div>
+    <input type="button" class="btn btn-default" ng-click="savePropertyChanges()" value="Save Changes">
+    <input type="button" class="btn btn-default" ng-click="addNewProperty()" value="Add new Property">
+    <br>
   </div>
+  <div ng-if="!selectedFeature">
+  	Click on a feature to open it's properties...
   </div>
-  <input type="button" class="btn btn-default" ng-click="savePropertyChanges()" value="Save Changes"><br>
 
 
-<!-- TODO: only if feature is selected -->
-  <h3>New Property</h3>
-  <label for="newKey">Key</label><br>
-  <input id="newKey" type="text" ng-model="newKey"><br>
-  <label for="newValue">Value</label> <br>
-  <input id="newValue" type="text" ng-model="newValue">
-  <input type="button" class="btn btn-default" ng-click="newProperty()" value="Save">
+  <div ng-class="{'hide': hideNewProperty}">
+    <h3>New Property</h3>
+    <label for="newKey">Key</label>
+    <br>
+    <input id="newKey" type="text" ng-model="newKey">
+    <br>
+    <label for="newValue">Value</label>
+    <br>
+    <input id="newValue" type="text" ng-model="newValue">
+    <input type="button" class="btn btn-default" ng-click="newProperty()" value="Save">
+  </div>
 </div>
