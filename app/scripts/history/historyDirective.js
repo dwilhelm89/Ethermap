@@ -16,14 +16,6 @@ angular.module('CollaborativeMap')
         var typeA = typeofReal(a);
         var typeB = typeofReal(b);
 
-        //var typeSpanA = document.createElement('span');
-        //typeSpanA.appendChild(document.createTextNode('(' + typeA + ')'));
-        //typeSpanA.setAttribute('class', 'diff-typeName');
-
-        //var typeSpanB = document.createElement('span');
-        //typeSpanB.appendChild(document.createTextNode('(' + typeB + ')'));
-        //typeSpanB.setAttribute('class', 'diff-typeName');
-
         var aString = (typeA === 'object' || typeA === 'array') ? '' : String(a) + ' ';
         var bString = (typeB === 'object' || typeB === 'array') ? '' : String(b) + ' ';
 
@@ -32,20 +24,15 @@ angular.module('CollaborativeMap')
         if (a === undefined) {
           leafNode.setAttribute('class', 'diff-added');
           leafNode.appendChild(document.createTextNode(': ' + bString));
-          //leafNode.appendChild(typeSpanB);
         } else if (b === undefined) {
           leafNode.setAttribute('class', 'diff-removed');
           leafNode.appendChild(document.createTextNode(': ' + aString));
-          //leafNode.appendChild(typeSpanA);
         } else if (typeA !== typeB || (typeA !== 'object' && typeA !== 'array' && a !== b)) {
           leafNode.setAttribute('class', 'diff-changed');
           leafNode.appendChild(document.createTextNode(': ' + aString));
-          //leafNode.appendChild(typeSpanA);
           leafNode.appendChild(document.createTextNode(' => ' + bString));
-          //leafNode.appendChild(typeSpanB);
         } else {
           leafNode.appendChild(document.createTextNode(': ' + aString));
-          //leafNode.appendChild(typeSpanA);
         }
 
         if (typeA === 'object' || typeA === 'array' || typeB === 'object' || typeB === 'array') {

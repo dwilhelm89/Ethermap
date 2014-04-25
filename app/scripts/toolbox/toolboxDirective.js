@@ -10,6 +10,19 @@ angular.module('CollaborativeMap')
 
         link: function postLink($scope) {
 
+          function setUpIntroJS() {
+            var drawFeatures = document.getElementsByClassName('leaflet-draw-toolbar leaflet-bar')[0];
+            drawFeatures.setAttribute('data-intro', 'These are the drawing tools. They can be used to create markers, lines and polygons.');
+
+            var editFeature = document.getElementsByClassName('leaflet-draw-toolbar leaflet-bar')[1];
+            editFeature.setAttribute('data-intro', 'Click here to edit/delete the geometry of features. Click on a feature in the map to edit it\'s properties');
+          }
+
+          $scope.startIntroJS = function() {
+            setUpIntroJS();
+            introJs().start();
+          };
+
           $scope.views = {
             userView: true,
             historyView: true,

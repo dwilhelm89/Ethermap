@@ -13,7 +13,6 @@ angular.module('CollaborativeMap')
       }
 
       loadName();
-
       //TODO: random map id generator
       $scope.mapId = $routeParams.mapid.toLowerCase();
 
