@@ -4,25 +4,25 @@ angular.module('CollaborativeMap')
   .directive('history', ['$http', 'MapHandler',
     function($http, MapHandler) {
 
-      function startCompare(objA, objB) {
+      function startCompare(objA, objB, divId, name) {
 
-        var results = document.getElementById('results');
+        var results = document.getElementById(divId);
         results.innerHTML = '';
 
-        compareTree(objA, objB, 'Feature', results);
+        compareTree(objA, objB, name, results);
       }
 
       function compareTree(a, b, name, results) {
         var typeA = typeofReal(a);
         var typeB = typeofReal(b);
 
-        var typeSpanA = document.createElement('span');
-        typeSpanA.appendChild(document.createTextNode('(' + typeA + ')'));
-        typeSpanA.setAttribute('class', 'diff-typeName');
+        //var typeSpanA = document.createElement('span');
+        //typeSpanA.appendChild(document.createTextNode('(' + typeA + ')'));
+        //typeSpanA.setAttribute('class', 'diff-typeName');
 
-        var typeSpanB = document.createElement('span');
-        typeSpanB.appendChild(document.createTextNode('(' + typeB + ')'));
-        typeSpanB.setAttribute('class', 'diff-typeName');
+        //var typeSpanB = document.createElement('span');
+        //typeSpanB.appendChild(document.createTextNode('(' + typeB + ')'));
+        //typeSpanB.setAttribute('class', 'diff-typeName');
 
         var aString = (typeA === 'object' || typeA === 'array') ? '' : String(a) + ' ';
         var bString = (typeB === 'object' || typeB === 'array') ? '' : String(b) + ' ';
@@ -32,20 +32,20 @@ angular.module('CollaborativeMap')
         if (a === undefined) {
           leafNode.setAttribute('class', 'diff-added');
           leafNode.appendChild(document.createTextNode(': ' + bString));
-          leafNode.appendChild(typeSpanB);
+          //leafNode.appendChild(typeSpanB);
         } else if (b === undefined) {
           leafNode.setAttribute('class', 'diff-removed');
           leafNode.appendChild(document.createTextNode(': ' + aString));
-          leafNode.appendChild(typeSpanA);
+          //leafNode.appendChild(typeSpanA);
         } else if (typeA !== typeB || (typeA !== 'object' && typeA !== 'array' && a !== b)) {
           leafNode.setAttribute('class', 'diff-changed');
           leafNode.appendChild(document.createTextNode(': ' + aString));
-          leafNode.appendChild(typeSpanA);
+          //leafNode.appendChild(typeSpanA);
           leafNode.appendChild(document.createTextNode(' => ' + bString));
-          leafNode.appendChild(typeSpanB);
+          //leafNode.appendChild(typeSpanB);
         } else {
           leafNode.appendChild(document.createTextNode(': ' + aString));
-          leafNode.appendChild(typeSpanA);
+          //leafNode.appendChild(typeSpanA);
         }
 
         if (typeA === 'object' || typeA === 'array' || typeB === 'object' || typeB === 'array') {
@@ -102,8 +102,8 @@ angular.module('CollaborativeMap')
           $scope.hideDiffView = true;
 
 
-          $scope.$on('historyView', function(e, hidden){
-            if(!hidden){
+          $scope.$on('historyView', function(e, hidden) {
+            if (!hidden) {
               $scope.loadHistory();
             }
           });
@@ -144,8 +144,6 @@ angular.module('CollaborativeMap')
 
           $('#historyModal').on('hidden.bs.modal', function() {
             $scope.documentRevision = [];
-            var results = document.getElementById('results');
-            results.innerHTML = '';
           });
 
           $scope.closeDiffView = function() {
@@ -156,7 +154,8 @@ angular.module('CollaborativeMap')
           $scope.showChanges = function(fid, rev, index) {
             var length = $scope.documentRevision.length;
             if (length >= index + 1) {
-              startCompare($scope.documentRevision[index], $scope.documentRevision[index + 1]);
+              startCompare($scope.documentRevision[index + 1].properties, $scope.documentRevision[index].properties, 'diffProperties', 'Properties');
+              startCompare($scope.documentRevision[index + 1].geometry.coordinates, $scope.documentRevision[index].geometry.coordinates, 'diffGeometry', 'Geometry');
             }
             $scope.hideDocumentRevisionView = true;
             $scope.hideDiffView = false;
