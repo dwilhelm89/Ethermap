@@ -20,6 +20,7 @@ angular.module('CollaborativeMap')
 
           $scope.startIntroJS = function() {
             setUpIntroJS();
+            /*global introJs */
             introJs().start();
           };
 
