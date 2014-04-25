@@ -102,15 +102,20 @@ angular.module('CollaborativeMap')
           $scope.hideDiffView = true;
 
 
+          $scope.$on('historyView', function(e, hidden){
+            if(!hidden){
+              $scope.loadHistory();
+            }
+          });
+
           function init() {
             $scope.documentRevision = [];
             $scope.hideDocumentRevisionView = false;
             $scope.hideDiffView = true;
           }
 
-          function loadHistory(fid) {
+          function loadDocumentHistory(fid) {
             init();
-            console.log("load history");
             $http({
               method: 'GET',
               url: '/api/documentRevisions/' + $scope.mapId + '/' + fid
@@ -134,8 +139,14 @@ angular.module('CollaborativeMap')
           $scope.toggleHistoryModal = function(fid) {
             visible = !visible;
             $('#historyModal').modal('toggle');
-            loadHistory(fid);
+            loadDocumentHistory(fid);
           };
+
+          $('#historyModal').on('hidden.bs.modal', function() {
+            $scope.documentRevision = [];
+            var results = document.getElementById('results');
+            results.innerHTML = '';
+          });
 
           $scope.closeDiffView = function() {
             $scope.hideDocumentRevisionView = false;

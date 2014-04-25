@@ -258,7 +258,7 @@ input {
   left: 0;
   right: 0;
   bottom: 60px;
-  top: 60px;
+  top: 10px;
   overflow: auto;
 }
 .btn {

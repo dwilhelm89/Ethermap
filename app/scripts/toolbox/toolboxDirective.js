@@ -30,6 +30,8 @@ angular.module('CollaborativeMap')
               vs.toolBarIn = false;
               vs[view] = false;
             }
+            //emit event if toolbox windows opens/closes
+            $scope.$emit(view, vs[view]);
           };
 
           function hideAllViews() {

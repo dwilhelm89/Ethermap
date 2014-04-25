@@ -22,8 +22,6 @@
 
     </div>
     <div class="toolbox-content" ng-class="{'hide': views.historyView}">
-      <input type="button" class="btn btn-default" value="Load" ng-click="loadHistory()">
-
       <div class="historyContainer">
 
         <div ng-repeat="action in history | orderBy: 'date':true">
