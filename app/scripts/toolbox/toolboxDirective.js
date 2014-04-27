@@ -56,11 +56,13 @@ angular.module('CollaborativeMap')
           }
 
           $scope.watchUsers = {};
-          $scope.watchUser = function(userId) {
+          $scope.watchUser = function(userId, event) {
             if ($scope.watchUsers[userId]) {
               delete $scope.watchUsers[userId];
+              event.currentTarget.innerHTML = 'Watch';
             } else {
               $scope.watchUsers[userId] = true;
+              event.currentTarget.innerHTML = 'Unwatch';
             }
           };
 
@@ -70,6 +72,8 @@ angular.module('CollaborativeMap')
             var bounds = $scope.userBounds[userId];
             if (bounds) {
               MapHandler.paintUserBounds(bounds);
+            }else{
+              window.alert('The user hasn\'t mooved since you logged in');
             }
           };
 

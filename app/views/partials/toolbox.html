@@ -1,5 +1,5 @@
 <div class="toolbox-buttons">
-  <input type="button" class="btn btn-dark" ng-click="toggleToolbar('userView')" value="Users"  data-intro='"Users" shows all users within this map and provides a chat function'>
+  <input type="button" class="btn btn-dark" ng-click="toggleToolbar('userView')" value="Users" data-intro='"Users" shows all users within this map and provides a chat function'>
   <input type="button" class="btn btn-dark" ng-click="toggleToolbar('historyView')" value="History" data-intro='"History" shows all changes made'>
   <input type="button" class="btn btn-dark" ng-click="toggleToolbar('toolsView')" value="Tools" data-intro='"Tools" to edit a single feature within the map'>
   <input type="button" class="btn btn-dark" ng-click="startIntroJS()" value="Help">
@@ -10,13 +10,14 @@
 
     <div class="toolbox-content" ng-class="{'hide': views.userView}">
       <div class="users">
-        <input type="button" class="btn btn-default" ng-class="{'watching': isWatchingAll}" ng-click="watchAll()" value="Watch all">
+        <div class="btn btn-default" ng-class="{'watching': isWatchingAll}" ng-click="watchAll()">Watch all</div>
 
         <div ng-repeat="(key, value) in users">
-          <div>
-            <input type="button" class="btn btn-default" ng-class="{'watching': watchUsers[key]}" ng-click="watchUser(key)" value="watch">
-            <span ng-click="getUserBounds(key)">{{value}}</span>
-          </div>
+          <span ng-if="value !== userName">
+            <div class="btn btn-default" ng-class="{'watching': watchUsers[key]}" ng-click="watchUser(key, $event)">Watch</div>
+            <div class="btn btn-default" ng-click="getUserBounds(key)">Show Workarea</div>
+            {{value}}
+          </span>
         </div>
       </div>
       <chat></chat>
