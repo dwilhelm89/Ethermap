@@ -337,3 +337,25 @@ input {
 .diff-removed {
   background-color: #fd7f7f;
 }
+.highlight {
+  box-shadow: 0 0 20px 5px #FFFF03;
+  stroke-width: 5px;
+  stroke: yellow;
+}
+.animateAll {
+  /*transition-property*/
+  -webkit-transition-property:all;
+  -moz-transition-property:all;
+  -o-transition-property:all;
+  transition-property:all;
+  /*transition-duration*/
+  -webkit-transition-duration:1000ms;
+  -moz-transition-duration:1000ms;
+  -o-transition-duration:1000ms;
+  transition-duration:1000ms;
+  /*transition-timing-function*/
+  -webkit-transition-timing-function:ease-out;
+  -moz-transition-timing-function:ease-out;
+  -o-transition-timing-function:ease-out;
+  transition-timing-function:ease-out;
+}

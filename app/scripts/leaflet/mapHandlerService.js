@@ -29,7 +29,8 @@ angular.module('CollaborativeMap')
         addClickEvent: function(layer) {
           layer.on('click', function() {
             mapScope.selectFeature(layer);
-          });
+            this.highlightFeature(layer);
+          }.bind(this));
         },
 
         paintUserBounds: function(bounds) {
@@ -86,6 +87,29 @@ angular.module('CollaborativeMap')
             tmpLayer._leaflet_id = event.fid;
             this.addClickEvent(tmpLayer);
             tmpLayer.addTo(drawnItems);
+            //If action is available (edit, create, delete) highight the feature
+            if (event.action) {
+              this.highlightFeature(tmpLayer);
+            }
+          }
+        },
+
+        //Highlights a feature for a few seconds (differentation between svgs and html elements)
+        highlightFeature: function(feature) {
+          if (feature) {
+            var elem = feature._icon || feature._container.children[0];
+            var tmpClass = elem.getAttribute('class');
+            elem.setAttribute('class', tmpClass + 'animateAll');
+            setTimeout(function() {
+              elem.setAttribute('class', tmpClass + ' highlight');
+            }, 50);
+
+            setTimeout(function() {
+              elem.setAttribute('class', tmpClass + ' animateAll');
+              setTimeout(function() {
+                elem.setAttribute('class', tmpClass);
+              }, 1000);
+            }, 1000);
           }
         },
 
