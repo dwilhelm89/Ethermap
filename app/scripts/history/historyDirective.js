@@ -87,6 +87,7 @@ angular.module('CollaborativeMap')
 
           $scope.hideDocumentRevisionView = false;
           $scope.hideDiffView = true;
+          $scope.hideMapDiffView = true;
 
 
           $scope.$on('historyView', function(e, hidden) {
@@ -136,6 +137,7 @@ angular.module('CollaborativeMap')
           $scope.closeDiffView = function() {
             $scope.hideDocumentRevisionView = false;
             $scope.hideDiffView = true;
+            $scope.hideMapDiffView = true;
           };
 
           $scope.showChanges = function(fid, rev, index) {
@@ -146,6 +148,83 @@ angular.module('CollaborativeMap')
             }
             $scope.hideDocumentRevisionView = true;
             $scope.hideDiffView = false;
+          };
+
+          $scope.closeDiffMapView = function() {
+            $scope.hideDocumentRevisionView = false;
+            $scope.hideDiffView = true;
+            $scope.hideMapDiffView = true;
+
+            document.getElementById('diffMap').remove();
+          };
+
+          $scope.showMapDiff = function(fid, rev, index) {
+            $scope.hideDocumentRevisionView = true;
+            $scope.hideDiffView = true;
+            $scope.hideMapDiffView = false;
+
+            var container = document.getElementById('diffMapContainer');
+            var m = document.createElement('div');
+            m.setAttribute('id', 'diffMap');
+            m.style.height = '200px';
+            container.appendChild(m);
+
+            var map = L.mapbox.map('diffMap');
+
+            L.mapbox.tileLayer('examples.map-a1dcgmtr').addTo(map);
+
+            var featureOld = L.geoJson($scope.documentRevision[index + 1]);
+            featureOld.addTo(map);
+
+            var featureCurrent = L.geoJson($scope.documentRevision[index]);
+            featureCurrent.addTo(map);
+
+            var range = document.getElementById('diffMapRange');
+
+            setTimeout(function() {
+              map.invalidateSize();
+            }, 20);
+
+            setTimeout(function() {
+
+              var lOld, lCurrent;
+
+              featureOld.eachLayer(function(l) {
+                lOld = l._leaflet_id;
+              });
+              featureCurrent.eachLayer(function(l) {
+                lCurrent = l._leaflet_id;
+              });
+
+              range['oninput' in range ? 'oninput' : 'onchange'] = revisionSlider(range, map._layers[lOld], map._layers[lCurrent]);
+            }, 500);
+
+
+            function revisionSlider(element, old, current) {
+
+              return function() {
+
+                //TODO check if element is layer group => iterate over all layers
+                if (old.setOpacity) {
+                  old.setOpacity(1 - element.value);
+                } else if (old.setStyle) {
+                  old.setStyle({
+                    opacity: (1 - element.value)
+                  });
+                }
+                if (current.setOpacity) {
+                  current.setOpacity(element.value);
+                } else if (current.setStyle) {
+                  current.setStyle({
+                    opacity: (element.value)
+                  });
+                }
+              };
+
+            }
+
+            map.setView([0, 0], 3);
+
           };
         }
       };

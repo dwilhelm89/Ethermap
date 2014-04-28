@@ -1,41 +1,54 @@
 <div id="historyModal" class="modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Feature {{documentRevision[0]._id}}</h4>
-                Number of Revisions: {{documentRevision.length}}
-            </div>
-            <div class="modal-body">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Feature {{documentRevision[0]._id}}</h4>
+        Number of Revisions: {{documentRevision.length}}
+      </div>
+      <div class="modal-body">
 
-                <div ng-class="{'hide': hideDocumentRevisionView}">
-                    <div ng-repeat="docRev in documentRevision">
-                        <div class="documentRevision">
-                            Revision: {{docRev._rev.split('-')[0]}}
-                            <div ng-if="$first" class="docRevRevertBtn">
-                                <input type="button" class="btn btn-default" ng-click="showChanges(docRev._id, docRev._rev, $index)" value="Changes">
-                            </div>
-                            <div ng-if="$middle" class="docRevRevertBtn">
-                                <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
-                                <input type="button" class="btn btn-default" ng-click="showChanges(docRev._id, docRev._rev, $index)" value="Changes">
-                            </div>
-                            <div ng-if="$last" class="docRevRevertBtn">
-                                <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div ng-class="{'hide': hideDocumentRevisionView}">
+          <div ng-repeat="docRev in documentRevision">
+            <div class="documentRevision">
+              Revision: {{docRev._rev.split('-')[0]}}
+              <div ng-if="$first" class="docRevRevertBtn">
+                <input type="button" class="btn btn-default" ng-click="showChanges(docRev._id, docRev._rev, $index)" value="Changes">
+                <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
+              </div>
+              <div ng-if="$middle" class="docRevRevertBtn">
+                <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
+                <input type="button" class="btn btn-default" ng-click="showChanges(docRev._id, docRev._rev, $index)" value="Changes">
+                <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
+              </div>
+              <div ng-if="$last" class="docRevRevertBtn">
+                <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
+              </div>
             </div>
-
-            <div ng-class="{'hide': hideDiffView}">
-                <input type="button" class="btn btn-default" value="Back to History" ng-click="closeDiffView()">
-                <div id="diffProperties"></div>
-                <div id="diffGeometry"></div>
-            </div>
-            <!--
-        <div class="modal-footer">
-          footer
-        </div> -->
+          </div>
         </div>
+      </div>
+
+      <div ng-class="{'hide': hideDiffView}">
+        <div id="diffProperties"></div>
+        <div id="diffGeometry"></div>
+      </div>
+
+      <div ng-class="{'hide': hideMapDiffView}">
+        <div id="diffMapContainer"></div>
+        <input id="diffMapRange" type="range" min="0" max="1.0" step="any" value="1" style="width: 100%; position: absolute" />
+        <br>Old
+        <->New
+      </div>
+
+      <div class="modal-footer">
+        <div ng-class="{'hide': hideDiffView}">
+          <input type="button" class="btn btn-default" value="Back to History" ng-click="closeDiffView()">
+        </div>
+        <div ng-class="{'hide': hideDiffMapView}">
+          <input type="button" class="btn btn-default" value="Back to History" ng-click="closeDiffMapView()">
+        </div>
+      </div>
     </div>
+  </div>
 </div>
