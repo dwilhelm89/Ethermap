@@ -96,11 +96,22 @@ angular.module('CollaborativeMap')
             }
           });
 
+
           function init() {
             $scope.documentRevision = [];
+            $scope.initView();
+          }
+
+          $scope.initView = function() {
             $scope.hideDocumentRevisionView = false;
             $scope.hideDiffView = true;
-          }
+            $scope.hideMapDiffView = true;
+
+            var diffMap = document.getElementById('diffMap');
+            if (diffMap) {
+              diffMap.remove();
+            }
+          };
 
           function loadDocumentHistory(fid) {
             init();
@@ -132,15 +143,11 @@ angular.module('CollaborativeMap')
 
           $('#historyModal').on('hidden.bs.modal', function() {
             $scope.documentRevision = [];
+            $scope.initView();
+
           });
 
-          $scope.closeDiffView = function() {
-            $scope.hideDocumentRevisionView = false;
-            $scope.hideDiffView = true;
-            $scope.hideMapDiffView = true;
-          };
-
-          $scope.showChanges = function(fid, rev, index) {
+          $scope.showTextDiff = function(fid, rev, index) {
             var length = $scope.documentRevision.length;
             if (length >= index + 1) {
               startCompare($scope.documentRevision[index + 1].properties, $scope.documentRevision[index].properties, 'diffProperties', 'Properties');
@@ -148,14 +155,6 @@ angular.module('CollaborativeMap')
             }
             $scope.hideDocumentRevisionView = true;
             $scope.hideDiffView = false;
-          };
-
-          $scope.closeDiffMapView = function() {
-            $scope.hideDocumentRevisionView = false;
-            $scope.hideDiffView = true;
-            $scope.hideMapDiffView = true;
-
-            document.getElementById('diffMap').remove();
           };
 
           $scope.showMapDiff = function(fid, rev, index) {
@@ -166,29 +165,45 @@ angular.module('CollaborativeMap')
             var container = document.getElementById('diffMapContainer');
             var m = document.createElement('div');
             m.setAttribute('id', 'diffMap');
-            m.style.height = '200px';
+            //TODO make style as class
+            m.style.height = '300px';
             container.appendChild(m);
 
             var map = L.mapbox.map('diffMap');
 
-            L.mapbox.tileLayer('examples.map-a1dcgmtr').addTo(map);
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
 
-            var featureOld = L.geoJson($scope.documentRevision[index + 1]);
-            featureOld.addTo(map);
+            var featureOld = L.geoJson($scope.documentRevision[index + 1], {
+              style: L.mapbox.simplestyle.style,
+              pointToLayer: function(feature, latlon) {
+                if (!feature.properties) {
+                  feature.properties = {};
+                }
+                return L.mapbox.marker.style(feature, latlon);
+              }
+            }).addTo(map);
 
-            var featureCurrent = L.geoJson($scope.documentRevision[index]);
-            featureCurrent.addTo(map);
+            var featureCurrent = L.geoJson($scope.documentRevision[index], {
+              style: L.mapbox.simplestyle.style,
+              pointToLayer: function(feature, latlon) {
+                if (!feature.properties) {
+                  feature.properties = {};
+                }
+                return L.mapbox.marker.style(feature, latlon);
+              }
+            }).addTo(map);
 
             var range = document.getElementById('diffMapRange');
 
+            //Fix crippled map through modal css
             setTimeout(function() {
               map.invalidateSize();
             }, 20);
 
+            //Wait for features to be drawn
             setTimeout(function() {
-
               var lOld, lCurrent;
-
+              //jshint camelcase: false
               featureOld.eachLayer(function(l) {
                 lOld = l._leaflet_id;
               });
@@ -196,6 +211,11 @@ angular.module('CollaborativeMap')
                 lCurrent = l._leaflet_id;
               });
 
+              //Create FeatureGroup to get bounds of both features
+              var features = new L.featureGroup([featureOld, featureCurrent]);
+              map.fitBounds(features.getBounds());
+
+              //Init range slider with the features to be changed
               range['oninput' in range ? 'oninput' : 'onchange'] = revisionSlider(range, map._layers[lOld], map._layers[lCurrent]);
             }, 500);
 
@@ -222,8 +242,6 @@ angular.module('CollaborativeMap')
               };
 
             }
-
-            map.setView([0, 0], 3);
 
           };
         }

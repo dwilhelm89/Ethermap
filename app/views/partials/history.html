@@ -13,12 +13,12 @@
             <div class="documentRevision">
               Revision: {{docRev._rev.split('-')[0]}}
               <div ng-if="$first" class="docRevRevertBtn">
-                <input type="button" class="btn btn-default" ng-click="showChanges(docRev._id, docRev._rev, $index)" value="Changes">
+                <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
                 <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
               </div>
               <div ng-if="$middle" class="docRevRevertBtn">
                 <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
-                <input type="button" class="btn btn-default" ng-click="showChanges(docRev._id, docRev._rev, $index)" value="Changes">
+                <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
                 <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
               </div>
               <div ng-if="$last" class="docRevRevertBtn">
@@ -37,16 +37,19 @@
       <div ng-class="{'hide': hideMapDiffView}">
         <div id="diffMapContainer"></div>
         <input id="diffMapRange" type="range" min="0" max="1.0" step="any" value="1" style="width: 100%; position: absolute" />
-        <br>Old
-        <->New
+        <br>
+        <div style="margin: 5px">
+          <span>Previous revision</span>
+          <span style="float:right">Current revision</span>
+        </div>
       </div>
 
       <div class="modal-footer">
         <div ng-class="{'hide': hideDiffView}">
-          <input type="button" class="btn btn-default" value="Back to History" ng-click="closeDiffView()">
+          <input type="button" class="btn btn-default" value="Back to History" ng-click="initView()">
         </div>
-        <div ng-class="{'hide': hideDiffMapView}">
-          <input type="button" class="btn btn-default" value="Back to History" ng-click="closeDiffMapView()">
+        <div ng-class="{'hide': hideMapDiffView}">
+          <input type="button" class="btn btn-default" value="Back to History" ng-click="initView()">
         </div>
       </div>
     </div>
