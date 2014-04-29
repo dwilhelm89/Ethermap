@@ -37,7 +37,7 @@ angular.module('CollaborativeMap')
               'fid': feature._leaflet_id
             };
 
-            var tmpGeoJSON =  $scope.selectedFeature.feature = feature.toGeoJSON();
+            var tmpGeoJSON = $scope.selectedFeature.feature = feature.toGeoJSON();
 
             for (var prop in tmpGeoJSON.properties) {
               $scope.selectedFeature.properties.push({
@@ -45,23 +45,26 @@ angular.module('CollaborativeMap')
                 'value': tmpGeoJSON.properties[prop]
               });
             }
+            
+            if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
+              $scope.$apply();
+            }
 
-            $scope.$apply();
           };
 
           function updateFeature() {
-            $scope.selectedFeature.properties.forEach(function(prop){
+            $scope.selectedFeature.properties.forEach(function(prop) {
               $scope.selectedFeature.feature.properties[prop.key] = prop.value;
             });
             MapHandler.updateFeature($scope.selectedFeature);
           }
 
           $scope.newProperty = function(key) {
-            var newProp = function(){
-                if ($scope.newKey && $scope.newValue) {
+            var newProp = function() {
+              if ($scope.newKey && $scope.newValue) {
                 $scope.selectedFeature.properties.push({
-                 'key': $scope.newKey,
-                 'value': $scope.newValue
+                  'key': $scope.newKey,
+                  'value': $scope.newValue
                 });
                 $scope.newKey = '';
                 $scope.newValue = '';
@@ -69,9 +72,9 @@ angular.module('CollaborativeMap')
               }
             };
 
-            if(key && key.keyCode === 13){
+            if (key && key.keyCode === 13) {
               newProp();
-            }else if(!key){
+            } else if (!key) {
               newProp();
             }
           };
@@ -81,19 +84,19 @@ angular.module('CollaborativeMap')
           };
 
           $scope.hideNewProperty = true;
-          $scope.addNewProperty = function(e){
+          $scope.addNewProperty = function(e) {
             var element = e.currentTarget;
-            if(element.value.indexOf('Add') > -1){
+            if (element.value.indexOf('Add') > -1) {
               element.value = 'Hide new Property';
-            }else{
+            } else {
               element.value = 'Add new Property';
             }
             $scope.hideNewProperty = !$scope.hideNewProperty;
           };
-          $scope.removeProperty = function(i){
+          $scope.removeProperty = function(i) {
             var remKey = $scope.selectedFeature.properties[i].key;
             delete $scope.selectedFeature.feature.properties[remKey];
-            $scope.selectedFeature.properties.splice(i,1);
+            $scope.selectedFeature.properties.splice(i, 1);
             updateFeature();
           };
 

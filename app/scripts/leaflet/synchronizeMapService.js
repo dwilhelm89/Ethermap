@@ -46,11 +46,27 @@ angular.module('CollaborativeMap')
 
       }
 
+      function refreshToolbar(map, event) {
+        var views = mapScope.views;
+        if (!views.historyView) {
+          mapScope.loadHistory();
+        } else if (!views.toolsView) {
+          if (mapScope.selectedFeature.fid === event.fid) {
+            // views.toolsView = true;
+            setTimeout(function() {
+              mapScope.selectFeature(map._layers[event.fid]);
+            }, 50);
+          }
+        }
+      }
+
 
       function receiveMapDraws(mapId, map, drawnItems) {
 
         Socket.on(mapId + '-mapDraw', function(res) {
           if (res && res.event) {
+            refreshToolbar(map, res.event);
+
             var event = res.event;
 
             if (event.action === 'created') {
