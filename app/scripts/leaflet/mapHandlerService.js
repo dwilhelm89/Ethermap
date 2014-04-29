@@ -33,6 +33,14 @@ angular.module('CollaborativeMap')
           }.bind(this));
         },
 
+        fitBounds: function(bounds){
+          map.fitBounds(bounds);
+        },
+
+        getBounds: function(nE, sW){
+          return new L.LatLngBounds(nE, sW);
+        },
+
         paintUserBounds: function(bounds) {
           var bound = L.rectangle(bounds, {
             color: '#ff0000',

@@ -1,10 +1,20 @@
 'use strict';
-
+/**
+ * @author Dennis Wilhelm
+ */
 angular.module('CollaborativeMap')
   .service('SynchronizeMap', ['MapMovementEvents', 'MapDrawEvents', 'Socket', 'MapHandler',
     function(MapMovementEvents, MapDrawEvents, Socket, MapHandler) {
 
+
       var mapScope;
+
+
+      /**
+       * Sends a Websocket event containing movement information
+       * @param  {String} mapId
+       * @param  {Object} event = {sE, nW}
+       */
 
       function sendMapMovements(mapId, event) {
         var message = {
@@ -17,22 +27,54 @@ angular.module('CollaborativeMap')
         });
       }
 
+
+      /**
+       * Checks if the user is setting as watched or if all users are being watched
+       * @param  {String}  userId
+       * @return {Boolean}
+       */
+
       function isWachtingUser(userId) {
         var res = mapScope.isWatchingAll || mapScope.watchUsers[userId] || false;
         return res;
       }
 
+
+      /**
+       * Stores the mapBounds of a user. If the user is being watched, update the current map bounds
+       * @param  {Object} movement = {event: {nE, sW, userId}}
+       * @param  {Object} map
+       */
+
+      function handleMapMovements(movement, map) {
+        if (movement.event && movement.event.nE && movement.event.sW && movement.event.userId) {
+          var newBounds = MapHandler.getBounds(movement.event.nE, movement.event.sW);
+          mapScope.userBounds[movement.event.userId] = newBounds;
+          if (isWachtingUser(movement.event.userId)) {
+            MapHandler.fitBounds(newBounds, map);
+          }
+        }
+      }
+
+
+      /**
+       * Connects to the Websocket mapMovement channel
+       * @param  {String} mapId
+       * @param  {Object} map
+       */
+
       function receiveMapMovements(mapId, map) {
         Socket.on(mapId + '-mapMovement', function(res) {
-          if (res.event && res.event.nE && res.event.sW && res.event.userId) {
-            var newBounds = new L.LatLngBounds(res.event.nE, res.event.sW);
-            mapScope.userBounds[res.event.userId] = newBounds;
-            if (isWachtingUser(res.event.userId)) {
-              map.fitBounds(newBounds);
-            }
-          }
+          handleMapMovements(res, map);
         });
       }
+
+
+      /**
+       * Sends the current map position via WebSockets
+       * @param  {String} mapId
+       * @param  {Object} event = {action //edited/deleted/created, feature //Leaflet feature, fid //feature id, user}
+       */
 
       function sendMapDraws(mapId, event) {
         var message = {
@@ -46,6 +88,12 @@ angular.module('CollaborativeMap')
 
       }
 
+
+      /**
+       * Adds an action element to the toolbox history view
+       * @param  {Object} event = {fid, user, feature}
+       */
+
       function updateHistoryView(event) {
         var updateEvent = {
           id: event.fid,
@@ -57,6 +105,13 @@ angular.module('CollaborativeMap')
         mapScope.appendToHistory(updateEvent);
       }
 
+
+      /**
+       * Select/ Reselect a feature
+       * @param  {Object} map
+       * @param  {Object} event = mapDraw event
+       */
+
       function updateToolsView(map, event) {
         //without a timeout, the autobinding of angular doesn't seem to work
         setTimeout(function() {
@@ -64,7 +119,14 @@ angular.module('CollaborativeMap')
         }, 50);
       }
 
-      function refreshToolbar(map, event) {
+
+      /**
+       * Checks if a toolbox windows is currently opened and initializes view updates
+       * @param  {Object} map
+       * @param  {Object} event = mapDraw event
+       */
+
+      function refreshToolbox(map, event) {
         var views = mapScope.views;
         if (!views.historyView) {
           updateHistoryView(event);
@@ -76,11 +138,19 @@ angular.module('CollaborativeMap')
       }
 
 
+      /**
+       * Connects to the mapDraw Websockets. 
+       * Initializes a toobox refresh
+       * Checks for the action type (created, edited, deleted) and adds/updates/deletes a layer.
+       * @param  {String} mapId
+       * @param  {Object} map
+       * @param  {Object} drawnItems = layer group on which the features are drawn
+       */
       function receiveMapDraws(mapId, map, drawnItems) {
 
         Socket.on(mapId + '-mapDraw', function(res) {
           if (res && res.event) {
-            refreshToolbar(map, res.event);
+            refreshToolbox(map, res.event);
 
             var event = res.event;
 
@@ -103,12 +173,21 @@ angular.module('CollaborativeMap')
         });
       }
 
+      /**
+       * Connects to the users WebSockets and updates the users in scope
+       * @param  {String} mapId
+       */
       function receiveUsers(mapId) {
         Socket.on(mapId + '-users', function(res) {
           mapScope.users = res.users;
         });
       }
 
+      /**
+       * Sends the user name to the Server via Websockets
+       * @param  {String} mapId
+       * @param  {String} userName
+       */
       function login(mapId, userName) {
         Socket.emit('login', {
           'mapId': mapId,
@@ -119,6 +198,14 @@ angular.module('CollaborativeMap')
 
       return {
 
+        /**
+         * Initializes the map synchronization:
+         * Connects to all WebSocket events:
+         * -mapDraw, -mapMovements, -users 
+         * @param  {Object} map
+         * @param  {Object} scope
+         * @param  {Object} drawnItems
+         */
         init: function(map, scope, drawnItems) {
           mapScope = scope;
           login(mapScope.mapId, mapScope.userName);
