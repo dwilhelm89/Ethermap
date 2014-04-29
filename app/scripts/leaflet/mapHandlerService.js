@@ -59,6 +59,19 @@ angular.module('CollaborativeMap')
           });
         },
 
+        restoreDeletedFeature: function(mapId, fid, feature, user) {
+          Socket.emit('restoreDeletedFeature', {
+            'mapId': mapId,
+            'fid': fid,
+            'feature': feature,
+            'action': 'restored',
+            'user': user
+          }, function(res) {
+            console.log(res);
+          });
+        },
+
+
         panToFeature: function(id) {
           var target = map._layers[id];
 

@@ -134,6 +134,11 @@ angular.module('CollaborativeMap')
             MapHandler.revertFeature($scope.mapId, id, rev, $scope.userName);
           };
 
+          $scope.restoreDeletedFeature = function(id, feature){
+            console.log(id + ' ' + feature);
+            MapHandler.restoreDeletedFeature($scope.mapId, id, feature, $scope.userName);
+          };
+
           $scope.toggleHistoryModal = function(fid) {
             visible = !visible;
             $('#historyModal').modal('toggle');
