@@ -46,16 +46,31 @@ angular.module('CollaborativeMap')
 
       }
 
+      function updateHistoryView(event) {
+        var updateEvent = {
+          id: event.fid,
+          user: event.user,
+          rev: event.feature._rev,
+          action: 'edited',
+          date: new Date().getTime()
+        };
+        mapScope.appendToHistory(updateEvent);
+      }
+
+      function updateToolsView(map, event) {
+        //without a timeout, the autobinding of angular doesn't seem to work
+        setTimeout(function() {
+          mapScope.selectFeature(map._layers[event.fid]);
+        }, 50);
+      }
+
       function refreshToolbar(map, event) {
         var views = mapScope.views;
         if (!views.historyView) {
-          mapScope.loadHistory();
+          updateHistoryView(event);
         } else if (!views.toolsView) {
           if (mapScope.selectedFeature.fid === event.fid) {
-            // views.toolsView = true;
-            setTimeout(function() {
-              mapScope.selectFeature(map._layers[event.fid]);
-            }, 50);
+            updateToolsView(map, event);
           }
         }
       }

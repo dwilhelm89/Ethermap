@@ -72,7 +72,7 @@ angular.module('CollaborativeMap')
             var bounds = $scope.userBounds[userId];
             if (bounds) {
               MapHandler.paintUserBounds(bounds);
-            }else{
+            } else {
               window.alert('The user hasn\'t mooved since you logged in');
             }
           };
@@ -80,6 +80,24 @@ angular.module('CollaborativeMap')
           $scope.isWatchingAll = false;
           $scope.watchAll = function() {
             $scope.isWatchingAll = !$scope.isWatchingAll;
+          };
+
+          function createDateString(date) {
+            var tmpDate = new Date(date);
+            var dateString = tmpDate.getHours() + ':' +
+              tmpDate.getMinutes() + ':' + tmpDate.getSeconds() +
+              ' - ' + tmpDate.getDate() + '.' +
+              (tmpDate.getMonth() + 1) + '.' +
+              tmpDate.getFullYear();
+
+            return dateString;
+          }
+
+          $scope.appendToHistory = function(event) {
+            if (event.date) {
+              event.dateString = createDateString(event.date);
+              $scope.history.push(event);
+            }
           };
 
 
@@ -92,13 +110,7 @@ angular.module('CollaborativeMap')
             success(function(data) { //, status, headers, config) {
               data.forEach(function(action) {
                 if (action.date) {
-                  var tmpDate = new Date(action.date);
-                  action.dateString = tmpDate.getHours() + ':' +
-                    tmpDate.getMinutes() + ':' + tmpDate.getSeconds() +
-                    ' - ' + tmpDate.getDate() + '.' +
-                    (tmpDate.getMonth() + 1) + '.' +
-                    tmpDate.getFullYear();
-
+                  action.dateString = createDateString(action.date);
                 }
               });
               $scope.history = data;
