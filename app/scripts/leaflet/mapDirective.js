@@ -4,6 +4,13 @@ angular.module('CollaborativeMap')
   .directive('map', ['$http', 'MapHandler', 'SynchronizeMap',
     function($http, MapHandler, SynchronizeMap) {
 
+      /**
+       * Loads the initial features from the database and adds the features to the map
+       * @param  {Object} http
+       * @param  {String} mapId
+       * @param  {Object} map
+       * @param  {Object} drawnItems = layer group for features
+       */
       function loadFeatures(http, mapId, map, drawnItems) {
         http({
           method: 'GET',

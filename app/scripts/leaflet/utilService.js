@@ -5,7 +5,10 @@ angular.module('CollaborativeMap').
     return {
 
       c: 1,
-
+      /**
+       * Create ids based on the date
+       * @return {String} new id
+       */
       createId: function() {
         var d = new Date();
         var m = d.getMilliseconds() + '';
@@ -14,7 +17,9 @@ angular.module('CollaborativeMap').
         return u;
       },
 
-      //patch the stamp method to get unique ids for all layers
+      /**
+       * Overrides leaflets id function to create more unique ids.
+       */
       patchLStamp: function() {
           L.stamp = function(obj) {
             // jshint camelcase: false

@@ -91,9 +91,13 @@ angular.module('CollaborativeMap')
           }
         },
 
-        addGeoJSONFeature: function(map, event, drawnItems) {
-          //jshint camelcase:false
-          var newLayer = L.geoJson(event.feature, {
+        /**
+         * Creates Leaflet geojson layers with the Mapbox SimpleStyle specification
+         * @param  {Object} geojson feature
+         * @return {Object} leaflet layer
+         */
+        createSimpleStyleGeoJSONFeature: function(geoJsonFeature){
+          return L.geoJson(geoJsonFeature, {
             style: L.mapbox.simplestyle.style,
             pointToLayer: function(feature, latlon) {
               if (!feature.properties) {
@@ -102,6 +106,17 @@ angular.module('CollaborativeMap')
               return L.mapbox.marker.style(feature, latlon);
             }
           });
+        },
+
+        /**
+         * Adds GeoJSON encoded features to the map
+         * @param {Object} map
+         * @param {Object} event = {feature, fid //feature id}
+         * @param {Object} drawnItems = layer group
+         */
+        addGeoJSONFeature: function(map, event, drawnItems) {
+          //jshint camelcase:false
+          var newLayer = this.createSimpleStyleGeoJSONFeature(event.feature);
           var tmpLayer;
           for (var key in newLayer._layers) {
             tmpLayer = newLayer._layers[key];
