@@ -56,15 +56,23 @@ angular.module('CollaborativeMap')
             MapHandler.updateFeature($scope.selectedFeature);
           }
 
-          $scope.newProperty = function() {
-            if ($scope.newKey && $scope.newValue) {
-              $scope.selectedFeature.properties.push({
-                'key': $scope.newKey,
-                'value': $scope.newValue
-              });
-              $scope.newKey = '';
-              $scope.newValue = '';
-              updateFeature();
+          $scope.newProperty = function(key) {
+            var newProp = function(){
+                if ($scope.newKey && $scope.newValue) {
+                $scope.selectedFeature.properties.push({
+                 'key': $scope.newKey,
+                 'value': $scope.newValue
+                });
+                $scope.newKey = '';
+                $scope.newValue = '';
+                updateFeature();
+              }
+            };
+
+            if(key && key.keyCode === 13){
+              newProp();
+            }else if(!key){
+              newProp();
             }
           };
 

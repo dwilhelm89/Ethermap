@@ -33,12 +33,20 @@ angular.module('CollaborativeMap')
 
           receiveMessage();
 
-          $scope.sendMessage = function() {
-            if ($scope.chatMessage) {
+          $scope.sendMessage = function(key) {
+            var send = function(){
               var message = $scope.chatMessage;
               $scope.chatMessage = '';
               console.log('Send', message);
               sendMessage(message);
+            };
+
+            if ($scope.chatMessage) {
+              if( key && key.keyCode === 13){
+                send();
+              }else if(!key){
+                send();
+              }
             }
           };
 

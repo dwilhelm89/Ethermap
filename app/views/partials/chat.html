@@ -10,7 +10,7 @@
 </div>
 <div class="chat">
   <div class="chatNew">
-    <input type="text" ng-model="chatMessage">
+    <input type="text" ng-model="chatMessage" ng-keypress="sendMessage($event)">
     <input type="button" class="btn btn-default" ng-click="sendMessage()" value="Send">
   </div>
 </div>

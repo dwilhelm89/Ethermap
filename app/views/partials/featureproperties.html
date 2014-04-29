@@ -26,7 +26,7 @@
     <br>
     <label for="newValue">Value</label>
     <br>
-    <input id="newValue" type="text" ng-model="newValue">
+    <input id="newValue" type="text" ng-model="newValue" ng-keypress="newProperty($event)">
     <input type="button" class="btn btn-default" ng-click="newProperty()" value="Save">
   </div>
 </div>
