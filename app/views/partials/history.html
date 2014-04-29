@@ -29,8 +29,10 @@
               <span ng-if="docRev._deleted">
                 This feature has been deleted.
                 <br>
-                <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
-                <input type="button" class="btn btn-default" ng-click="restoreDeletedFeature(docRev._id, docRev)" value="Restore feature">
+                <span ng-if="$first">
+                  <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
+                  <input type="button" class="btn btn-default" ng-click="restoreDeletedFeature(docRev._id, docRev)" value="Restore feature">
+                </span>
               </span>
             </div>
           </div>
