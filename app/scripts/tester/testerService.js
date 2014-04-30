@@ -5,6 +5,30 @@ factory('TesterService', ['Socket',
   function(Socket) {
 
 
+    function sendRandomPoints(number) {
+      var feature = {
+        type: 'Feature',
+        geometry: {
+          coordinates: [],
+        },
+        properties: {}
+      };
+
+      var i = 0;
+      for (i; i < number; i++) {
+        feature.geometry.coordinates[0] = randomNumberFromInterval(51, 52);
+        feature.geometry.coordinates[0] = randomNumberFromInterval(7, 9);
+        
+        setTimeout(function(){
+          Socket.emit('mapDraw', {mapId: 'tester', event:{'feature': feature, user: 'testerBot'}})
+        }, 1000);
+      }
+    }
+
+    function randomNumberFromInterval(min, max) {
+      return Math.random() * (max - min + 1) + min;
+    }
+
     return {
       scope: undefined,
       location: undefined,

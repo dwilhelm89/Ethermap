@@ -1,5 +1,15 @@
-<input type="button" value="Load map" ng-click="loadMap()" /><br>
-<input type="button" value="Watch All" ng-click="watchAll()" /><br>
+<input type="button" value="Load map" ng-click="loadMap()" />
+<br>
+<input type="button" value="Watch All" ng-click="watchAll()" />
+<br>
+<br>
 
-<textarea ng-model="evalInput" type="text"></textarea><br>
+<input type="number" ng-model="numberOfFeatures" placeholder="Number of features"/>
+<input type="number" ng-model="randomFeatureDelay" placeholder="Delay" />
+<input type="button" value="Send random Features" ng-click="createRandomFeatures()" /><br><br>
+
+
+
+<textarea ng-model="evalInput" type="text"></textarea>
+<br>
 <input type="button" ng-click="evalJS()" value="Submit" />
