@@ -1,11 +1,23 @@
 'use strict';
 
+/**
+ * @memberof CollaborativeMap
+ * @fileOverview Listeners for the leaflet draw events. 
+ * @exports CollaborativeMap.MapHandler
+ * @author Dennis Wilhelm
+ */
 angular.module('CollaborativeMap')
   .service('MapDrawEvents', ['MapHandler',
     function(MapHandler) {
 
       var mapScope;
 
+      /**
+       * Creates an event object to send via Websockets
+       * @param  {Object} event map draw event
+       * @param  {String} type  created/deleted/edited
+       * @return {Object}       {action, feature, fid, user}
+       */
       function eventToMessage(event, type) {
         //jshint camelcase: false
         return {
@@ -18,6 +30,12 @@ angular.module('CollaborativeMap')
 
       return {
 
+        /**
+         * Listens for leaflet draw events. Packs the events in a message and calls the callback
+         * @param  {Object}   map      the map
+         * @param  {Object}   scope    Angular scope
+         * @param  {Function} callback 
+         */
         connectMapEvents: function(map, scope, callback) {
           mapScope = scope;
 

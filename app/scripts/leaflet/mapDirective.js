@@ -1,5 +1,14 @@
 'use strict';
 
+/**
+ * @memberof CollaborativeMap
+ * @fileOverview Leaflet map directive. 
+ * Initializes the map.
+ * Loads already existing features from the Database.
+ * Initializes the map Synchronization and the MapHandler
+ * @exports CollaborativeMap.MapDirective
+ * @author Dennis Wilhelm
+ */
 angular.module('CollaborativeMap')
   .directive('map', ['$http', 'MapHandler', 'SynchronizeMap',
     function($http, MapHandler, SynchronizeMap) {

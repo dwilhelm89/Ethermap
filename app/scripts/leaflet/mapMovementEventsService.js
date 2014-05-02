@@ -1,9 +1,20 @@
 'use strict';
 
+/**
+ * @memberof CollaborativeMap
+ * @fileOverview Listeners for mouse drage and scroll events to catch map movements. Used instead of direct leaflet events to prevent back coupling problems. 
+ * @exports CollaborativeMap.MapMovementEvents
+ * @author Dennis Wilhelm
+ */
 angular.module('CollaborativeMap')
   .service('MapMovementEvents', function() {
     return {
 
+      /**
+       * Connects the events
+       * @param  {Object}   map      the map
+       * @param  {Function} callback
+       */
       connectMapEvents: function(map, callback) {
 
         var element = map._container;
@@ -13,6 +24,12 @@ angular.module('CollaborativeMap')
 
       },
 
+      /**
+       * Adds the mouse listeners. If drag is catched, get the map bounds and fire the callback
+       * @param {Object}   map      the map
+       * @param {Object}   element  html element
+       * @param {Function} callback
+       */
       addDragEvent: function(map, element, callback) {
         var flag = 0;
 
@@ -32,6 +49,12 @@ angular.module('CollaborativeMap')
         }.bind(this), false);
       },
 
+      /**
+       * Adds the scroll listeners. If scroll is catched, get the map bounds and fire the callback
+       * @param {Object}   map      the map
+       * @param {Object}   element  html element
+       * @param {Function} callback 
+       */
       addScrollEvent: function(map, element, callback) {
         element.addEventListener('mousewheel', function() {
           callback(this.getBoundsMessage(map));
@@ -43,6 +66,11 @@ angular.module('CollaborativeMap')
 
       },
 
+      /**
+       * Get the current bounding box of the map
+       * @param  {Object} map the map
+       * @return {Object}     bounding box {nE, sW}
+       */
       getBoundsMessage: function(map) {
         var bounds = map.getBounds();
         return {

@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * @memberof CollaborativeMap
+ * @fileOverview Util factory.
+ * @exports CollaborativeMap.MapHandler
+ * @author Dennis Wilhelm
+ */
 angular.module('CollaborativeMap').
   factory('Utils', function() {
     return {

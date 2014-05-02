@@ -1,5 +1,10 @@
 'use strict';
-
+/**
+ * @memberof CollaborativeMap
+ * @fileOverview Wrapper for all leaflet based map interactions. Used to keep leaflet specific code out of other modules.
+ * @exports CollaborativeMap.MapHandler
+ * @author Dennis Wilhelm
+ */
 angular.module('CollaborativeMap')
   .service('MapHandler', ['Utils', 'Socket',
     function(Utils, Socket) {
@@ -8,6 +13,13 @@ angular.module('CollaborativeMap')
 
       return {
 
+        /**
+         * Initialize the service.
+         * Patches the Leaflet LStamp Function to get more unique ids.
+         * @param  {Object} m     the map
+         * @param  {Object} dI    drawnItems (layer group for the features)
+         * @param  {Object} scope Angular scope
+         */
         initMapHandler: function(m, dI, scope) {
           //patch L.stamp to get unique layer ids
           Utils.patchLStamp();
@@ -17,6 +29,11 @@ angular.module('CollaborativeMap')
           mapScope = scope;
         },
 
+        /**
+         * Updates a feature by removing the layer and redrawing the feature.
+         * Fires a 'propertyEdited' event.
+         * @param  {Objet} layer leaflet layer
+         */
         updateFeature: function(layer) {
           this.removeLayer(map, layer, drawnItems);
           this.addGeoJSONFeature(map, layer, drawnItems);
@@ -26,6 +43,11 @@ angular.module('CollaborativeMap')
           });
         },
 
+        /**
+         * Adds a click event to a layer.
+         * Select a feature on click and highlight it's geometry.
+         * @param {Object} layer leaflet layer
+         */
         addClickEvent: function(layer) {
           layer.on('click', function() {
             mapScope.selectFeature(layer);
@@ -33,14 +55,30 @@ angular.module('CollaborativeMap')
           }.bind(this));
         },
 
+        /**
+         * Fits the map to a given bounding box
+         * @param  {Object} bounds leaflet bouding box (L.LatLngBounds)
+         */
         fitBounds: function(bounds){
           map.fitBounds(bounds);
         },
 
+        /**
+         * Creates a Leaflet bounding box (L.LatLngBounds) 
+         * @param  {Array} nE [lat,lng]
+         * @param  {Array} sW [lat, lng]
+         * @return {Object}    leafet bounding box (L.LatLngBounds)
+         */
         getBounds: function(nE, sW){
           return new L.LatLngBounds(nE, sW);
         },
 
+        /**
+         * Draws a rectangle with a users bounding box on the map.
+         * Removes the layer after 3000ms.
+         * Zooms to the rectangle
+         * @param  {Object} bounds Leaflet bounding box (L.LatLngBounds)
+         */
         paintUserBounds: function(bounds) {
           var bound = L.rectangle(bounds, {
             color: '#ff0000',
@@ -56,6 +94,13 @@ angular.module('CollaborativeMap')
           }, 3000);
         },
 
+        /**
+         * Sends the event to revert a feature via Websockets
+         * @param  {String} mapId the map id
+         * @param  {String} fid   feature id
+         * @param  {String} toRev revision to which the feature should be reverted
+         * @param  {String} user  username
+         */
         revertFeature: function(mapId, fid, toRev, user) {
           Socket.emit('revertFeature', {
             'mapId': mapId,
@@ -67,6 +112,13 @@ angular.module('CollaborativeMap')
           });
         },
 
+        /**
+         * Sends the event to restore a deleted feature via Websockets
+         * @param  {String} mapId the map id
+         * @param  {String} fid   feature id
+         * @param  {Object} feature leaflet feature
+         * @param  {String} user  username
+         */
         restoreDeletedFeature: function(mapId, fid, feature, user) {
           Socket.emit('restoreDeletedFeature', {
             'mapId': mapId,
@@ -80,6 +132,10 @@ angular.module('CollaborativeMap')
         },
 
 
+        /**
+         * Zoom/Pan to feature with a given ID
+         * @param  {String} id feature id (= layer id)
+         */
         panToFeature: function(id) {
           var target = map._layers[id];
 
@@ -130,7 +186,10 @@ angular.module('CollaborativeMap')
           }
         },
 
-        //Highlights a feature for a few seconds (differentation between svgs and html elements)
+        /**
+         * Highlights a feature for a few seconds (differentation between svgs and html elements)
+         * @param  {Object} feature leaflet feature
+         */
         highlightFeature: function(feature) {
           if (feature) {
             var elem = feature._icon || feature._container.children[0];
@@ -149,6 +208,12 @@ angular.module('CollaborativeMap')
           }
         },
 
+        /**
+         * Removes a layer from the map.
+         * @param  {Object} map        the map
+         * @param  {Object} event      remove event ({fid, feature, user})
+         * @param  {Object} drawnItems layer group for the features
+         */
         removeLayer: function(map, event, drawnItems) {
           var deleteLayer = map._layers[event.fid];
           if (deleteLayer) {

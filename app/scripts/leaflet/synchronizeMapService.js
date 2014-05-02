@@ -1,5 +1,8 @@
 'use strict';
 /**
+ * @memberof CollaborativeMap
+ * @fileOverview Handles the WebSocket connection for the map synchronization (map movements, draw events)
+ * @exports CollaborativeMap.SynchronizeMap
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
@@ -203,8 +206,8 @@ angular.module('CollaborativeMap')
          * Connects to all WebSocket events:
          * -mapDraw, -mapMovements, -users 
          * @param  {Object} map
-         * @param  {Object} scope
-         * @param  {Object} drawnItems
+         * @param  {Object} scope Angular scope
+         * @param  {Object} drawnItems layer group for drawn features
          */
         init: function(map, scope, drawnItems) {
           mapScope = scope;

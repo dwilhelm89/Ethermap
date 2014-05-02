@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * @fileOverview Initializes the CollaborativeMap module
+ * @author Dennis Wilhelm
+ * @namespace CollaborativeMap
+ */
 angular.module('CollaborativeMap', [
   'ngCookies',
   'ngResource',
