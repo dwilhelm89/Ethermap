@@ -7,6 +7,9 @@
  * Loads already existing features from the Database.
  * Initializes the map Synchronization and the MapHandler
  * @exports CollaborativeMap.MapDirective
+ * @requires  $http
+ * @requires MapHandler
+ * @requires SynchronizeMap
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
@@ -101,15 +104,21 @@ angular.module('CollaborativeMap')
           });
           map.addControl(drawControl);
 
+          //Drawn features have to be added to the layer group
           map.on('draw:created', function(e) {
             drawnItems.addLayer(e.layer);
           });
 
+          //Out of some unknown reasons the leaflet.draw tooltips where deactivated
           map.options.drawControlTooltips = true;
 
+          //Load already existing features from the db
           loadFeatures($http, $scope.mapId, map, drawnItems);
 
+          //Initialize the MapHandler (wrapper for all map based actions)
           MapHandler.initMapHandler(map, drawnItems, $scope);
+
+          //Initialize the map synchronization (handles all Websocket related sync stuff)
           SynchronizeMap.init(map, $scope, drawnItems);
 
         }

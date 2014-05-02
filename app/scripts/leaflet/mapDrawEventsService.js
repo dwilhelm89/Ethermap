@@ -4,6 +4,7 @@
  * @memberof CollaborativeMap
  * @fileOverview Listeners for the leaflet draw events. 
  * @exports CollaborativeMap.MapHandler
+ * @requires  MapHandler
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
