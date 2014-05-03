@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * @memberof CollaborativeMap
+ * @fileOverview Chat directive. Provides the GUI functionality as well as the WebSocket connection for the chat.
+ * @exports CollaborativeMap.chat
+ * @author Dennis Wilhelm
+ */
 angular.module('CollaborativeMap')
   .directive('chat', ['Socket',
     function(Socket) {
@@ -13,6 +19,10 @@ angular.module('CollaborativeMap')
           var mapId = $scope.mapId;
           var userName = $scope.userName;
 
+          /**
+          * Send a message via Websockets
+          * @param {String} message the chat message
+          */
           function sendMessage(message) {
             message = {
               'message': message,
@@ -24,20 +34,26 @@ angular.module('CollaborativeMap')
             });
           }
 
+          /**
+          * Connects to the WebSocket stream. 
+          * Retrieved messages are pushed to the messages array which is used in the ng-repeat
+          */
           function receiveMessage() {
             Socket.on(mapId + '-chat', function(res) {
               $scope.messages.push(res);
-              console.log(res);
             });
           }
 
           receiveMessage();
 
+          /**
+          * Send a chat message. Called via the Send button or by pressing enter in the GUI
+          * @param {Number} key key code 
+          */
           $scope.sendMessage = function(key) {
             var send = function(){
               var message = $scope.chatMessage;
               $scope.chatMessage = '';
-              console.log('Send', message);
               sendMessage(message);
             };
 

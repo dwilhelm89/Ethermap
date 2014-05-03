@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * @memberof CollaborativeMap
+ * @fileOverview Tester controller. GUI to send the WebSocket commands for the TesterService. Used to make testing on several computers easier.
+ * @exports CollaborativeMap.TesterCtrl
+ * @author Dennis Wilhelm
+ */
 angular.module('CollaborativeMap')
   .controller('TesterCtrl', ['$scope', 'Socket',
     function($scope, Socket) {
