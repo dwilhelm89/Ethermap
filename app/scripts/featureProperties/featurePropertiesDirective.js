@@ -1,11 +1,13 @@
 'use strict';
-
+/**
+ * @memberof CollaborativeMap
+ * @fileOverview Directive which to handle feature properties. Allows adding/editing/deleting properties
+ * @exports CollaborativeMap.FeaturePropertiesDirective
+ * @author Dennis Wilhelm
+ */
 angular.module('CollaborativeMap')
   .directive('featureproperties', ['$compile', 'MapHandler',
     function($compile, MapHandler) {
-
-
-
 
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
@@ -13,6 +15,9 @@ angular.module('CollaborativeMap')
         replace: true,
         link: function postLink($scope) {
 
+          /**
+          * Toggles the visibility of the featureproprties view
+          */
           function activateToolbox() {
             if ($scope.views.toolBarIn) {
               $scope.toggleToolbar('toolsView');
@@ -24,7 +29,12 @@ angular.module('CollaborativeMap')
 
           }
 
-          //called from the feature onClick through the map services
+          /**
+          * Opens the featureproperties view, sets the feature as the selected feature within the scope
+          * Pushes the properties to the scope array which is used in ng-repeat
+          * Called from the feature onClick through the map services.
+          * @param {Object} feature the leaflet layer
+          */
           $scope.selectFeature = function(feature) {
 
             //TODO: filter simplestyle spec items: https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
@@ -39,6 +49,7 @@ angular.module('CollaborativeMap')
 
             var tmpGeoJSON = $scope.selectedFeature.feature = feature.toGeoJSON();
 
+            //Create an Array containing all properties. Has to be included in the feature again
             for (var prop in tmpGeoJSON.properties) {
               $scope.selectedFeature.properties.push({
                 'key': prop,
@@ -46,12 +57,16 @@ angular.module('CollaborativeMap')
               });
             }
             
+            //$apply has to be called manually, if the function is called from a different event (here leaflet click)
             if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
               $scope.$apply();
             }
 
           };
 
+          /**
+          * Include the feature properties back into the layer and call the update function
+          */
           function updateFeature() {
             $scope.selectedFeature.properties.forEach(function(prop) {
               $scope.selectedFeature.feature.properties[prop.key] = prop.value;
@@ -59,6 +74,10 @@ angular.module('CollaborativeMap')
             MapHandler.updateFeature($scope.selectedFeature);
           }
 
+          /**
+          * Adds a new property to the feature.
+          * @param {Number} key key code of the ng-key event
+          */
           $scope.newProperty = function(key) {
             var newProp = function() {
               if ($scope.newKey && $scope.newValue) {
@@ -79,11 +98,20 @@ angular.module('CollaborativeMap')
             }
           };
 
+          /**
+          * Save changes made in the GUI to the feature
+          */
           $scope.savePropertyChanges = function() {
             updateFeature();
           };
 
+          //Variable used to controle the 'hide' class via ng-class
           $scope.hideNewProperty = true;
+          
+          /**
+          * Show the GUI form to create new properties
+          * @param {Object} e html button
+          */
           $scope.addNewProperty = function(e) {
             var element = e.currentTarget;
             if (element.value.indexOf('Add') > -1) {
@@ -93,6 +121,11 @@ angular.module('CollaborativeMap')
             }
             $scope.hideNewProperty = !$scope.hideNewProperty;
           };
+
+          /**
+          * Remove a given property from the feature. Updates the feature afterwards.
+          * @param {Number} i index of the properties Array
+          */
           $scope.removeProperty = function(i) {
             var remKey = $scope.selectedFeature.properties[i].key;
             delete $scope.selectedFeature.feature.properties[remKey];
