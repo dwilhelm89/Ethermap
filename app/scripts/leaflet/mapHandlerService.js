@@ -3,7 +3,7 @@
  * @memberof CollaborativeMap
  * @fileOverview Wrapper for all leaflet based map interactions. Used to keep leaflet specific code out of other modules.
  * @exports CollaborativeMap.MapHandler
- * @requires  Utils 
+ * @requires  Utils
  * @requires  Socket
  * @author Dennis Wilhelm
  */
@@ -11,7 +11,7 @@ angular.module('CollaborativeMap')
   .service('MapHandler', ['Utils', 'Socket',
     function(Utils, Socket) {
 
-      var map, drawnItems, mapScope;
+      var map, drawnItems, mapScope, drawControl;
 
       return {
 
@@ -21,14 +21,33 @@ angular.module('CollaborativeMap')
          * @param  {Object} m     the map
          * @param  {Object} dI    drawnItems (layer group for the features)
          * @param  {Object} scope Angular scope
+         * @param  {Object} dControl the drawControl of leaflet.draw
          */
-        initMapHandler: function(m, dI, scope) {
+        initMapHandler: function(m, dI, scope, dControl) {
           //patch L.stamp to get unique layer ids
           Utils.patchLStamp();
 
           map = m;
           drawnItems = dI;
           mapScope = scope;
+          drawControl = dControl;
+        },
+
+        /**
+        * Called to start editing a feature with leaflet.draw manually.
+        * @param {Object} layer the leaflet layer
+        */
+        editFeature: function(layer) {
+          //TODO: not used anywhere, not tested
+          var editHandler = new L.EditToolbar.Edit(map, {
+            featureGroup: L.featureGroup([layer]),
+            selectedPathOptions: drawControl.options.edit.selectedPathOptions
+          });
+
+          //TODO: include save/cancel functions into toolbar
+          editHandler.enable();
+          editHandler.revertLayers();
+          editHandler.save();
         },
 
         /**
@@ -61,17 +80,17 @@ angular.module('CollaborativeMap')
          * Fits the map to a given bounding box
          * @param  {Object} bounds leaflet bouding box (L.LatLngBounds)
          */
-        fitBounds: function(bounds){
+        fitBounds: function(bounds) {
           map.fitBounds(bounds);
         },
 
         /**
-         * Creates a Leaflet bounding box (L.LatLngBounds) 
+         * Creates a Leaflet bounding box (L.LatLngBounds)
          * @param  {Array} nE [lat,lng]
          * @param  {Array} sW [lat, lng]
          * @return {Object}    leafet bounding box (L.LatLngBounds)
          */
-        getBounds: function(nE, sW){
+        getBounds: function(nE, sW) {
           return new L.LatLngBounds(nE, sW);
         },
 
@@ -154,7 +173,7 @@ angular.module('CollaborativeMap')
          * @param  {Object} geojson feature
          * @return {Object} leaflet layer
          */
-        createSimpleStyleGeoJSONFeature: function(geoJsonFeature){
+        createSimpleStyleGeoJSONFeature: function(geoJsonFeature) {
           return L.geoJson(geoJsonFeature, {
             style: L.mapbox.simplestyle.style,
             pointToLayer: function(feature, latlon) {

@@ -74,7 +74,7 @@ angular.module('CollaborativeMap')
           map.addLayer(drawnItems);
 
           // Initialise the draw control and pass it the FeatureGroup of editable layers
-          var drawControl = new L.Control.Draw({
+          var drawControl = window._drawControl =  new L.Control.Draw({
             edit: {
               featureGroup: drawnItems
             },
@@ -116,7 +116,7 @@ angular.module('CollaborativeMap')
           loadFeatures($http, $scope.mapId, map, drawnItems);
 
           //Initialize the MapHandler (wrapper for all map based actions)
-          MapHandler.initMapHandler(map, drawnItems, $scope);
+          MapHandler.initMapHandler(map, drawnItems, $scope, drawControl);
 
           //Initialize the map synchronization (handles all Websocket related sync stuff)
           SynchronizeMap.init(map, $scope, drawnItems);
