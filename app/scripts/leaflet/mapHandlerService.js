@@ -69,7 +69,7 @@ angular.module('CollaborativeMap')
             featureGroup: L.featureGroup([layer]),
             selectedPathOptions: editPathOptions
           });
-          
+
           //jshint camelcase:false
           editFeatureId = layer._leaflet_id;
           editHandler.enable();
@@ -93,6 +93,25 @@ angular.module('CollaborativeMap')
             editHandler.revertLayers();
             this.removeEditHandler();
           }
+        },
+
+        /**
+         * Deletes the currently selected feature
+         */
+        deleteFeature: function(){
+          if(editHandler){
+            editHandler.disable();
+          }
+          var delLayer = window._delLayer = map._layers[editFeatureId];
+          var deleteHandler = window._delHandler = new L.EditToolbar.Delete(map, {
+            featureGroup: L.featureGroup([delLayer]),
+          });
+          deleteHandler.enable();
+          deleteHandler._removeLayer(delLayer);
+          deleteHandler.save();
+          deleteHandler.disable();
+          this.removeLayer(map, {fid: editFeatureId}, drawnItems);
+
         },
 
         /**

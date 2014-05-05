@@ -70,7 +70,7 @@ angular.module('CollaborativeMap')
            */
           $scope.saveChanges = function() {
             MapHandler.saveEditedFeature();
-            
+
             //Save the property changes made in the GUI
             updateFeature();
             
@@ -81,6 +81,13 @@ angular.module('CollaborativeMap')
            */
           $scope.revertChanges = function() {
             MapHandler.revertEditedFeature();
+          };
+
+          /**
+           * Deletes the currently selected feature
+           */
+          $scope.deleteFeature = function(){
+            MapHandler.deleteFeature();
           };
 
           /**
