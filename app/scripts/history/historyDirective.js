@@ -289,20 +289,22 @@ angular.module('CollaborativeMap')
             function revisionSlider(element, old, current) {
 
               return function() {
-
+                var sliderValue = Math.round(element.value * 100)/100;
                 //TODO check if element is layer group => iterate over all layers
                 if (old.setOpacity) {
-                  old.setOpacity(1 - element.value);
+                  old.setOpacity(1 - sliderValue);
                 } else if (old.setStyle) {
                   old.setStyle({
-                    opacity: (1 - element.value)
+                    opacity: (1 - sliderValue),
+                    fillOpacity: (1 - sliderValue)
                   });
                 }
                 if (current.setOpacity) {
-                  current.setOpacity(element.value);
+                  current.setOpacity(sliderValue);
                 } else if (current.setStyle) {
                   current.setStyle({
-                    opacity: (element.value)
+                    opacity: (sliderValue),
+                    fillOpacity: (sliderValue)
                   });
                 }
               };
