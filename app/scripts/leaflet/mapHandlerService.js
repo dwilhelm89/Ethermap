@@ -46,8 +46,8 @@ angular.module('CollaborativeMap')
 
           //TODO: include save/cancel functions into toolbar
           editHandler.enable();
-          editHandler.revertLayers();
-          editHandler.save();
+          // editHandler.revertLayers();
+          // editHandler.save();
         },
 
         /**
@@ -72,7 +72,8 @@ angular.module('CollaborativeMap')
         addClickEvent: function(layer) {
           layer.on('click', function() {
             mapScope.selectFeature(layer);
-            this.highlightFeature(layer);
+            // this.highlightFeature(layer);
+            this.editFeature(layer);
           }.bind(this));
         },
 

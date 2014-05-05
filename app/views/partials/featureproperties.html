@@ -1,5 +1,7 @@
 <div style="margin-left: 3px">
   <div ng-if="selectedFeature">
+    <input type="button" class="btn btn-default" ng-click="saveChanges()" value="Save Changes">
+    <input type="button" class="btn btn-default" ng-click="revertChanges()" value="Cancel">
     <div id="featurePropsForm" ng-repeat="prop in selectedFeature.properties">
       <div class="input-group">
         <label class="input-group-addon propertyLabel" for="{{prop.key}}">{{prop.key}}</label>

@@ -64,6 +64,14 @@ angular.module('CollaborativeMap')
 
           };
 
+
+          $scope.saveChanges = function(){
+            console.log('click saveChanges');
+          },
+          $scope.revertChanges = function(){
+            console.log('click revertChanges');
+          },
+
           /**
           * Include the feature properties back into the layer and call the update function
           */
