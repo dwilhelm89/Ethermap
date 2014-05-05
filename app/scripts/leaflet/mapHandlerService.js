@@ -12,7 +12,7 @@ angular.module('CollaborativeMap')
     function(Utils, Socket) {
 
       var map, drawnItems, mapScope, drawControl;
-      var editHandler;
+      var editHandler, editFeatureId;
 
       return {
 
@@ -33,8 +33,8 @@ angular.module('CollaborativeMap')
           mapScope = scope;
           drawControl = dControl;
 
-          m.on('click', function(){
-            if(editHandler){
+          m.on('click', function() {
+            if (editHandler) {
               this.revertEditedFeature();
             }
           }.bind(this));
@@ -46,14 +46,32 @@ angular.module('CollaborativeMap')
          */
         editFeature: function(layer) {
           //If a feature is already in editing mode, stop before creating a new editHandler
-          if(editHandler){
+          if (editHandler) {
             this.revertEditedFeature();
+            editFeatureId = undefined;
           }
+
+          var editPathOptions = {
+            color: '#fe57a1',
+            /* Hot pink all the things! */
+            opacity: 0.6,
+            dashArray: '10, 10',
+
+            fill: true,
+            fillColor: '#fe57a1',
+            fillOpacity: 0.1,
+
+            // Whether to user the existing layers color
+            maintainColor: false
+          };
+
           editHandler = new L.EditToolbar.Edit(map, {
             featureGroup: L.featureGroup([layer]),
-            selectedPathOptions: drawControl.options.edit.selectedPathOptions
+            selectedPathOptions: editPathOptions
           });
-
+          
+          //jshint camelcase:false
+          editFeatureId = layer._leaflet_id;
           editHandler.enable();
         },
 
@@ -63,6 +81,7 @@ angular.module('CollaborativeMap')
         saveEditedFeature: function() {
           if (editHandler) {
             editHandler.save();
+            this.removeEditHandler();
           }
         },
 
@@ -72,6 +91,15 @@ angular.module('CollaborativeMap')
         revertEditedFeature: function() {
           if (editHandler) {
             editHandler.revertLayers();
+            this.removeEditHandler();
+          }
+        },
+
+        /**
+         * Remove an existing editHandler and cancel the edit mode.
+         */
+        removeEditHandler: function() {
+          if (editHandler) {
             editHandler.disable();
             editHandler = undefined;
           }
@@ -89,6 +117,14 @@ angular.module('CollaborativeMap')
             'layer': layer.feature,
             'fid': layer.fid
           });
+        },
+
+        updateOnlyProperties: function(layer) {
+          if (editFeatureId) {
+            var tmpLayer = map._layers[editFeatureId].toGeoJSON();
+            layer.feature.geometry = tmpLayer.geometry;
+          }
+          this.updateFeature(layer);
         },
 
         /**

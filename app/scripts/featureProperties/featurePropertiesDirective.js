@@ -70,6 +70,10 @@ angular.module('CollaborativeMap')
            */
           $scope.saveChanges = function() {
             MapHandler.saveEditedFeature();
+            
+            //Save the property changes made in the GUI
+            updateFeature();
+            
           };
 
           /**
@@ -87,7 +91,7 @@ angular.module('CollaborativeMap')
             $scope.selectedFeature.properties.forEach(function(prop) {
               $scope.selectedFeature.feature.properties[prop.key] = prop.value;
             });
-            MapHandler.updateFeature($scope.selectedFeature);
+            MapHandler.updateOnlyProperties($scope.selectedFeature);
           }
 
           /**
@@ -112,13 +116,6 @@ angular.module('CollaborativeMap')
             } else if (!key) {
               newProp();
             }
-          };
-
-          /**
-           * Save changes made in the GUI to the feature
-           */
-          $scope.savePropertyChanges = function() {
-            updateFeature();
           };
 
           //Variable used to controle the 'hide' class via ng-class

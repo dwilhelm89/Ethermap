@@ -75,9 +75,7 @@ angular.module('CollaborativeMap')
 
           // Initialise the draw control and pass it the FeatureGroup of editable layers
           var drawControl = window._drawControl =  new L.Control.Draw({
-            edit: {
-              featureGroup: drawnItems
-            },
+            edit: false,
             draw: {
               circle: false,
               rectangle: false,
