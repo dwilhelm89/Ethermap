@@ -12,6 +12,7 @@ angular.module('CollaborativeMap')
     function(Utils, Socket) {
 
       var map, drawnItems, mapScope, drawControl;
+      var editHandler;
 
       return {
 
@@ -31,23 +32,49 @@ angular.module('CollaborativeMap')
           drawnItems = dI;
           mapScope = scope;
           drawControl = dControl;
+
+          m.on('click', function(){
+            if(editHandler){
+              this.revertEditedFeature();
+            }
+          }.bind(this));
         },
 
         /**
-        * Called to start editing a feature with leaflet.draw manually.
-        * @param {Object} layer the leaflet layer
-        */
+         * Called to start editing a feature with leaflet.draw manually.
+         * @param {Object} layer the leaflet layer
+         */
         editFeature: function(layer) {
-          //TODO: not used anywhere, not tested
-          var editHandler = new L.EditToolbar.Edit(map, {
+          //If a feature is already in editing mode, stop before creating a new editHandler
+          if(editHandler){
+            this.revertEditedFeature();
+          }
+          editHandler = new L.EditToolbar.Edit(map, {
             featureGroup: L.featureGroup([layer]),
             selectedPathOptions: drawControl.options.edit.selectedPathOptions
           });
 
-          //TODO: include save/cancel functions into toolbar
           editHandler.enable();
-          // editHandler.revertLayers();
-          // editHandler.save();
+        },
+
+        /**
+         * Save the changes made via the leaflet.draw edit
+         */
+        saveEditedFeature: function() {
+          if (editHandler) {
+            editHandler.save();
+          }
+        },
+
+        /**
+         * Cancels the edit process and reverts all changes
+         */
+        revertEditedFeature: function() {
+          if (editHandler) {
+            editHandler.revertLayers();
+            editHandler.disable();
+            editHandler = undefined;
+          }
         },
 
         /**

@@ -16,8 +16,9 @@ angular.module('CollaborativeMap')
         link: function postLink($scope) {
 
           /**
-          * Toggles the visibility of the featureproprties view
-          */
+           * Toggles the visibility of the featureproprties view
+           */
+
           function activateToolbox() {
             if ($scope.views.toolBarIn) {
               $scope.toggleToolbar('toolsView');
@@ -30,11 +31,11 @@ angular.module('CollaborativeMap')
           }
 
           /**
-          * Opens the featureproperties view, sets the feature as the selected feature within the scope
-          * Pushes the properties to the scope array which is used in ng-repeat
-          * Called from the feature onClick through the map services.
-          * @param {Object} feature the leaflet layer
-          */
+           * Opens the featureproperties view, sets the feature as the selected feature within the scope
+           * Pushes the properties to the scope array which is used in ng-repeat
+           * Called from the feature onClick through the map services.
+           * @param {Object} feature the leaflet layer
+           */
           $scope.selectFeature = function(feature) {
 
             //TODO: filter simplestyle spec items: https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
@@ -56,7 +57,7 @@ angular.module('CollaborativeMap')
                 'value': tmpGeoJSON.properties[prop]
               });
             }
-            
+
             //$apply has to be called manually, if the function is called from a different event (here leaflet click)
             if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
               $scope.$apply();
@@ -64,17 +65,24 @@ angular.module('CollaborativeMap')
 
           };
 
-
-          $scope.saveChanges = function(){
-            console.log('click saveChanges');
-          },
-          $scope.revertChanges = function(){
-            console.log('click revertChanges');
-          },
+          /**
+           * Calls the MapHandler functions to save the current editing
+           */
+          $scope.saveChanges = function() {
+            MapHandler.saveEditedFeature();
+          };
 
           /**
-          * Include the feature properties back into the layer and call the update function
-          */
+           * Calls the MapHandler functions to revert/cancel the current editing
+           */
+          $scope.revertChanges = function() {
+            MapHandler.revertEditedFeature();
+          };
+
+          /**
+           * Include the feature properties back into the layer and call the update function
+           */
+
           function updateFeature() {
             $scope.selectedFeature.properties.forEach(function(prop) {
               $scope.selectedFeature.feature.properties[prop.key] = prop.value;
@@ -83,9 +91,9 @@ angular.module('CollaborativeMap')
           }
 
           /**
-          * Adds a new property to the feature.
-          * @param {Number} key key code of the ng-key event
-          */
+           * Adds a new property to the feature.
+           * @param {Number} key key code of the ng-key event
+           */
           $scope.newProperty = function(key) {
             var newProp = function() {
               if ($scope.newKey && $scope.newValue) {
@@ -107,19 +115,19 @@ angular.module('CollaborativeMap')
           };
 
           /**
-          * Save changes made in the GUI to the feature
-          */
+           * Save changes made in the GUI to the feature
+           */
           $scope.savePropertyChanges = function() {
             updateFeature();
           };
 
           //Variable used to controle the 'hide' class via ng-class
           $scope.hideNewProperty = true;
-          
+
           /**
-          * Show the GUI form to create new properties
-          * @param {Object} e html button
-          */
+           * Show the GUI form to create new properties
+           * @param {Object} e html button
+           */
           $scope.addNewProperty = function(e) {
             var element = e.currentTarget;
             if (element.value.indexOf('Add') > -1) {
@@ -131,9 +139,9 @@ angular.module('CollaborativeMap')
           };
 
           /**
-          * Remove a given property from the feature. Updates the feature afterwards.
-          * @param {Number} i index of the properties Array
-          */
+           * Remove a given property from the feature. Updates the feature afterwards.
+           * @param {Number} i index of the properties Array
+           */
           $scope.removeProperty = function(i) {
             var remKey = $scope.selectedFeature.properties[i].key;
             delete $scope.selectedFeature.feature.properties[remKey];
