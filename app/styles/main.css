@@ -374,3 +374,9 @@ input {
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
 }
+path:hover{
+  cursor: pointer;
+}
+.leaflet-marker-icon{
+  cursor:pointer;
+}
