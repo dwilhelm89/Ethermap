@@ -65,34 +65,27 @@ angular.module('CollaborativeMap')
 
           };
 
+
+          var lastChange = -1;
           /**
-           * Calls the MapHandler functions to save the current editing
-           */
-          $scope.saveChanges = function() {
-            if (MapHandler.hasGeometryEdits()) {
-              console.log('Geometry update');
-              MapHandler.saveEditedFeature();
-            }
-
-            //Save the property changes made in the GUI
-            if (isPropertyChanged) {
-              console.log('property update');
-              updateFeature();
-              isPropertyChanged = false;
-            }
-
-          };
-
-          var isPropertyChanged = false;
+          * Gets called if a property changes. Only send a change every 1s if no further changes have been made in between to prevent submits on every keystroke.
+          */
           $scope.propertyChanged = function() {
-            isPropertyChanged = true;
+            lastChange = new Date().getTime();
+            setTimeout(function(){
+              var tmpDate = new Date().getTime();
+              if((tmpDate - lastChange) > 900){
+                console.log('update property');
+                updateFeature();
+              }
+            }, 1000);
           };
 
           /**
            * Calls the MapHandler functions to revert/cancel the current editing
            */
-          $scope.revertChanges = function() {
-            MapHandler.revertEditedFeature();
+          $scope.cancelEditMode = function() {
+            MapHandler.removeEditHandler();
           };
 
           /**

@@ -1,10 +1,10 @@
 'use strict';
 /**
  * @memberof CollaborativeMap
- * 
- * @fileOverview Wrapper for all leaflet based map interactions. 
+ *
+ * @fileOverview Wrapper for all leaflet based map interactions.
  * Used to keep leaflet specific code out of other modules.
- * 
+ *
  * @exports CollaborativeMap.MapHandler
  * @requires  Utils
  * @requires  Socket
@@ -36,11 +36,14 @@ angular.module('CollaborativeMap')
           mapScope = scope;
           drawControl = dControl;
 
+
+          /* Cancels the editing if the mouse still moves while ending a drag operation
           m.on('click', function() {
             if (editHandler) {
               this.revertEditedFeature();
             }
           }.bind(this));
+          */
         },
 
         /**
@@ -50,7 +53,7 @@ angular.module('CollaborativeMap')
         editFeature: function(layer) {
           //If a feature is already in editing mode, stop before creating a new editHandler
           if (editHandler) {
-            this.revertEditedFeature();
+            this.removeEditHandler();
             editFeatureId = undefined;
           }
 
@@ -76,6 +79,14 @@ angular.module('CollaborativeMap')
           //jshint camelcase:false
           editFeatureId = layer._leaflet_id;
           editHandler.enable();
+
+
+          layer.on('dragend', function() {
+            editHandler.save();
+          });
+          layer.on('edit', function() {
+            editHandler.save();
+          });
         },
 
         /**
@@ -89,20 +100,20 @@ angular.module('CollaborativeMap')
         },
 
         /**
-         * Cancels the edit process and reverts all changes
+         * Remove an existing editHandler and cancel the edit mode.
          */
-        revertEditedFeature: function() {
+        removeEditHandler: function() {
           if (editHandler) {
-            editHandler.revertLayers();
-            this.removeEditHandler();
+            editHandler.disable();
+            editHandler = undefined;
           }
         },
 
         /**
          * Deletes the currently selected feature
          */
-        deleteFeature: function(){
-          if(editHandler){
+        deleteFeature: function() {
+          if (editHandler) {
             editHandler.disable();
           }
           var delLayer = window._delLayer = map._layers[editFeatureId];
@@ -113,19 +124,12 @@ angular.module('CollaborativeMap')
           deleteHandler._removeLayer(delLayer);
           deleteHandler.save();
           deleteHandler.disable();
-          this.removeLayer(map, {fid: editFeatureId}, drawnItems);
+          this.removeLayer(map, {
+            fid: editFeatureId
+          }, drawnItems);
 
         },
 
-        /**
-         * Remove an existing editHandler and cancel the edit mode.
-         */
-        removeEditHandler: function() {
-          if (editHandler) {
-            editHandler.disable();
-            editHandler = undefined;
-          }
-        },
 
         /**
          * Updates a feature by removing the layer and redrawing the feature.
@@ -319,7 +323,7 @@ angular.module('CollaborativeMap')
          * Wrapper for the highlightFeature function to highlight a feature with the feature id as parameter instead of the layer.
          * @param  {String} fid feature id
          */
-        highlightFeatureId: function(fid){
+        highlightFeatureId: function(fid) {
           this.highlightFeature(map._layers[fid]);
         },
 
@@ -337,16 +341,16 @@ angular.module('CollaborativeMap')
           }
         },
 
-        hasGeometryEdits: function(){
-          if(editHandler && editHandler._featureGroup && editHandler._featureGroup._layers){
+        hasGeometryEdits: function() {
+          if (editHandler && editHandler._featureGroup && editHandler._featureGroup._layers) {
             var layers = editHandler._featureGroup._layers;
-            for(var key in layers){
-              if(layers[key].edited === true){
+            for (var key in layers) {
+              if (layers[key].edited === true) {
                 return true;
               }
             }
             return false;
-          }else {
+          } else {
             return false;
           }
         }
