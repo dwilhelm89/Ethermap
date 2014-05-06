@@ -171,6 +171,9 @@ angular.module('CollaborativeMap')
           */
           $scope.revertFeature = function(id, rev) {
             MapHandler.revertFeature($scope.mapId, id, rev, $scope.userName);
+            setTimeout(function(){
+              loadDocumentHistory(id);
+            },100);
           };
 
           /**
@@ -180,6 +183,9 @@ angular.module('CollaborativeMap')
           */
           $scope.restoreDeletedFeature = function(id, feature){
             MapHandler.restoreDeletedFeature($scope.mapId, id, feature, $scope.userName);
+            setTimeout(function(){
+              loadDocumentHistory(id);
+            },100);
           };
 
           /**
