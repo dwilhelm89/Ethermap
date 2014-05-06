@@ -28,20 +28,36 @@ angular.module('CollaborativeMap')
            */
 
           function setUpIntroJS() {
+            /*global introJs */
+            var jsIntro = introJs();
+
             var drawFeatures = document.getElementsByClassName('leaflet-draw-toolbar leaflet-bar')[0];
             drawFeatures.setAttribute('data-intro', 'These are the drawing tools. They can be used to create markers, lines and polygons.');
+            drawFeatures.setAttribute('data-step', '1');
 
-            // var editFeature = document.getElementsByClassName('leaflet-draw-toolbar leaflet-bar')[1];
-            // editFeature.setAttribute('data-intro', 'Click here to edit/delete the geometry of features. Click on a feature in the map to edit it\'s properties');
+            jsIntro.onbeforechange(function(targetElement) {
+              console.log('before new step', targetElement);
+            });
+
+            jsIntro.onafterchange(function(targetElement) {
+              var rightDif =  $(window).width() - targetElement.getBoundingClientRect().right;
+              if(rightDif < 100){
+                setTimeout(function(){
+                  console.log("fdf");
+                  $('.introjs-tooltip')[0].style.marginLeft = '-50px';
+                }, 500);
+              }
+            });
+
+            return jsIntro;
           }
 
           /**
            * Start the IntoJS tour
            */
           $scope.startIntroJS = function() {
-            setUpIntroJS();
-            /*global introJs */
-            introJs().start();
+            setUpIntroJS().start();
+            
           };
 
           /**
