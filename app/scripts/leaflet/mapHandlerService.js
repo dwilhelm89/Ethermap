@@ -68,7 +68,7 @@ angular.module('CollaborativeMap')
             maintainColor: false
           };
 
-          editHandler = new L.EditToolbar.Edit(map, {
+          editHandler = window.a = new L.EditToolbar.Edit(map, {
             featureGroup: L.featureGroup([layer]),
             selectedPathOptions: editPathOptions
           });
@@ -334,6 +334,20 @@ angular.module('CollaborativeMap')
           if (deleteLayer) {
             map.removeLayer(deleteLayer);
             drawnItems.removeLayer(deleteLayer);
+          }
+        },
+
+        hasGeometryEdits: function(){
+          if(editHandler && editHandler._featureGroup && editHandler._featureGroup._layers){
+            var layers = editHandler._featureGroup._layers;
+            for(var key in layers){
+              if(layers[key].edited === true){
+                return true;
+              }
+            }
+            return false;
+          }else {
+            return false;
           }
         }
 

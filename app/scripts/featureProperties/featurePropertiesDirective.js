@@ -69,11 +69,23 @@ angular.module('CollaborativeMap')
            * Calls the MapHandler functions to save the current editing
            */
           $scope.saveChanges = function() {
-            MapHandler.saveEditedFeature();
+            if (MapHandler.hasGeometryEdits()) {
+              console.log('Geometry update');
+              MapHandler.saveEditedFeature();
+            }
 
             //Save the property changes made in the GUI
-            updateFeature();
+            if (isPropertyChanged) {
+              console.log('property update');
+              updateFeature();
+              isPropertyChanged = false;
+            }
 
+          };
+
+          var isPropertyChanged = false;
+          $scope.propertyChanged = function() {
+            isPropertyChanged = true;
           };
 
           /**

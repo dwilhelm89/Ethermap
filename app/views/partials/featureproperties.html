@@ -6,7 +6,7 @@
     <div id="featurePropsForm" ng-repeat="prop in selectedFeature.properties">
       <div class="input-group">
         <label class="input-group-addon propertyLabel" for="{{prop.key}}">{{prop.key}}</label>
-        <input type="text" class="form-control" value="{{prop.value}}" id="{{prop.key}}" ng-model="prop.value">
+        <input type="text" class="form-control" value="{{prop.value}}" id="{{prop.key}}" ng-model="prop.value" ng-change="propertyChanged()">
         <span class="input-group-btn">
         <button class="btn btn-default propertyRemoveBtn" type="button" ng-click="removeProperty($index)">-</button>
       </span>
