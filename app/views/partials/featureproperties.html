@@ -1,9 +1,8 @@
 <div style="margin-left: 3px">
   <div ng-if="selectedFeature">
     <input type="button" class="btn btn-default" ng-click="showFeatureHistory(selectedFeature.fid)" value="Show Changes">
-    <br>
-    <input type="button" class="btn btn-default" ng-click="cancelEditMode()" value="Cancel">
     <input type="button" class="btn btn-default" ng-click="deleteFeature()" value="Delete">
+
     <div id="featurePropsForm" ng-repeat="prop in selectedFeature.properties">
       <div class="input-group">
         <label class="input-group-addon propertyLabel" for="{{prop.key}}">{{prop.key}}</label>
@@ -16,6 +15,8 @@
     <div ng-hide="selectedFeature.properties.length">This feature has no properties yet.</div>
     <input type="button" class="btn btn-default" ng-click="addNewProperty($event)" value="Add new Property">
     <br>
+    <input type="button" class="btn btn-default stopEditBtn" id="stopEditBtn" ng-click="cancelEditMode()" value="Stop Editing">
+
   </div>
   <div ng-if="!selectedFeature">
     Click on a feature to open it's properties...
@@ -33,4 +34,6 @@
     <input id="newValue" type="text" ng-model="newValue" ng-keypress="newProperty($event)">
     <input type="button" class="btn btn-default" ng-click="newProperty()" value="Save">
   </div>
+
+
 </div>

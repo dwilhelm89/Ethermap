@@ -58,6 +58,8 @@ angular.module('CollaborativeMap')
               });
             }
 
+            showStopEditingBtn();
+
             //$apply has to be called manually, if the function is called from a different event (here leaflet click)
             if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
               $scope.$apply();
@@ -68,13 +70,13 @@ angular.module('CollaborativeMap')
 
           var lastChange = -1;
           /**
-          * Gets called if a property changes. Only send a change every 1s if no further changes have been made in between to prevent submits on every keystroke.
-          */
+           * Gets called if a property changes. Only send a change every 1s if no further changes have been made in between to prevent submits on every keystroke.
+           */
           $scope.propertyChanged = function() {
             lastChange = new Date().getTime();
-            setTimeout(function(){
+            setTimeout(function() {
               var tmpDate = new Date().getTime();
-              if((tmpDate - lastChange) > 900){
+              if ((tmpDate - lastChange) > 900) {
                 console.log('update property');
                 updateFeature();
               }
@@ -86,6 +88,7 @@ angular.module('CollaborativeMap')
            */
           $scope.cancelEditMode = function() {
             MapHandler.removeEditHandler();
+            hideStopEditingBtn();
           };
 
           /**
@@ -150,6 +153,17 @@ angular.module('CollaborativeMap')
             $scope.hideNewProperty = !$scope.hideNewProperty;
           };
 
+          function showStopEditingBtn() {
+            if ($('#stopEditBtn').length > 0) {
+              $('#stopEditBtn')[0].className = $('#stopEditBtn')[0].className.replace(' hidden', '');
+
+            }
+          }
+
+          function hideStopEditingBtn() {
+            $('#stopEditBtn')[0].className += ' hidden';
+          }
+
           /**
            * Remove a given property from the feature. Updates the feature afterwards.
            * @param {Number} i index of the properties Array
@@ -161,9 +175,9 @@ angular.module('CollaborativeMap')
             updateFeature();
           };
 
-          $scope.$on('toolbox', function(e) {
+          $scope.$on('toolbox', function() {
             if ($scope.views.toolsView) {
-              $scope.revertChanges();
+              MapHandler.removeEditHandler();
             }
           });
 

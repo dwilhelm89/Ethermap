@@ -380,3 +380,8 @@ path:hover{
 .leaflet-marker-icon{
   cursor:pointer;
 }
+.stopEditBtn{
+  position: fixed;
+  left: 0;
+  top: 170px;
+}
