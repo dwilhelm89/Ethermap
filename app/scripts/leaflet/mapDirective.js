@@ -86,7 +86,7 @@ angular.module('CollaborativeMap')
                 shapeOptions: {
                   color: '#555555',
                   fillOpacity: 0.5,
-                  weight: 2,
+                  weight: 4,
                   opacity: 1
                 }
               },

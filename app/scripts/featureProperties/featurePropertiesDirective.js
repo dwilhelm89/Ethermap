@@ -88,6 +88,9 @@ angular.module('CollaborativeMap')
            */
           $scope.deleteFeature = function(){
             MapHandler.deleteFeature();
+            $scope.selectedFeature = undefined;
+            $scope.toggleToolbar('toolsView');
+
           };
 
           /**
