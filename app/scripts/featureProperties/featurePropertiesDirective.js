@@ -166,6 +166,9 @@ angular.module('CollaborativeMap')
             $scope.hideNewProperty = !$scope.hideNewProperty;
           };
 
+          /**
+           * Show the button to stop the edit mode
+           */
           function showStopEditingBtn() {
             if ($('#stopEditBtn').length > 0) {
               $('#stopEditBtn')[0].className = $('#stopEditBtn')[0].className.replace(' hidden', '');
@@ -173,6 +176,9 @@ angular.module('CollaborativeMap')
             }
           }
 
+          /**
+           * Hide the button to stop the edit mode
+           */
           function hideStopEditingBtn() {
             $('#stopEditBtn')[0].className += ' hidden';
           }
