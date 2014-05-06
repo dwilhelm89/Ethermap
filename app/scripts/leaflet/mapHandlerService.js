@@ -316,6 +316,14 @@ angular.module('CollaborativeMap')
         },
 
         /**
+         * Wrapper for the highlightFeature function to highlight a feature with the feature id as parameter instead of the layer.
+         * @param  {String} fid feature id
+         */
+        highlightFeatureId: function(fid){
+          this.highlightFeature(map._layers[fid]);
+        },
+
+        /**
          * Removes a layer from the map.
          * @param  {Object} map        the map
          * @param  {Object} event      remove event ({fid, feature, user})

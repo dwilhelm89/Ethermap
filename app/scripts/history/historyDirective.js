@@ -11,12 +11,13 @@ angular.module('CollaborativeMap')
     function($http, MapHandler) {
 
       /**
-      * Initialize the textual diff
-      * @pram {Object} objA Object 1
-      * @pram {Object} objB Object 2
-      * @pram {String} divId id of the html parent element
-      * @pram {String} name headline for the view
-      */
+       * Initialize the textual diff
+       * @pram {Object} objA Object 1
+       * @pram {Object} objB Object 2
+       * @pram {String} divId id of the html parent element
+       * @pram {String} name headline for the view
+       */
+
       function startCompare(objA, objB, divId, name) {
 
         var results = document.getElementById(divId);
@@ -26,12 +27,13 @@ angular.module('CollaborativeMap')
       }
 
       /**
-      * Actual diff method
-      * @param {Object} a Object 1
-      * @param {Object} b Object 2
-      * @param {String} name headline for the view
-      * @param {Object} results html element for the results
-      */
+       * Actual diff method
+       * @param {Object} a Object 1
+       * @param {Object} b Object 2
+       * @param {String} name headline for the view
+       * @param {Object} results html element for the results
+       */
+
       function compareTree(a, b, name, results) {
         var typeA = typeofReal(a);
         var typeB = typeofReal(b);
@@ -110,27 +112,28 @@ angular.module('CollaborativeMap')
           $scope.hideMapDiffView = true;
 
           /**
-          * Listen to the historyView event. Called when the modal is opened/closed
-          */
-          $scope.$on('historyView', function(e, hidden) {
-            if (!hidden) {
+           * Listen to the historyView event. Called when the modal is opened/closed
+           */
+          $scope.$on('toolbox', function(e) {
+            if (!$scope.views.historyView) {
               $scope.loadHistory();
             }
           });
 
           /**
-          * Initialize the view. Removing old history versions.
-          * Show the revisions view and hide the diff views.
-          */
+           * Initialize the view. Removing old history versions.
+           * Show the revisions view and hide the diff views.
+           */
+
           function init() {
             $scope.documentRevision = [];
             $scope.initView();
           }
 
           /**
-          * Show only the revisions view at the start.
-          * Remove the existing map element, to start completely new.
-          */
+           * Show only the revisions view at the start.
+           * Remove the existing map element, to start completely new.
+           */
           $scope.initView = function() {
             $scope.hideDocumentRevisionView = false;
             $scope.hideDiffView = true;
@@ -143,55 +146,58 @@ angular.module('CollaborativeMap')
           };
 
           /**
-          * Request all revisions from the database.
-          * Initialize the views.
-          * @param {String} fid feature id
-          */
+           * Request all revisions from the database.
+           * Initialize the views.
+           * @param {String} fid feature id
+           */
+
           function loadDocumentHistory(fid) {
-            init();
-            $http({
-              method: 'GET',
-              url: '/api/documentRevisions/' + $scope.mapId + '/' + fid
-            })
-              .
-            success(function(data) { //, status, headers, config) {
-              $scope.documentRevision = data;
-            })
-              .
-            error(function(data) { //, status, headers, config) {
-              console.log(data);
-            });
+            if (fid) {
+              init();
+              $http({
+                method: 'GET',
+                url: '/api/documentRevisions/' + $scope.mapId + '/' + fid
+              })
+                .
+              success(function(data) { //, status, headers, config) {
+                $scope.documentRevision = data;
+              })
+                .
+              error(function(data) { //, status, headers, config) {
+                console.log(data);
+              });
+            }
 
           }
 
           /**
-          * Revert a feature to a given revision.
-          * @param {String} id the feature id
-          * @param {String} rev the revision to which the feature will be reverted
-          */
+           * Revert a feature to a given revision.
+           * @param {String} id the feature id
+           * @param {String} rev the revision to which the feature will be reverted
+           */
           $scope.revertFeature = function(id, rev) {
             MapHandler.revertFeature($scope.mapId, id, rev, $scope.userName);
-            setTimeout(function(){
+            setTimeout(function() {
               loadDocumentHistory(id);
-            },100);
+            }, 100);
           };
 
           /**
-          * Recreate a deleted feature
-          * @param {String} id feature id
-          * @param {Object} feature the feature
-          */
-          $scope.restoreDeletedFeature = function(id, feature){
+           * Recreate a deleted feature
+           * @param {String} id feature id
+           * @param {Object} feature the feature
+           */
+          $scope.restoreDeletedFeature = function(id, feature) {
             MapHandler.restoreDeletedFeature($scope.mapId, id, feature, $scope.userName);
-            setTimeout(function(){
+            setTimeout(function() {
               loadDocumentHistory(id);
-            },100);
+            }, 100);
           };
 
           /**
-          * Toggles the visibility of the bootstrap modal
-          * @param {String} fid the feature id
-          */
+           * Toggles the visibility of the bootstrap modal
+           * @param {String} fid the feature id
+           */
           $scope.toggleHistoryModal = function(fid) {
             visible = !visible;
             $('#historyModal').modal('toggle');
@@ -205,12 +211,12 @@ angular.module('CollaborativeMap')
           });
 
           /**
-          * Open the textual diff
-          * Close the revisions view and the map diff
-          * @param {String} fid the feature id
-          * @param {String} rev the revision key
-          * @param {Number} index index of the revisions array
-          */
+           * Open the textual diff
+           * Close the revisions view and the map diff
+           * @param {String} fid the feature id
+           * @param {String} rev the revision key
+           * @param {Number} index index of the revisions array
+           */
           $scope.showTextDiff = function(fid, rev, index) {
             var length = $scope.documentRevision.length;
             if (length >= index + 1) {
@@ -222,13 +228,13 @@ angular.module('CollaborativeMap')
           };
 
           /**
-          * Opens the map diff view.
-          * Close the revisions and the text difff view.
-          * Initialize the map and draw both feature versions
-          * @param {String} fid feature id
-          * @param {String} rev feature revision
-          * @param {Number} index index of the revisions array 
-          */
+           * Opens the map diff view.
+           * Close the revisions and the text difff view.
+           * Initialize the map and draw both feature versions
+           * @param {String} fid feature id
+           * @param {String} rev feature revision
+           * @param {Number} index index of the revisions array
+           */
           $scope.showMapDiff = function(fid, rev, index) {
             $scope.hideDocumentRevisionView = true;
             $scope.hideDiffView = true;
@@ -295,7 +301,7 @@ angular.module('CollaborativeMap')
             function revisionSlider(element, old, current) {
 
               return function() {
-                var sliderValue = Math.round(element.value * 100)/100;
+                var sliderValue = Math.round(element.value * 100) / 100;
                 //TODO check if element is layer group => iterate over all layers
                 if (old.setOpacity) {
                   old.setOpacity(1 - sliderValue);

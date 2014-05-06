@@ -73,7 +73,7 @@ angular.module('CollaborativeMap')
 
             //Save the property changes made in the GUI
             updateFeature();
-            
+
           };
 
           /**
@@ -86,7 +86,7 @@ angular.module('CollaborativeMap')
           /**
            * Deletes the currently selected feature
            */
-          $scope.deleteFeature = function(){
+          $scope.deleteFeature = function() {
             MapHandler.deleteFeature();
             $scope.selectedFeature = undefined;
             $scope.toggleToolbar('toolsView');
@@ -155,6 +155,12 @@ angular.module('CollaborativeMap')
             $scope.selectedFeature.properties.splice(i, 1);
             updateFeature();
           };
+
+          $scope.$on('toolbox', function(e) {
+            if ($scope.views.toolsView) {
+              $scope.revertChanges();
+            }
+          });
 
         }
       };

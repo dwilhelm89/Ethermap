@@ -43,7 +43,6 @@ angular.module('CollaborativeMap')
               var rightDif =  $(window).width() - targetElement.getBoundingClientRect().right;
               if(rightDif < 100){
                 setTimeout(function(){
-                  console.log("fdf");
                   $('.introjs-tooltip')[0].style.marginLeft = '-50px';
                 }, 500);
               }
@@ -85,7 +84,7 @@ angular.module('CollaborativeMap')
               vs[view] = false;
             }
             //emit event if toolbox windows opens/closes
-            $scope.$emit(view, vs[view]);
+            $scope.$emit('toolbox', view);
           };
 
           function hideAllViews() {
@@ -199,6 +198,7 @@ angular.module('CollaborativeMap')
            */
           $scope.panToFeature = function(id) {
             MapHandler.panToFeature(id);
+            MapHandler.highlightFeatureId(id);
           };
 
         }
