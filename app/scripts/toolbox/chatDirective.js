@@ -41,10 +41,21 @@ angular.module('CollaborativeMap')
           function receiveMessage() {
             Socket.on(mapId + '-chat', function(res) {
               $scope.messages.push(res);
+              setTimeout(scrollDown, 100);
             });
           }
 
           receiveMessage();
+
+          /**
+           * Scroll down the chatmessages to the bottom
+           */
+          function scrollDown(){
+            var elem = $('.chatMessages')[0];
+            if(elem){
+              elem.scrollTop = elem.scrollHeight;
+            }
+          }
 
           /**
           * Send a chat message. Called via the Send button or by pressing enter in the GUI
