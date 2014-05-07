@@ -47,8 +47,8 @@ angular.module('CollaborativeMap')
                 },
                 properties: {}
               };
-              feature.geometry.coordinates[1] = randomNumberFromInterval(51, 52);
-              feature.geometry.coordinates[0] = randomNumberFromInterval(7, 9);
+              feature.geometry.coordinates[1] = randomNumberFromInterval(51.9, 52);
+              feature.geometry.coordinates[0] = randomNumberFromInterval(7.5, 7.7);
               Socket.emit('mapDraw', {
                 mapId: 'tester',
                 'event': {
@@ -114,8 +114,8 @@ angular.module('CollaborativeMap')
               Socket.emit('mapMovement', {
                 mapId: 'tester',
                 'event': {
-                  'nE': [randomNumberFromInterval(51, 52),randomNumberFromInterval(7, 9)],
-                  'sW': [randomNumberFromInterval(51, 52),randomNumberFromInterval(7, 9)]
+                  'nE': [randomNumberFromInterval(51.9, 52),randomNumberFromInterval(7.5, 7.7)],
+                  'sW': [randomNumberFromInterval(51.9, 52),randomNumberFromInterval(7.5, 7.7)]
                 }
               });
             }, delay * i);
@@ -125,6 +125,8 @@ angular.module('CollaborativeMap')
       }
 
       function randomNumberFromInterval(min, max) {
+        max = max -1;
+        console.log(Math.random() * (max - min + 1) + min);
         return Math.random() * (max - min + 1) + min;
       }
 
