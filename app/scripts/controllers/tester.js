@@ -7,8 +7,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .controller('TesterCtrl', ['$scope', 'Socket',
-    function($scope, Socket) {
+  .controller('TesterCtrl', ['$http', '$scope', 'Socket',
+    function($http, $scope, Socket) {
 
       $scope.evalJS = function() {
         Socket.emit('tester', {
@@ -30,14 +30,12 @@ angular.module('CollaborativeMap')
 
       $scope.createRandomFeatures = function() {
         console.log("send random features");
-        sendRandomPoints($scope.numberOfFeatures, $scope.randomFeatureDelay);
+        sendRandomPoints($scope.numberOfMarkerFeatures, $scope.randomMarkerFeatureDelay);
       };
 
       function sendRandomPoints(number, delay) {
-        var featureDelay = delay;
-        if(!featureDelay) {
-          featureDelay = 1000;
-        }
+        console.log(number);
+        console.log(delay);
 
         var i = 0;
         for (i; i < number; i++) {
@@ -66,6 +64,43 @@ angular.module('CollaborativeMap')
             }, delay * i);
           })();
 
+        }
+      }
+
+      $scope.createRandomBuildings = function() {
+        console.log("send münster buildings");
+        sendMuensterBuildings($scope.numberOfBuildingFeatures, $scope.randomFeatureBuildingDelay);
+      };
+
+      function sendMuensterBuildings(number, delay) {
+        console.log(delay);
+        var i = 0;
+        for (i; i < number; i++) {
+          (function() {
+            setTimeout(function() {
+              console.log("blub");
+              $http({
+                method: 'GET',
+                url: 'http://giv-wilhelm.uni-muenster.de:9090'
+              })
+                .
+              success(function(data) { //, status, headers, config) {
+                Socket.emit('mapDraw', {
+                  mapId: 'tester',
+                  'event': {
+                    'feature': data,
+                    'user': 'testerBot',
+                    'action': 'created'
+                  }
+                });
+              })
+                .
+              error(function(data) { //, status, headers, config) {
+                console.log(data);
+              });
+            }, delay * i);
+
+          })();
         }
       }
 
