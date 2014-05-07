@@ -102,6 +102,8 @@ angular.module('CollaborativeMap')
           });
           map.addControl(drawControl);
 
+          L.drawLocal.edit.handlers.edit.tooltip.subtext = 'Click "Stop Editing" to stop the edit mode';
+
           //Drawn features have to be added to the layer group
           map.on('draw:created', function(e) {
             drawnItems.addLayer(e.layer);
