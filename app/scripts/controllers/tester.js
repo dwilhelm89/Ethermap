@@ -29,18 +29,15 @@ angular.module('CollaborativeMap')
       };
 
       $scope.createRandomFeatures = function() {
-        console.log("send random features");
         sendRandomPoints($scope.numberOfMarkerFeatures, $scope.randomMarkerFeatureDelay);
       };
 
       function sendRandomPoints(number, delay) {
-        console.log(number);
-        console.log(delay);
 
         var i = 0;
         for (i; i < number; i++) {
 
-          (function(f) {
+          (function() {
             setTimeout(function() {
               var feature = {
                 type: 'Feature',
@@ -52,7 +49,6 @@ angular.module('CollaborativeMap')
               };
               feature.geometry.coordinates[1] = randomNumberFromInterval(51, 52);
               feature.geometry.coordinates[0] = randomNumberFromInterval(7, 9);
-              console.log(feature);
               Socket.emit('mapDraw', {
                 mapId: 'tester',
                 'event': {
@@ -68,7 +64,6 @@ angular.module('CollaborativeMap')
       }
 
       $scope.createRandomBuildings = function() {
-        console.log("send münster buildings");
         sendMuensterBuildings($scope.numberOfBuildingFeatures, $scope.randomFeatureBuildingDelay);
       };
 
@@ -78,7 +73,6 @@ angular.module('CollaborativeMap')
         for (i; i < number; i++) {
           (function() {
             setTimeout(function() {
-              console.log("blub");
               $http({
                 method: 'GET',
                 url: 'http://giv-wilhelm.uni-muenster.de:9090'
@@ -101,6 +95,32 @@ angular.module('CollaborativeMap')
             }, delay * i);
 
           })();
+        }
+      }
+
+      $scope.createMapMovementEvents = function() {
+        console.log('send movements');
+        sendMovementEvents($scope.numberOfMovements, $scope.movementDelay);
+
+      };
+
+      function sendMovementEvents(number, delay) {
+        var i = 0;
+        for (i; i < number; i++) {
+
+          (function() {
+            setTimeout(function() {
+
+              Socket.emit('mapMovement', {
+                mapId: 'tester',
+                'event': {
+                  'nE': [randomNumberFromInterval(51, 52),randomNumberFromInterval(7, 9)],
+                  'sW': [randomNumberFromInterval(51, 52),randomNumberFromInterval(7, 9)]
+                }
+              });
+            }, delay * i);
+          })();
+
         }
       }
 
