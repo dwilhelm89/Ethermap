@@ -6,8 +6,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('featureproperties', ['$compile', 'MapHandler',
-    function($compile, MapHandler) {
+  .directive('featureproperties', ['$compile', 'MapHandler', '$http', '$q',
+    function($compile, MapHandler, $http, $q) {
 
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
@@ -180,6 +180,62 @@ angular.module('CollaborativeMap')
               MapHandler.removeEditHandler();
             }
           });
+
+
+          //NEW CATEGORIES SYSTEM
+          var presets;
+          var fields;
+
+          function getPresetData() {
+            var categoriesPromise = $http.get('presets/categories'),
+              fieldsPromise = $http.get('presets/fields'),
+              presetsPromise = $http.get('presets/presets');
+
+            $q.all([categoriesPromise, fieldsPromise, presetsPromise]).then(function(resultArray) {
+              if (resultArray) {
+                if (resultArray[0] && resultArray[0].data) {
+                  $scope.categories = resultArray[0].data;
+                }
+                if (resultArray[1] && resultArray[1].data) {
+                  fields = resultArray[1].data;
+                }
+                if (resultArray[2] && resultArray[2].data) {
+                  presets = resultArray[2].data;
+                }
+              }
+            });
+          }
+
+          $scope.selectPresets = function() {
+            var members;
+            $scope.fields = [];
+            if ($scope.selectedCategory && $scope.selectedCategory.members) {
+              $scope.presets = [];
+              members = $scope.selectedCategory.members;
+              members.forEach(function(member) {
+                $scope.presets.push(presets[member]);
+              });
+              console.log($scope.presets);
+
+            }
+          };
+
+          $scope.selectFields = function() {
+            var members;
+            $scope.fields = [];
+            if ($scope.selectedPreset && $scope.selectedPreset.fields) {
+              members = $scope.selectedPreset.fields;
+              members.forEach(function(member) {
+                $scope.fields.push(fields[member]);
+              });
+              console.log($scope.fields);
+
+            }
+          };
+
+          getPresetData();
+
+
 
         }
       };
