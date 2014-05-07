@@ -374,14 +374,18 @@ input {
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
 }
-path:hover{
+path:hover {
   cursor: pointer;
 }
-.leaflet-marker-icon{
+.leaflet-marker-icon {
   cursor:pointer;
 }
-.stopEditBtn{
+.stopEditBtn {
   position: fixed;
   left: 0;
   top: 170px;
+}
+select {
+  width: 265px;
+  height: 30px;
 }

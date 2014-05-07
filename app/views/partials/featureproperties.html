@@ -2,6 +2,16 @@
   <div ng-if="selectedFeature">
     <input type="button" class="btn btn-default" ng-click="showFeatureHistory(selectedFeature.fid)" value="Show Changes">
     <input type="button" class="btn btn-default" ng-click="deleteFeature()" value="Delete">
+    <br>
+    <select ng-model="$parent.selectedCategory" ng-options="categories[key].name for (key, value) in categories" ng-change="selectPresets(scope, option.value, $event)">
+    </select>
+    <br>
+    <span ng-show="presets">
+      <select ng-model="$parent.selectedPreset" ng-options="presets[key].name for (key, value) in presets" ng-change="selectFields()">
+      </select>
+      <br>
+    </span>
+    <br>
 
     <div id="featurePropsForm" ng-repeat="prop in selectedFeature.properties">
       <div class="input-group">

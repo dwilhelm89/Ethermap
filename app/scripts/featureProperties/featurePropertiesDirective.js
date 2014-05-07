@@ -136,6 +136,19 @@ angular.module('CollaborativeMap')
             }
           };
 
+          /**
+           * Adds a new property to the feature.
+           * @param {String} type the property type
+           */
+
+          function addNewPropertyType(type) {
+            $scope.selectedFeature.properties.push({
+              'key': type,
+              'value': ''
+            });
+            updateFeature();
+          }
+
           //Variable used to controle the 'hide' class via ng-class
           $scope.hideNewProperty = true;
 
@@ -206,7 +219,8 @@ angular.module('CollaborativeMap')
             });
           }
 
-          $scope.selectPresets = function() {
+          $scope.selectPresets = function(a, b, c) {
+            console.log('select preset');
             var members;
             $scope.fields = [];
             if ($scope.selectedCategory && $scope.selectedCategory.members) {
@@ -221,11 +235,13 @@ angular.module('CollaborativeMap')
           };
 
           $scope.selectFields = function() {
+            console.log('select field');
             var members;
             $scope.fields = [];
             if ($scope.selectedPreset && $scope.selectedPreset.fields) {
               members = $scope.selectedPreset.fields;
               members.forEach(function(member) {
+                addNewPropertyType(fields[member].label);
                 $scope.fields.push(fields[member]);
               });
               console.log($scope.fields);
