@@ -62,16 +62,18 @@ angular.module('CollaborativeMap')
               }
             }
 
+            //Preselect the selectboxes if a category/preset is available
             if (tmpGeoJSON.properties && tmpGeoJSON.properties.category) {
               $scope.selectedCategory = tmpGeoJSON.properties.category;
-              setPresetsinScope($scope.selectedCategory);
+              setPresetsInScope($scope.selectedCategory);
             }
             if (tmpGeoJSON.properties && tmpGeoJSON.properties.preset) {
               var i = getPresetIndex(tmpGeoJSON.properties.preset);
               $scope.selectedPreset = i;
+              //Wait to let the gui render first and set the selected index for the selectbox
               setTimeout(function() {
                 $('#presetSelect')[0].selectedIndex = parseInt(i)+1;
-              }, 20);
+              }, 40);
 
             }
 
@@ -239,12 +241,20 @@ angular.module('CollaborativeMap')
           var presets;
           var fields;
 
+          /**
+           * Remove selected category and preset from the scope
+           */
           function cleanSelection() {
             $scope.presets = undefined;
             $scope.selectedCategory = undefined;
             $scope.selectedPreset = undefined;
           }
 
+          /**
+           * GET request to load the category/preset and fields information from the server.
+           * Stores the categories in the scope for the select box.
+           * Fields and presets will be used as soon as a category has been chosen.
+           */
           function getPresetData() {
             var categoriesPromise = $http.get('presets/categories'),
               fieldsPromise = $http.get('presets/fields'),
@@ -265,22 +275,32 @@ angular.module('CollaborativeMap')
             });
           }
 
+          /**
+           * If a category is selected, append the sub categories (presets) to a second select box.
+           * Saves the category in the feature and call the update function to sync the feature.
+           */
           $scope.selectPresets = function() {
             $scope.cancelEditMode();
             $scope.fields = [];
+
             if ($scope.selectedCategory) {
+              //Update the feature
               $scope.selectedFeature.feature.properties.category = $scope.selectedCategory;
               MapHandler.updateOnlyProperties($scope.selectedFeature);
 
-              setPresetsinScope($scope.selectedCategory);
-              console.log($scope.presets);
+              //Set to scope array
+              setPresetsInScope($scope.selectedCategory);
 
             }
           };
 
-          function setPresetsinScope(category) {
+          /**
+           * Append the presets to the scope variable to fill the select box.
+           */
+          function setPresetsInScope(category) {
             $scope.presets = [];
             $scope.presets = [];
+            //Get the member of the chosen category = presets
             var members = $scope.categories[category].members || [];
             members.forEach(function(member) {
               $scope.presets.push(presets[member]);
@@ -288,6 +308,11 @@ angular.module('CollaborativeMap')
 
           }
 
+          /**
+           * Returns the index of a preset in the categories member array
+           * @param  {String} presetKey object key
+           * @return {String}           Key of the categories member array
+           */
           function getPresetIndex(presetKey) {
             var members = $scope.categories[$scope.selectedCategory].members;
             for (var key in members) {
@@ -297,24 +322,33 @@ angular.module('CollaborativeMap')
             }
           }
 
+          /**
+           * Called if the preset is selected.
+           * Updates the feature and cally update to sync.
+           *
+           * Checks if the preset is associated with fields and adds new ones to the properties.
+           */
           $scope.selectFields = function() {
             $scope.cancelEditMode();
+
             var members;
             $scope.fields = [];
             if ($scope.selectedPreset) {
+              //Update the feature
               $scope.selectedFeature.feature.properties.preset = getSelectedPresetName($scope.selectedPreset);
-
               MapHandler.updateOnlyProperties($scope.selectedFeature);
 
+              //Get the fields of the preset
               members = $scope.presets[$scope.selectedPreset].fields || [];
               members.forEach(function(member) {
                 var newKey = fields[member].label;
+                //Only append if not already existing
                 if (!$scope.selectedFeature.feature.properties.hasOwnProperty(newKey)) {
                   addNewPropertyType(newKey);
                 }
+                //Scope array for the GUI
                 $scope.fields.push(fields[member]);
               });
-              console.log($scope.fields);
 
             }
           };
