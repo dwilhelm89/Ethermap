@@ -169,6 +169,7 @@ angular.module('CollaborativeMap')
           /**
            * Show the button to stop the edit mode
            */
+
           function showStopEditingBtn() {
             if ($('#stopEditBtn').length > 0) {
               $('#stopEditBtn')[0].className = $('#stopEditBtn')[0].className.replace(' hidden', '');
@@ -179,6 +180,7 @@ angular.module('CollaborativeMap')
           /**
            * Hide the button to stop the edit mode
            */
+
           function hideStopEditingBtn() {
             $('#stopEditBtn')[0].className += ' hidden';
           }
@@ -247,7 +249,10 @@ angular.module('CollaborativeMap')
             if ($scope.selectedPreset && $scope.selectedPreset.fields) {
               members = $scope.selectedPreset.fields;
               members.forEach(function(member) {
-                addNewPropertyType(fields[member].label);
+                var newKey = fields[member].label;
+                if (!$scope.selectedFeature.feature.properties.hasOwnProperty(newKey)) {
+                  addNewPropertyType(newKey);
+                }
                 $scope.fields.push(fields[member]);
               });
               console.log($scope.fields);
