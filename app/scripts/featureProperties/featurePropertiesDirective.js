@@ -52,10 +52,12 @@ angular.module('CollaborativeMap')
 
             //Create an Array containing all properties. Has to be included in the feature again
             for (var prop in tmpGeoJSON.properties) {
-              $scope.selectedFeature.properties.push({
-                'key': prop,
-                'value': tmpGeoJSON.properties[prop]
-              });
+              if (allowedProp(prop)) {
+                $scope.selectedFeature.properties.push({
+                  'key': prop,
+                  'value': tmpGeoJSON.properties[prop]
+                });
+              }
             }
 
             showStopEditingBtn();
@@ -66,6 +68,21 @@ angular.module('CollaborativeMap')
             }
 
           };
+
+          /**
+           * Checks if a property should be displayed or not
+           * @param  {String} prop the property
+           * @return {Boolean}      true if the property should be displayed, false if not
+           */
+
+          function allowedProp(prop) {
+            var notAllowed = ['category', 'preset'];
+            if (notAllowed.indexOf(prop) > -1) {
+              return false;
+            } else {
+              return true;
+            }
+          }
 
 
           var lastChange = -1;
@@ -227,11 +244,13 @@ angular.module('CollaborativeMap')
             });
           }
 
-          $scope.selectPresets = function(a, b, c) {
+          $scope.selectPresets = function() {
             console.log('select preset');
             var members;
             $scope.fields = [];
             if ($scope.selectedCategory && $scope.selectedCategory.members) {
+              $scope.selectedFeature.feature.properties.category = $scope.selectedCategory.name;
+              MapHandler.updateOnlyProperties($scope.selectedFeature);
               $scope.presets = [];
               members = $scope.selectedCategory.members;
               members.forEach(function(member) {
@@ -247,6 +266,8 @@ angular.module('CollaborativeMap')
             var members;
             $scope.fields = [];
             if ($scope.selectedPreset && $scope.selectedPreset.fields) {
+              $scope.selectedFeature.feature.properties.preset = $scope.selectedPreset.name;
+              MapHandler.updateOnlyProperties($scope.selectedFeature);
               members = $scope.selectedPreset.fields;
               members.forEach(function(member) {
                 var newKey = fields[member].label;
