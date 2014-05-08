@@ -36,6 +36,11 @@ angular.module('CollaborativeMap')
           mapScope = scope;
           drawControl = dControl;
 
+          map.on('draw:drawstart', function() {
+            if(editHandler){
+              this.removeEditHandler();
+            }
+          }.bind(this));
 
           /* Cancels the editing if the mouse still moves while ending a drag operation
           m.on('click', function() {
@@ -79,7 +84,7 @@ angular.module('CollaborativeMap')
           //jshint camelcase:false
           editFeatureId = layer._leaflet_id;
           editHandler.enable();
-
+          mapScope.$emit('editHandler', true);
 
           layer.on('dragend', function() {
             editHandler.save();
@@ -106,6 +111,7 @@ angular.module('CollaborativeMap')
           if (editHandler) {
             editHandler.disable();
             editHandler = undefined;
+            mapScope.$emit('editHandler', false);
           }
         },
 

@@ -72,12 +72,10 @@ angular.module('CollaborativeMap')
               $scope.selectedPreset = i;
               //Wait to let the gui render first and set the selected index for the selectbox
               setTimeout(function() {
-                $('#presetSelect')[0].selectedIndex = parseInt(i)+1;
+                $('#presetSelect')[0].selectedIndex = parseInt(i) + 1;
               }, 40);
 
             }
-
-            showStopEditingBtn();
 
             //$apply has to be called manually, if the function is called from a different event (here leaflet click)
             if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
@@ -206,9 +204,14 @@ angular.module('CollaborativeMap')
 
           function showStopEditingBtn() {
             if ($('#stopEditBtn').length > 0) {
-              $('#stopEditBtn')[0].className = $('#stopEditBtn')[0].className.replace(' hidden', '');
+              var newClassName = replaceAll(' hidden', '', $('#stopEditBtn')[0].className);
+              $('#stopEditBtn')[0].className = newClassName;
 
             }
+          }
+
+          function replaceAll(find, replace, str) {
+            return str.replace(new RegExp(find, 'g'), replace);
           }
 
           /**
@@ -218,6 +221,14 @@ angular.module('CollaborativeMap')
           function hideStopEditingBtn() {
             $('#stopEditBtn')[0].className += ' hidden';
           }
+
+          $scope.$on('editHandler', function(e, eventValue) {
+            if (!eventValue) {
+              hideStopEditingBtn();
+            } else {
+              showStopEditingBtn();
+            }
+          });
 
           /**
            * Remove a given property from the feature. Updates the feature afterwards.
@@ -244,6 +255,7 @@ angular.module('CollaborativeMap')
           /**
            * Remove selected category and preset from the scope
            */
+
           function cleanSelection() {
             $scope.presets = undefined;
             $scope.selectedCategory = undefined;
@@ -255,6 +267,7 @@ angular.module('CollaborativeMap')
            * Stores the categories in the scope for the select box.
            * Fields and presets will be used as soon as a category has been chosen.
            */
+
           function getPresetData() {
             var categoriesPromise = $http.get('presets/categories'),
               fieldsPromise = $http.get('presets/fields'),
@@ -297,6 +310,7 @@ angular.module('CollaborativeMap')
           /**
            * Append the presets to the scope variable to fill the select box.
            */
+
           function setPresetsInScope(category) {
             $scope.presets = [];
             $scope.presets = [];
@@ -313,6 +327,7 @@ angular.module('CollaborativeMap')
            * @param  {String} presetKey object key
            * @return {String}           Key of the categories member array
            */
+
           function getPresetIndex(presetKey) {
             var members = $scope.categories[$scope.selectedCategory].members;
             for (var key in members) {
