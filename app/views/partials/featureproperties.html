@@ -3,13 +3,15 @@
     <input type="button" class="btn btn-default" ng-click="showFeatureHistory(selectedFeature.fid)" value="Show Changes">
     <input type="button" class="btn btn-default" ng-click="deleteFeature()" value="Delete">
     <br>
-    <select ng-model="$parent.selectedCategory" ng-options="categories[key].name for (key, value) in categories" ng-change="selectPresets(scope, option.value, $event)">
+    <select ng-model="$parent.selectedCategory" ng-change="selectPresets()">
       <option value="" disabled selected>Select a category</option>
+      <option value="{{key}}" ng-repeat="(key, value) in categories">{{categories[key].name}}</option>
     </select>
     <br>
     <span ng-show="presets">
-      <select ng-model="$parent.selectedPreset" ng-options="presets[key].name for (key, value) in presets" ng-change="selectFields()">
+      <select id="presetSelect" ng-model="$parent.selectedPreset" ng-change="selectFields()">
         <option value="" disabled selected>Select a sub category</option>
+        <option value="{{key}}" ng-repeat="(key, value) in presets">{{presets[key].name}}</option>
       </select>
       <br>
     </span>

@@ -43,6 +43,8 @@ angular.module('CollaborativeMap')
             //jshint camelcase:false
             activateToolbox();
 
+            cleanSelection();
+
             $scope.selectedFeature = {
               'properties': [],
               'fid': feature._leaflet_id
@@ -58,6 +60,19 @@ angular.module('CollaborativeMap')
                   'value': tmpGeoJSON.properties[prop]
                 });
               }
+            }
+
+            if (tmpGeoJSON.properties && tmpGeoJSON.properties.category) {
+              $scope.selectedCategory = tmpGeoJSON.properties.category;
+              setPresetsinScope($scope.selectedCategory);
+            }
+            if (tmpGeoJSON.properties && tmpGeoJSON.properties.preset) {
+              var i = getPresetIndex(tmpGeoJSON.properties.preset);
+              $scope.selectedPreset = i;
+              setTimeout(function() {
+                $('#presetSelect')[0].selectedIndex = parseInt(i)+1;
+              }, 20);
+
             }
 
             showStopEditingBtn();
@@ -224,6 +239,12 @@ angular.module('CollaborativeMap')
           var presets;
           var fields;
 
+          function cleanSelection() {
+            $scope.presets = undefined;
+            $scope.selectedCategory = undefined;
+            $scope.selectedPreset = undefined;
+          }
+
           function getPresetData() {
             var categoriesPromise = $http.get('presets/categories'),
               fieldsPromise = $http.get('presets/fields'),
@@ -245,30 +266,47 @@ angular.module('CollaborativeMap')
           }
 
           $scope.selectPresets = function() {
-            console.log('select preset');
-            var members;
+            $scope.cancelEditMode();
             $scope.fields = [];
-            if ($scope.selectedCategory && $scope.selectedCategory.members) {
-              $scope.selectedFeature.feature.properties.category = $scope.selectedCategory.name;
+            if ($scope.selectedCategory) {
+              $scope.selectedFeature.feature.properties.category = $scope.selectedCategory;
               MapHandler.updateOnlyProperties($scope.selectedFeature);
-              $scope.presets = [];
-              members = $scope.selectedCategory.members;
-              members.forEach(function(member) {
-                $scope.presets.push(presets[member]);
-              });
+
+              setPresetsinScope($scope.selectedCategory);
               console.log($scope.presets);
 
             }
           };
 
+          function setPresetsinScope(category) {
+            $scope.presets = [];
+            $scope.presets = [];
+            var members = $scope.categories[category].members || [];
+            members.forEach(function(member) {
+              $scope.presets.push(presets[member]);
+            });
+
+          }
+
+          function getPresetIndex(presetKey) {
+            var members = $scope.categories[$scope.selectedCategory].members;
+            for (var key in members) {
+              if (presetKey === members[key]) {
+                return key;
+              }
+            }
+          }
+
           $scope.selectFields = function() {
-            console.log('select field');
+            $scope.cancelEditMode();
             var members;
             $scope.fields = [];
-            if ($scope.selectedPreset && $scope.selectedPreset.fields) {
-              $scope.selectedFeature.feature.properties.preset = $scope.selectedPreset.name;
+            if ($scope.selectedPreset) {
+              $scope.selectedFeature.feature.properties.preset = getSelectedPresetName($scope.selectedPreset);
+
               MapHandler.updateOnlyProperties($scope.selectedFeature);
-              members = $scope.selectedPreset.fields;
+
+              members = $scope.presets[$scope.selectedPreset].fields || [];
               members.forEach(function(member) {
                 var newKey = fields[member].label;
                 if (!$scope.selectedFeature.feature.properties.hasOwnProperty(newKey)) {
@@ -280,6 +318,18 @@ angular.module('CollaborativeMap')
 
             }
           };
+
+          /**
+           * Returns the key of the selected preset (sub-category)
+           * @param  {String} index the key of the categories member object
+           * @return {String}       preset name
+           */
+
+          function getSelectedPresetName(index) {
+            if (index && $scope.categories[$scope.selectedCategory] && $scope.categories[$scope.selectedCategory].members && $scope.categories[$scope.selectedCategory].members[index]) {
+              return $scope.categories[$scope.selectedCategory].members[index];
+            }
+          }
 
           getPresetData();
 
