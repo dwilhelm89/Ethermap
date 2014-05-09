@@ -1,7 +1,7 @@
 <div class="toolbox-buttons">
   <input type="button" class="btn btn-dark" ng-click="toggleToolbar('userView')" value="Users" data-intro='Shows all users within this map and provides a chat function' data-step="2">
   <input type="button" class="btn btn-dark" ng-click="toggleToolbar('historyView')" value="History" data-intro='Shows all changes made' data-step="3">
-  <input type="button" class="btn btn-dark" ng-click="toggleToolbar('toolsView')" value="Tools" data-intro='Edit a single feature within the map'data-step="4">
+  <input type="button" class="btn btn-dark" ng-click="toggleToolbar('toolsView')" value="Feature" data-intro='Edit a single feature within the map'data-step="4">
   <input type="button" class="btn btn-dark" ng-click="startIntroJS()" value="Help">
   <!--
   <input type="button" class="btn btn-dark" ng-click="toggleToolbar('settingsView')" value="Settings">-->
@@ -34,11 +34,6 @@
               <ul class="dropdown-menu">
                 <li><a tabindex="-1" data-ng-click="showFeatureHistory(action.id)">View History</a>
                 </li>
-                <!--
-                <li><a tabindex="-1" data-ng-click="revertFeature(action.id, action.rev)">Revert Single Feature</a>
-                </li>-->
-                <li><a tabindex="-1" data-ng-click="panToFeature(action.id)">Pan to</a>
-                </li>
               </ul>
             </div>
 
@@ -54,9 +49,5 @@
     </div>
     <div class="toolbox-content" ng-class="{'hide': views.toolsView}">
       <featureproperties></featureproperties>
-    </div>
-    <div class="toolbox-content" ng-class="{'hide': views.settingsView}">
-      Settings
-      <!--<chat></chat>-->
     </div>
   </div>
