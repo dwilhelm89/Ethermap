@@ -114,7 +114,7 @@ angular.module('CollaborativeMap')
           /**
            * Listen to the historyView event. Called when the modal is opened/closed
            */
-          $scope.$on('toolbox', function(e) {
+          $scope.$on('toolbox', function() {
             if (!$scope.views.historyView) {
               $scope.loadHistory();
             }
@@ -164,6 +164,7 @@ angular.module('CollaborativeMap')
               })
                 .
               error(function(data) { //, status, headers, config) {
+                console.log('history couldnt be loaded');
                 console.log(data);
               });
             }

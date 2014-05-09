@@ -14,10 +14,11 @@ angular.module('CollaborativeMap')
       return {
         templateUrl: 'partials/chat',
         restrict: 'E',
+        scope: {},
         link: function postLink($scope) {
           $scope.messages = [];
-          var mapId = $scope.mapId;
-          var userName = $scope.userName;
+          var mapId = $scope.$parent.mapId;
+          var userName = $scope.$parent.userName;
 
           /**
           * Send a message via Websockets
