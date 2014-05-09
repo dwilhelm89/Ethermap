@@ -48,10 +48,11 @@ angular.module('CollaborativeMap')
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
         template: '<div id="map"></div>',
-        // templateUrl: '',
         replace: true,
+        scope: {
+          mapId: '=mapid'
+        },
         // transclude: true,
-        // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
         link: function postLink($scope) {
 
           //expose map for debugging purposes
@@ -116,10 +117,10 @@ angular.module('CollaborativeMap')
           loadFeatures($http, $scope.mapId, map, drawnItems);
 
           //Initialize the MapHandler (wrapper for all map based actions)
-          MapHandler.initMapHandler(map, drawnItems, $scope, drawControl);
+          MapHandler.initMapHandler(map, drawnItems, $scope.$parent, drawControl);
 
           //Initialize the map synchronization (handles all Websocket related sync stuff)
-          SynchronizeMap.init(map, $scope, drawnItems);
+          SynchronizeMap.init(map, $scope.$parent, drawnItems);
 
         }
       };
