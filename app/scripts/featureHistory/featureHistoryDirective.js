@@ -7,7 +7,7 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('history', ['$http', 'MapHandler',
+  .directive('featureHistory', ['$http', 'MapHandler',
     function($http, MapHandler) {
 
       /**
