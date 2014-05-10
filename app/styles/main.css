@@ -398,7 +398,7 @@ select {
 .socketStatus{
   position: fixed;
   top: 0;
-  left: 200px;
+  left: 150px;
   padding: 10px;
   background-color: red;
 }

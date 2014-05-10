@@ -1,4 +1,13 @@
 'use strict';
+
+/**
+ * @memberof SocketModule
+ * @fileOverview Listens to the socketIO events to display a message if the connection is lost or established.
+ *
+ * @exports SocketModule.socketStatus
+ *
+ * @author Dennis Wilhelm
+ */
 angular.module('SocketModule').directive('socketStatus', [
   function() {
 
@@ -11,6 +20,10 @@ angular.module('SocketModule').directive('socketStatus', [
 
         scope.showStatus = false;
 
+        /**
+         * Displays a message if the socketIO connection is established.
+         * The message will be hidden after 3 seconds
+         */
         scope.$on('socketio-connected', function() {
           console.log('connected');
           element[0].innerText = 'Connected successfully...';
@@ -23,6 +36,9 @@ angular.module('SocketModule').directive('socketStatus', [
           }, 3000);
         });
 
+        /**
+         * Displays a message if the socketIO connection is lost.
+         */
         scope.$on('socketio-disconnected', function() {
           console.log('disconnected');
           element[0].innerText = 'Connected lost. Reconnecting...';

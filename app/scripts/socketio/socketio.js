@@ -1,8 +1,11 @@
 'use strict';
 /**
- * @memberof CollaborativeMap
+ * @memberof SocketModule
  * @fileOverview Handles the WebSocket connection. Provides the method to connect to a stream as well to emit messages.
- * @exports CollaborativeMap.Socket
+ * 
+ * @requires $rootScope
+ * 
+ * @exports SocketModule.Socket
  * @author Dennis Wilhelm
  */
 angular.module('SocketModule')
@@ -10,12 +13,18 @@ angular.module('SocketModule')
     function($rootScope) {
       var socket = io.connect();
 
+      /**
+       * Broadcast an event if the websocket connection is established
+       */
       socket.on('connect', function() {
-        $rootScope.$root.$broadcast('socketio-connected');
+        $rootScope.$broadcast('socketio-connected');
       });
 
+      /**
+       * Broadcasts an event if the websocket connection is lost
+       */
       socket.on('disconnect', function() {
-        $rootScope.$root.$broadcast('socketio-disconnected');
+        $rootScope.$broadcast('socketio-disconnected');
       });
 
       return {
