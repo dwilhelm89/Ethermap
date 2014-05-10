@@ -20,7 +20,7 @@ angular.module('CollaborativeMap')
         templateUrl: 'partials/toolbox',
         replace: true,
 
-        link: function postLink($scope) {
+        link: function postLink($scope, elements) {
 
           /**
            * Sets up the IntoJS tags by assigning the html attributes to element which are created at runtime.
@@ -199,6 +199,35 @@ angular.module('CollaborativeMap')
             MapHandler.panToFeature(id);
             MapHandler.highlightFeatureId(id);
           };
+
+          /**
+           * Highlights the user Button if a chat message comes in and the user tab is not opened
+           */
+          function highlightOnChatMessage(){
+            $scope.$on('chatmessage', function(){
+            if($scope.views.userView){
+              var elem = elements.children()[0];
+              var className = elem.className;
+              if(className.indexOf('orangeBackground') < 0){
+                className += ' orangeBackground';
+              }
+              elem.className = className;
+            }
+          });
+
+          $scope.$on('toolbox', function(e, event){
+            if(event === 'userView'){
+              var elem = elements.children()[0];
+              var className = elem.className;
+              if(className.indexOf('orangeBackground') > -1){
+                elem.className = className.replace(' orangeBackground', '');
+              }
+            }
+          });
+          }
+
+          highlightOnChatMessage();
+          
 
         }
       };

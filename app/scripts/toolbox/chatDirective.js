@@ -41,6 +41,7 @@ angular.module('CollaborativeMap')
           */
           function receiveMessage() {
             Socket.on(mapId + '-chat', function(res) {
+              $scope.$root.$broadcast('chatmessage');
               $scope.messages.push(res);
               setTimeout(scrollDown, 100);
             });
