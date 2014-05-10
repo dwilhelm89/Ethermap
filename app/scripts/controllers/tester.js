@@ -26,6 +26,12 @@ angular.module('CollaborativeMap')
         Socket.emit('tester', {
           command: 'watchAll'
         });
+      };      
+
+      $scope.setRandomName = function() {
+        Socket.emit('tester', {
+          command: 'randomName'
+        });
       };
 
       $scope.createRandomFeatures = function() {

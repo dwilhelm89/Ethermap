@@ -51,6 +51,8 @@ factory('TesterService', ['Socket',
             this.goToMap();
           } else if (command === 'watchAll') {
             this.watchAll();
+          } else if (command === 'randomName') {
+            this.randomName();
           }
         }
         if (e && e.evalMessage) {
@@ -73,6 +75,14 @@ factory('TesterService', ['Socket',
        */
       watchAll: function() {
         this.scope.isWatchingAll = !this.scope.isWatchingAll;
+      },
+
+      /**
+       * Creates a random user name and sets it to the scope variable
+       * @return {[type]} [description]
+       */
+      randomName: function(){
+        this.scope.userName = Math.random() + '';
       }
 
     };
