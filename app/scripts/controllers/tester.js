@@ -26,7 +26,7 @@ angular.module('CollaborativeMap')
         Socket.emit('tester', {
           command: 'watchAll'
         });
-      };      
+      };
 
       $scope.setRandomName = function() {
         Socket.emit('tester', {
@@ -120,8 +120,8 @@ angular.module('CollaborativeMap')
               Socket.emit('mapMovement', {
                 mapId: 'tester',
                 'event': {
-                  'nE': [randomNumberFromInterval(51.9, 52),randomNumberFromInterval(7.5, 7.7)],
-                  'sW': [randomNumberFromInterval(51.9, 52),randomNumberFromInterval(7.5, 7.7)]
+                  'nE': [randomNumberFromInterval(51.9, 52), randomNumberFromInterval(7.5, 7.7)],
+                  'sW': [randomNumberFromInterval(51.9, 52), randomNumberFromInterval(7.5, 7.7)]
                 }
               });
             }, delay * i);
@@ -131,7 +131,7 @@ angular.module('CollaborativeMap')
       }
 
       function randomNumberFromInterval(min, max) {
-        max = max -1;
+        max = max - 1;
         return Math.random() * (max - min + 1) + min;
       }
 

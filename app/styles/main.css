@@ -267,7 +267,7 @@ input {
 .chatMessage {
   background-color: #FFFFFF;
   border: 1px solid #CCCCCC;
-  padding: 15px;
+  padding: 5px;
   -moz-border-radius: 5px;
   border-radius: 0;
   margin: 3px;
@@ -391,4 +391,14 @@ select {
 }
 .orangeBackground{
   background-color: orange;
+}
+.greenBackground{
+  background-color: rgb(7, 189, 7) !important;
+}
+.socketStatus{
+  position: fixed;
+  top: 0;
+  left: 200px;
+  padding: 10px;
+  background-color: red;
 }

@@ -40,9 +40,9 @@ angular.module('CollaborativeMap')
             });
 
             jsIntro.onafterchange(function(targetElement) {
-              var rightDif =  $(window).width() - targetElement.getBoundingClientRect().right;
-              if(rightDif < 100){
-                setTimeout(function(){
+              var rightDif = $(window).width() - targetElement.getBoundingClientRect().right;
+              if (rightDif < 100) {
+                setTimeout(function() {
                   $('.introjs-tooltip')[0].style.marginLeft = '-50px';
                 }, 500);
               }
@@ -56,7 +56,7 @@ angular.module('CollaborativeMap')
            */
           $scope.startIntroJS = function() {
             setUpIntroJS().start();
-            
+
           };
 
           /**
@@ -203,31 +203,32 @@ angular.module('CollaborativeMap')
           /**
            * Highlights the user Button if a chat message comes in and the user tab is not opened
            */
-          function highlightOnChatMessage(){
-            $scope.$on('chatmessage', function(){
-            if($scope.views.userView){
-              var elem = elements.children()[0];
-              var className = elem.className;
-              if(className.indexOf('orangeBackground') < 0){
-                className += ' orangeBackground';
-              }
-              elem.className = className;
-            }
-          });
 
-          $scope.$on('toolbox', function(e, event){
-            if(event === 'userView'){
-              var elem = elements.children()[0];
-              var className = elem.className;
-              if(className.indexOf('orangeBackground') > -1){
-                elem.className = className.replace(' orangeBackground', '');
+          function highlightOnChatMessage() {
+            $scope.$on('chatmessage', function() {
+              if ($scope.views.userView) {
+                var elem = elements.children()[0];
+                var className = elem.className;
+                if (className.indexOf('orangeBackground') < 0) {
+                  className += ' orangeBackground';
+                }
+                elem.className = className;
               }
-            }
-          });
+            });
+
+            $scope.$on('toolbox', function(e, event) {
+              if (event === 'userView') {
+                var elem = elements.children()[0];
+                var className = elem.className;
+                if (className.indexOf('orangeBackground') > -1) {
+                  elem.className = className.replace(' orangeBackground', '');
+                }
+              }
+            });
           }
 
           highlightOnChatMessage();
-          
+
 
         }
       };
