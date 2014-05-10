@@ -7,8 +7,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .controller('TesterCtrl', ['$http', '$scope', 'Socket',
-    function($http, $scope, Socket) {
+  .controller('TesterCtrl', ['$http', '$scope', 'Socket', 'Utils',
+    function($http, $scope, Socket, Utils) {
 
       $scope.evalJS = function() {
         Socket.emit('tester', {
@@ -54,7 +54,8 @@ angular.module('CollaborativeMap')
                 'event': {
                   'feature': feature,
                   'user': 'testerBot',
-                  'action': 'created'
+                  'action': 'created',
+                  'fid': Utils.createId()
                 }
               });
             }, delay * i);
@@ -68,7 +69,6 @@ angular.module('CollaborativeMap')
       };
 
       function sendMuensterBuildings(number, delay) {
-        console.log(delay);
         var i = 0;
         for (i; i < number; i++) {
           (function() {
@@ -84,7 +84,8 @@ angular.module('CollaborativeMap')
                   'event': {
                     'feature': data,
                     'user': 'testerBot',
-                    'action': 'created'
+                    'action': 'created',
+                    'fid': Utils.createId()
                   }
                 });
               })
@@ -99,7 +100,6 @@ angular.module('CollaborativeMap')
       }
 
       $scope.createMapMovementEvents = function() {
-        console.log('send movements');
         sendMovementEvents($scope.numberOfMovements, $scope.movementDelay);
 
       };
@@ -126,7 +126,6 @@ angular.module('CollaborativeMap')
 
       function randomNumberFromInterval(min, max) {
         max = max -1;
-        console.log(Math.random() * (max - min + 1) + min);
         return Math.random() * (max - min + 1) + min;
       }
 
