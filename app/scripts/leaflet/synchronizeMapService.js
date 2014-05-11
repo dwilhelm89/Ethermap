@@ -49,12 +49,12 @@ angular.module('CollaborativeMap')
        * @param  {Object} map
        */
 
-      function handleMapMovements(movement, map) {
+      function handleMapMovements(movement) {
         if (movement.event && movement.event.nE && movement.event.sW && movement.event.userId) {
           var newBounds = MapHandler.getBounds(movement.event.nE, movement.event.sW);
           mapScope.userBounds[movement.event.userId] = newBounds;
           if (isWachtingUser(movement.event.userId)) {
-            MapHandler.fitBounds(newBounds, map);
+            MapHandler.fitBounds(newBounds);
           }
         }
       }
@@ -66,9 +66,9 @@ angular.module('CollaborativeMap')
        * @param  {Object} map
        */
 
-      function receiveMapMovements(mapId, map) {
+      function receiveMapMovements(mapId) {
         Socket.on(mapId + '-mapMovement', function(res) {
-          handleMapMovements(res, map);
+          handleMapMovements(res);
         });
       }
 
@@ -217,7 +217,7 @@ angular.module('CollaborativeMap')
             sendMapMovements(scope.mapId, event);
           });
 
-          receiveMapMovements(scope.mapId, map);
+          receiveMapMovements(scope.mapId);
           receiveUsers(scope.mapId);
 
           MapDrawEvents.connectMapEvents(map, scope, function(event) {

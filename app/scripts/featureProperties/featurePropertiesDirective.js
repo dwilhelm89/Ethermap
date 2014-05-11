@@ -23,7 +23,7 @@ angular.module('CollaborativeMap')
             if ($scope.views.toolBarIn) {
               $scope.toggleToolbar('toolsView');
               $scope.$apply();
-            } else if ($scope.views.toolsView) { 
+            } else if ($scope.views.toolsView) {
               $scope.toggleToolbar('toolsView');
               $scope.$apply();
             }
@@ -93,7 +93,7 @@ angular.module('CollaborativeMap')
            */
 
           function allowedProp(prop) {
-            var notAllowed = ['category', 'preset', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-linecap' ,'fill'];
+            var notAllowed = ['category', 'preset', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-linecap', 'fill'];
             //var notAllowed = ['category', 'preset'];
             if (notAllowed.indexOf(prop) > -1) {
               return false;
@@ -267,6 +267,7 @@ angular.module('CollaborativeMap')
            * Put the selection in the scope variable for the GUI
            * @param  {Object} layer selected feature
            */
+
           function selectCategoriesForGeomType(layer) {
             var geomType = MapHandler.getLayerType(layer);
             $scope.categories = {};
@@ -335,13 +336,38 @@ angular.module('CollaborativeMap')
             }
           };
 
-          function setStyleFromCategory(category){
+          /**
+           * Removes existing simplestyle properties and sets the new ones
+           * based on the configured category styles.
+           * @param {Object} category the chosen osm category
+           */
+          function setStyleFromCategory(category) {
             var style = categories[category].style;
             var selFeature = $scope.selectedFeature.feature;
-            
-            for(var key in style){
+            removeExistingStyle(selFeature);
+            for (var key in style) {
               selFeature.properties[key] = style[key];
             }
+          }
+
+          /**
+           * Removes existing simplestyle properties from the given feature
+           * @param  {Object} feature the GeoJSON feature
+           */
+          function removeExistingStyle(feature) {
+            var simpleStyleKeys = [
+              'marker-size',
+              'marker-symbol',
+              'marker-color',
+              'stroke',
+              'stroke-opacity',
+              'stroke-width',
+              'fill',
+              'fill-opacity'
+            ];
+            simpleStyleKeys.forEach(function(styleKey){
+              delete feature.properties[styleKey];
+            });
           }
 
           /**
