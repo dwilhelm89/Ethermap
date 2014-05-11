@@ -50,6 +50,8 @@ angular.module('CollaborativeMap')
               'fid': feature._leaflet_id
             };
 
+            selectCategoriesForGeomType(feature);
+
             var tmpGeoJSON = $scope.selectedFeature.feature = feature.toGeoJSON();
 
             //Create an Array containing all properties. Has to be included in the feature again
@@ -251,6 +253,28 @@ angular.module('CollaborativeMap')
           //NEW CATEGORIES SYSTEM
           var presets;
           var fields;
+          var categories;
+
+          function selectCategoriesForGeomType(layer) {
+            var geomType = getLayerType(layer);
+            $scope.categories = [];
+
+            for (var key in categories) {
+              if (categories[key].geometry.indexOf(geomType) > -1) {
+                $scope.categories.push(categories[key]);
+              }
+            }
+          }
+
+          function getLayerType(layer) {
+            if (layer instanceof L.Marker) {
+              return 'point';
+            } else if (layer instanceof L.Polygon) {
+              return 'area';
+            } else if (layer instanceof L.Polyline) {
+              return 'line';
+            }
+          }
 
           /**
            * Remove selected category and preset from the scope
@@ -276,7 +300,7 @@ angular.module('CollaborativeMap')
             $q.all([categoriesPromise, fieldsPromise, presetsPromise]).then(function(resultArray) {
               if (resultArray) {
                 if (resultArray[0] && resultArray[0].data) {
-                  $scope.categories = resultArray[0].data;
+                  categories = resultArray[0].data;
                 }
                 if (resultArray[1] && resultArray[1].data) {
                   fields = resultArray[1].data;
