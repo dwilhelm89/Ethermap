@@ -152,6 +152,9 @@ angular.module('CollaborativeMap')
            */
           $scope.appendToHistory = function(event) {
             if (event.date) {
+              if(!$scope.history){
+                $scope.history = [];
+              }
               event.dateString = createDateString(event.date);
               $scope.history.push(event);
             }
