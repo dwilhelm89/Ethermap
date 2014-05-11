@@ -225,6 +225,9 @@ angular.module('CollaborativeMap')
             $('#stopEditBtn')[0].className += ' hidden';
           }
 
+          /**
+           * Listen to the editHandler events to show or hide the "Stop Editing" button
+           */
           $scope.$on('editHandler', function(e, eventValue) {
             if (!eventValue) {
               hideStopEditingBtn();
@@ -244,6 +247,9 @@ angular.module('CollaborativeMap')
             updateFeature();
           };
 
+          /**
+           * Cancel the edit mode if the toolbox window is closed.
+           */
           $scope.$on('toolbox', function() {
             if ($scope.views.toolsView) {
               MapHandler.removeEditHandler();
@@ -256,24 +262,19 @@ angular.module('CollaborativeMap')
           var fields;
           var categories;
 
+          /**
+           * Select the suitable categories for the given feature based on the geometry type.
+           * Put the selection in the scope variable for the GUI
+           * @param  {Object} layer selected feature
+           */
           function selectCategoriesForGeomType(layer) {
-            var geomType = getLayerType(layer);
+            var geomType = MapHandler.getLayerType(layer);
             $scope.categories = {};
 
             for (var key in categories) {
               if (categories[key].geometry.indexOf(geomType) > -1) {
                 $scope.categories[key] = categories[key];
               }
-            }
-          }
-
-          function getLayerType(layer) {
-            if (layer instanceof L.Marker) {
-              return 'point';
-            } else if (layer instanceof L.Polygon) {
-              return 'area';
-            } else if (layer instanceof L.Polyline) {
-              return 'line';
             }
           }
 

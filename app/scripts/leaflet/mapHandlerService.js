@@ -37,7 +37,7 @@ angular.module('CollaborativeMap')
           drawControl = dControl;
 
           map.on('draw:drawstart', function() {
-            if(editHandler){
+            if (editHandler) {
               this.removeEditHandler();
             }
           }.bind(this));
@@ -347,6 +347,10 @@ angular.module('CollaborativeMap')
           }
         },
 
+        /**
+         * Check if the selected feature has been edited
+         * @return {Boolean} is edited
+         */
         hasGeometryEdits: function() {
           if (editHandler && editHandler._featureGroup && editHandler._featureGroup._layers) {
             var layers = editHandler._featureGroup._layers;
@@ -358,6 +362,21 @@ angular.module('CollaborativeMap')
             return false;
           } else {
             return false;
+          }
+        },
+
+        /**
+         * Return the osm geometry type of a given layer
+         * @param  {Object} layer leaflet layer
+         * @return {String}       geometry type (point, area, line)
+         */
+        getLayerType: function(layer) {
+          if (layer instanceof L.Marker) {
+            return 'point';
+          } else if (layer instanceof L.Polygon) {
+            return 'area';
+          } else if (layer instanceof L.Polyline) {
+            return 'line';
           }
         }
 
