@@ -351,7 +351,7 @@ angular.module('CollaborativeMap')
             $scope.presets = [];
             $scope.presets = [];
             //Get the member of the chosen category = presets
-            var members = $scope.categories[category].members || [];
+            var members = categories[category].members || [];
             members.forEach(function(member) {
               $scope.presets.push(presets[member]);
             });
@@ -365,7 +365,7 @@ angular.module('CollaborativeMap')
            */
 
           function getPresetIndex(presetKey) {
-            var members = $scope.categories[$scope.selectedCategory].members;
+            var members = categories[$scope.selectedCategory].members;
             for (var key in members) {
               if (presetKey === members[key]) {
                 return key;
