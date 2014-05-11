@@ -23,7 +23,7 @@ angular.module('CollaborativeMap')
             if ($scope.views.toolBarIn) {
               $scope.toggleToolbar('toolsView');
               $scope.$apply();
-            } else if ($scope.views.toolsView) {
+            } else if ($scope.views.toolsView) { 
               $scope.toggleToolbar('toolsView');
               $scope.$apply();
             }

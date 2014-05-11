@@ -25,7 +25,7 @@ angular.module('SocketModule').directive('socketStatus', [
          * The message will be hidden after 3 seconds
          */
         scope.$on('socketio-connected', function() {
-          element[0].innerText = 'Connected successfully...';
+          element[0].innerHTML = 'Connected successfully...';
           scope.showStatus = true;
           scope.statusClass = 'greenBackground';
           scope.$apply();
@@ -39,7 +39,7 @@ angular.module('SocketModule').directive('socketStatus', [
          * Displays a message if the socketIO connection is lost.
          */
         scope.$on('socketio-disconnected', function() {
-          element[0].innerText = 'Connected lost. Reconnecting...';
+          element[0].innerHTML = 'Connected lost. Reconnecting...';
           scope.showStatus = true;
           scope.statusClass = '';
           scope.$apply();
