@@ -10,7 +10,10 @@
       "building/industrial",
       "building/residential",
       "building"
-    ]
+    ],
+    "style": {
+      "fill": "#F00"
+    }
   },
   "category-golf": {
     "geometry": "area",
@@ -24,7 +27,10 @@
       "golf/bunker",
       "golf/tee",
       "golf/water_hazard"
-    ]
+    ],
+    "style": {
+      "fill": "#0F0"
+    }
   },
   "category-landuse": {
     "geometry": "area",
@@ -41,7 +47,10 @@
       "landuse/meadow",
       "landuse/cemetery",
       "landuse/military"
-    ]
+    ],
+    "style": {
+      "fill": "rgba(140, 208, 95, 0.2)"
+    }
   },
   "category-path": {
     "geometry": "line",
@@ -53,7 +62,8 @@
       "highway/bridleway",
       "highway/path",
       "highway/steps"
-    ]
+    ],
+    "style": {}
   },
   "category-rail": {
     "geometry": "line",
@@ -66,7 +76,8 @@
       "railway/monorail",
       "railway/disused",
       "railway/abandoned"
-    ]
+    ],
+    "style": {}
   },
   "category-road": {
     "geometry": "line",
@@ -88,7 +99,10 @@
       "highway/unclassified",
       "highway/track",
       "highway/road"
-    ]
+    ],
+    "style": {
+      "stroke": "#555555"
+    }
   },
   "category-route": {
     "geometry": "relation",
@@ -108,7 +122,10 @@
       "type/route/detour",
       "type/route_master",
       "type/route"
-    ]
+    ],
+    "style": {
+      "stroke": "#555555"
+    }
   },
   "category-water-area": {
     "geometry": "area",
@@ -119,7 +136,10 @@
       "natural/water/pond",
       "natural/water/reservoir",
       "natural/water"
-    ]
+    ],
+    "style": {
+      "fill": "rgba(119, 211, 222, 0.3)"
+    }
   },
   "category-water-line": {
     "geometry": "line",
@@ -131,7 +151,10 @@
       "waterway/canal",
       "waterway/ditch",
       "waterway/drain"
-    ]
+    ],
+    "style": {
+      "stroke": "rgb(119, 211, 222)"
+    }
   },
   "category-amenity": {
     "geometry": "point",
@@ -143,20 +166,31 @@
       "amenity/restaurant",
       "amenity/bar",
       "amenity/bank"
-    ]
+    ],
+    "style": {}
   },
   "category-leisure": {
     "geometry": "point",
     "name": "Leisure",
     "members": [
-        "leisure/park"
-    ]
+      "leisure/common",
+      "leisure/park",
+      "leisure/ice_rink",
+      "leisure/playground"
+
+    ],
+    "style": {}
   },
   "category-shop": {
     "geometry": "point",
     "name": "Shop",
     "members": [
-        "shop/supermarket"
-    ]
+      "shop/supermarket",
+      "shop/alcohol",
+      "shop/art",
+      "shop/bakery",
+      "shop/bicycle"
+    ],
+    "style": {}
   }
 }

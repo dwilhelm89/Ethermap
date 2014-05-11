@@ -93,7 +93,8 @@ angular.module('CollaborativeMap')
            */
 
           function allowedProp(prop) {
-            var notAllowed = ['category', 'preset'];
+            var notAllowed = ['category', 'preset', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-linecap' ,'fill'];
+            //var notAllowed = ['category', 'preset'];
             if (notAllowed.indexOf(prop) > -1) {
               return false;
             } else {
@@ -257,11 +258,11 @@ angular.module('CollaborativeMap')
 
           function selectCategoriesForGeomType(layer) {
             var geomType = getLayerType(layer);
-            $scope.categories = [];
+            $scope.categories = {};
 
             for (var key in categories) {
               if (categories[key].geometry.indexOf(geomType) > -1) {
-                $scope.categories.push(categories[key]);
+                $scope.categories[key] = categories[key];
               }
             }
           }
@@ -319,17 +320,28 @@ angular.module('CollaborativeMap')
           $scope.selectPresets = function() {
             $scope.cancelEditMode();
             $scope.fields = [];
+            var selCategory = $scope.selectedCategory;
 
-            if ($scope.selectedCategory) {
+            if (selCategory) {
               //Update the feature
-              $scope.selectedFeature.feature.properties.category = $scope.selectedCategory;
+              $scope.selectedFeature.feature.properties.category = selCategory;
+              setStyleFromCategory(selCategory);
               MapHandler.updateOnlyProperties($scope.selectedFeature);
 
               //Set to scope array
-              setPresetsInScope($scope.selectedCategory);
+              setPresetsInScope(selCategory);
 
             }
           };
+
+          function setStyleFromCategory(category){
+            var style = categories[category].style;
+            var selFeature = $scope.selectedFeature.feature;
+            
+            for(var key in style){
+              selFeature.properties[key] = style[key];
+            }
+          }
 
           /**
            * Append the presets to the scope variable to fill the select box.
