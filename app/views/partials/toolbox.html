@@ -10,12 +10,12 @@
 
     <div class="toolbox-content" ng-class="{'hide': views.userView}">
       <div class="users">
-        <div class="btn btn-default" ng-class="{'watching': isWatchingAll}" ng-click="watchAll()">Watch all</div>
+        <div class="btn btn-default" ng-class="{'watching': isWatchingAll}" ng-click="watchAll()" title="Your map will automatically change if other users zoom or pan in their map so you can see what they are editing.">Watch all</div>
 
         <div ng-repeat="(key, value) in users">
           <span ng-if="value !== userName">
-            <div class="btn btn-default" ng-class="{'watching': watchUsers[key]}" ng-click="watchUser(key, $event)">Watch</div>
-            <div class="btn btn-default" ng-click="getUserBounds(key)">Show Workarea</div>
+            <div class="btn btn-default" ng-class="{'watching': watchUsers[key]}" ng-click="watchUser(key, $event)" title="Your map will automatically change if the user zooms or pans in the map.">Watch</div>
+            <div class="btn btn-default" ng-click="getUserBounds(key)" title="Displays the map extent the user is currently able to see.">Show Workarea</div>
             {{value}}
           </span>
         </div>
