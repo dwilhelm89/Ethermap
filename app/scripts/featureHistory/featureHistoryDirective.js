@@ -102,6 +102,7 @@ angular.module('CollaborativeMap')
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
         templateUrl: 'partials/history',
         replace: true,
+        scope: {},
         // transclude: true,
         // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
         link: function($scope) { //, iElm, iAttrs, controller) {
@@ -151,7 +152,7 @@ angular.module('CollaborativeMap')
               init();
               $http({
                 method: 'GET',
-                url: '/api/documentRevisions/' + $scope.mapId + '/' + fid
+                url: '/api/documentRevisions/' + $scope.$root.mapId + '/' + fid
               })
                 .
               success(function(data) { //, status, headers, config) {
