@@ -111,13 +111,8 @@ angular.module('CollaborativeMap')
           $scope.hideDiffView = true;
           $scope.hideMapDiffView = true;
 
-          /**
-           * Listen to the historyView event. Called when the modal is opened/closed
-           */
-          $scope.$on('toolbox', function() {
-            if (!$scope.views.historyView) {
-              $scope.loadHistory();
-            }
+          $scope.$on('showFeatureHistory', function(e, id){
+            toggleHistoryModal(id);
           });
 
           /**
@@ -199,11 +194,11 @@ angular.module('CollaborativeMap')
            * Toggles the visibility of the bootstrap modal
            * @param {String} fid the feature id
            */
-          $scope.toggleHistoryModal = function(fid) {
+          function toggleHistoryModal(fid) {
             visible = !visible;
             $('#historyModal').modal('toggle');
             loadDocumentHistory(fid);
-          };
+          }
 
           $('#historyModal').on('hidden.bs.modal', function() {
             $scope.documentRevision = [];

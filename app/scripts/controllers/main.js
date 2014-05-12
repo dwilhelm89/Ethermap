@@ -21,7 +21,7 @@ angular.module('CollaborativeMap')
 
       loadName();
       //TODO: random map id generator
-      $scope.mapId = $routeParams.mapid.toLowerCase();
+      $scope.$root.mapId = $scope.mapId = $routeParams.mapid.toLowerCase();
 
       TesterService.init($scope, undefined);
 
