@@ -79,7 +79,6 @@ factory('TesterService', ['Socket',
 
       /**
        * Creates a random user name and sets it to the scope variable
-       * @return {[type]} [description]
        */
       randomName: function(){
         this.scope.userName = Math.random() + '';
