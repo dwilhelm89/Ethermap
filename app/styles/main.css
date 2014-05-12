@@ -402,3 +402,7 @@ select {
   padding: 10px;
   background-color: red;
 }
+.featureRevisionId{
+  width: 100px;
+  display: inline-block;
+}

@@ -11,7 +11,7 @@
         <div ng-class="{'hide': hideDocumentRevisionView}">
           <div ng-repeat="docRev in documentRevision">
             <div class="documentRevision">
-              Revision {{docRev._rev.split('-')[0]}}:
+              <span class="featureRevisionId">Revision {{docRev._rev.split('-')[0]}}:</span>
               <span ng-if="!docRev._deleted">
                 <div ng-if="$first" class="docRevRevertBtn">
                   <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
