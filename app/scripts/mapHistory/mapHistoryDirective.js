@@ -29,7 +29,7 @@ angular.module('CollaborativeMap')
            */
           scope.$on('toolbox', function(e, view, hidden) {
             if (view === 'historyView' && !hidden) {
-              loadHistory();
+              loadMapHistory();
             }
           });
 
@@ -53,7 +53,7 @@ angular.module('CollaborativeMap')
            * Loads the current history for the map.
            * Appends the history to the scope for the history directive
            */
-          function loadHistory() {
+          function loadMapHistory() {
             $http({
               method: 'GET',
               url: '/api/history/' + scope.$root.mapId

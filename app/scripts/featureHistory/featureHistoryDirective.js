@@ -100,7 +100,7 @@ angular.module('CollaborativeMap')
 
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
-        templateUrl: 'partials/history',
+        templateUrl: 'partials/featurehistory',
         replace: true,
         scope: {},
         // transclude: true,
