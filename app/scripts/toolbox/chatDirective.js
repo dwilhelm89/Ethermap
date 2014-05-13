@@ -16,7 +16,7 @@ angular.module('CollaborativeMap')
         restrict: 'E',
         scope: {},
         link: function postLink($scope) {
-          $scope.messages = [];
+          $scope.messages = window.a = [];
           var mapId = $scope.$parent.mapId;
           var userName = $scope.$parent.userName;
 

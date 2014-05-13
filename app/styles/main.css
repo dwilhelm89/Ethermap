@@ -411,3 +411,6 @@ select {
   height: 11px;
   width: 43px;
 }
+.introjs-helperNumberLayer{
+  display:none;
+}

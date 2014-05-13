@@ -32,7 +32,7 @@ angular.module('CollaborativeMap')
             var jsIntro = introJs();
 
             var drawFeatures = document.getElementsByClassName('leaflet-draw-toolbar leaflet-bar')[0];
-            drawFeatures.setAttribute('data-intro', 'These are the drawing tools. They can be used to create markers, lines and polygons.');
+            drawFeatures.setAttribute('data-intro', 'These are the drawing tools. They can be used to create markers (e.g. points of interest), lines (e.g. streets, rivers) and polygons (e.g. buildings, parks).');
             drawFeatures.setAttribute('data-step', '1');
 
             jsIntro.onbeforechange(function(targetElement) {

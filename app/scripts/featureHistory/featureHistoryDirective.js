@@ -161,8 +161,7 @@ angular.module('CollaborativeMap')
                 $scope.loading = false;
               })
                 .
-              error(function(data) { //, status, headers, config) {
-                console.log('history couldnt be loaded');
+              error(function() { //, status, headers, config) {
                 $scope.loading = false;
               });
             }
