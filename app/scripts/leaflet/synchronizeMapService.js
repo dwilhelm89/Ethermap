@@ -105,7 +105,7 @@ angular.module('CollaborativeMap')
           action: 'edited',
           date: new Date().getTime()
         };
-        mapScope.appendToHistory(updateEvent);
+        mapScope.$root.$broadcast('appendToHistory', updateEvent);
       }
 
 

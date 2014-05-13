@@ -174,7 +174,7 @@ angular.module('CollaborativeMap')
            * @param {String} rev the revision to which the feature will be reverted
            */
           $scope.revertFeature = function(id, rev) {
-            MapHandler.revertFeature($scope.mapId, id, rev, $scope.userName);
+            MapHandler.revertFeature($scope.$root.mapId, id, rev, $scope.$root.userName);
             setTimeout(function() {
               loadDocumentHistory(id);
             }, 100);
@@ -186,7 +186,7 @@ angular.module('CollaborativeMap')
            * @param {Object} feature the feature
            */
           $scope.restoreDeletedFeature = function(id, feature) {
-            MapHandler.restoreDeletedFeature($scope.mapId, id, feature, $scope.userName);
+            MapHandler.restoreDeletedFeature($scope.$root.mapId, id, feature, $scope.$root.userName);
             setTimeout(function() {
               loadDocumentHistory(id);
             }, 100);
