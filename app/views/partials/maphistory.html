@@ -11,7 +11,7 @@
 
   <div ng-repeat="action in history | filter: queryText | orderBy: 'date':true track by $index">
     <div ng-if="action.actions">
-      <div class="history">
+      <div class="history stacked">
         <div class="historyDropdown stringLink" ng-click="showHistoryDetails(action)">Show details</div>
         {{action.user}} made {{action.number}} changes.
         <br>

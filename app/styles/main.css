@@ -288,7 +288,7 @@ input {
 .stringLink {
   color: #2a6496;
 }
-.stringLink:hover{
+.stringLink:hover {
   text-decoration: underline;
 }
 .dropdown-menu {
@@ -419,4 +419,9 @@ select {
 }
 .introjs-helperNumberLayer {
   display:none;
+}
+.stacked {
+  box-shadow: 2px 2px #9B9898, 4px 4px #747474;
+  margin-bottom: 7px;
+  margin-right: 7px;
 }
