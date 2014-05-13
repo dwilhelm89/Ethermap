@@ -5,23 +5,34 @@
   <div ng-hide="history">
     No history available yet.
   </div>
-  <span style="padding-left: 10px">Filter: <input type="text" ng-model="queryText"></span>
-  <div ng-repeat="action in history | filter: queryText | orderBy: 'date':true">
+  <span style="padding-left: 10px">Filter:
+    <input type="text" ng-model="queryText">
+  </span>
 
-    <div class="history" ng-click="panToFeature(action.id)">
-
-      <div class="historyDropdown dropdown"><a class="dropdown-toggle" role="button" data-toggle="dropdown" href="javascript:;">Actions<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a tabindex="-1" data-ng-click="showFeatureHistory(action.id)">View History</a>
-          </li>
-        </ul>
+  <div ng-repeat="action in history | filter: queryText | orderBy: 'date':true track by $index">
+    <div ng-if="action.actions">
+      <div class="history">
+        <div class="historyDropdown stringLink" ng-click="showHistoryDetails(action)">Show details</div>
+        {{action.user}} made {{action.number}} changes.
+        <br>
+        <div class="historyDate">{{action.dateString}}</div>
       </div>
-
-      {{action.user}}: {{action.action}}
-      <br>Revision: {{action.rev.split('-')[0]}}
-      <br>
-      <div class="historyDate">{{action.dateString}}</div>
     </div>
+    <div ng-if="action.action">
+      <div class="history" ng-click="panToFeature(action.id)">
 
+        <div class="historyDropdown dropdown"><a class="dropdown-toggle" role="button" data-toggle="dropdown" href="javascript:;">Actions<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a tabindex="-1" data-ng-click="showFeatureHistory(action.id)">View History</a>
+            </li>
+          </ul>
+        </div>
+
+        {{action.user}}: {{action.action}}
+        <br>Revision: {{action.rev.split('-')[0]}}
+        <br>
+        <div class="historyDate">{{action.dateString}}</div>
+      </div>
+    </div>
   </div>
 </div>

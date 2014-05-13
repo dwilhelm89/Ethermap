@@ -13,7 +13,7 @@
  */
 
 angular.module('CollaborativeMap')
-  .directive('mapHistory', ['$http','MapHandler',
+  .directive('mapHistory', ['$http', 'MapHandler',
     function($http, MapHandler) {
 
       return {
@@ -43,6 +43,7 @@ angular.module('CollaborativeMap')
            * Can result in different timestamps on different computers
            * @param {Object} event map draw event
            */
+
           function appendToHistory(event) {
             if (event.date) {
               if (!scope.history) {
@@ -71,7 +72,7 @@ angular.module('CollaborativeMap')
                   action.dateString = createDateString(action.date);
                 }
               });
-              scope.history = data;
+              scope.history = reduceActions(data);
               scope.loading = false;
 
             })
@@ -81,6 +82,46 @@ angular.module('CollaborativeMap')
               scope.loading = false;
             });
           }
+
+          function reduceActions(values) {
+            var result = [];
+            values.forEach(function(elem) {
+              if (result.length === 0) {
+                result.push(elem);
+              } else {
+                if (elem.user === result[result.length - 1].user) {
+                  if (result[result.length - 1].actions) {
+                    result[result.length - 1].actions.push(elem);
+                    result[result.length - 1].number++;
+                    result[result.length - 1].date = elem.date;
+                    result[result.length - 1].dateString = elem.dateString;
+                  } else {
+                    result[result.length - 1] = {
+                      user: elem.user,
+                      actions: [result[result.length - 1], elem],
+                      number: 2,
+                      dateString: elem.dateString,
+                      date: elem.date
+                    };
+                  }
+                } else {
+                  result.push(elem);
+                }
+              }
+            });
+            return result;
+          }
+
+          /**
+           * Replace aggregated object in the history with the single actions
+           * @param  {Object} action the aggregated object
+           */
+          scope.showHistoryDetails = function(action){
+            var index = scope.history.indexOf(action);
+            var tmp = scope.history[index];
+            delete scope.history[index];
+            scope.history = scope.history.concat(tmp.actions);
+          };
 
           /**
            * Opens a bootstrap modal to show the history of a single feature
@@ -94,7 +135,7 @@ angular.module('CollaborativeMap')
            * Pan to the a selected feature
            * @param  {String} fid feature id (= leaflet layer id)
            */
-          scope.panToFeature = function(fid){
+          scope.panToFeature = function(fid) {
             MapHandler.panToFeature(fid);
           };
 

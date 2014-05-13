@@ -285,6 +285,12 @@ input {
 .historyDropdown {
   float: right;
 }
+.stringLink {
+  color: #2a6496;
+}
+.stringLink:hover{
+  text-decoration: underline;
+}
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -389,28 +395,28 @@ select {
   width: 265px;
   height: 30px;
 }
-.orangeBackground{
+.orangeBackground {
   background-color: orange;
 }
-.greenBackground{
+.greenBackground {
   background-color: rgb(7, 189, 7) !important;
 }
-.socketStatus{
+.socketStatus {
   position: fixed;
   top: 0;
   left: 150px;
   padding: 10px;
   background-color: red;
 }
-.featureRevisionId{
+.featureRevisionId {
   width: 100px;
   display: inline-block;
 }
-.loading{
+.loading {
   background-image: url(../images/ajax-loader.gif);
   height: 11px;
   width: 43px;
 }
-.introjs-helperNumberLayer{
+.introjs-helperNumberLayer {
   display:none;
 }
