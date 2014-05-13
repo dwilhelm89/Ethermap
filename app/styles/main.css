@@ -406,3 +406,8 @@ select {
   width: 100px;
   display: inline-block;
 }
+.loading{
+  background-image: url(../images/ajax-loader.gif);
+  height: 11px;
+  width: 43px;
+}

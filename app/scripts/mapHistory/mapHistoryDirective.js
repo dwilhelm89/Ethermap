@@ -54,6 +54,7 @@ angular.module('CollaborativeMap')
            * Appends the history to the scope for the history directive
            */
           function loadMapHistory() {
+            scope.loading = true;
             $http({
               method: 'GET',
               url: '/api/history/' + scope.$root.mapId
@@ -66,11 +67,13 @@ angular.module('CollaborativeMap')
                 }
               });
               scope.history = data;
+              scope.loading = false;
 
             })
               .
             error(function(data) { //, status, headers, config) {
               console.log(data);
+              scope.loading = false;
             });
           }
 

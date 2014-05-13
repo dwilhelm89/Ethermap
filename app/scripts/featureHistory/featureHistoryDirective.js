@@ -149,6 +149,7 @@ angular.module('CollaborativeMap')
 
           function loadDocumentHistory(fid) {
             if (fid) {
+              $scope.loading = true;
               init();
               $http({
                 method: 'GET',
@@ -157,11 +158,12 @@ angular.module('CollaborativeMap')
                 .
               success(function(data) { //, status, headers, config) {
                 $scope.documentRevision = data;
+                $scope.loading = false;
               })
                 .
               error(function(data) { //, status, headers, config) {
                 console.log('history couldnt be loaded');
-                console.log(data);
+                $scope.loading = false;
               });
             }
 
