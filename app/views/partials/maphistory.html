@@ -5,7 +5,8 @@
   <div ng-hide="history">
     No history available yet.
   </div>
-  <div ng-repeat="action in history | orderBy: 'date':true">
+  <span style="padding-left: 10px">Filter: <input type="text" ng-model="queryText"></span>
+  <div ng-repeat="action in history | filter: queryText | orderBy: 'date':true">
 
     <div class="history" ng-click="panToFeature(action.id)">
 
