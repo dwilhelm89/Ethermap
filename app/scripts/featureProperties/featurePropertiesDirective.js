@@ -86,6 +86,15 @@ angular.module('CollaborativeMap')
 
           };
 
+
+          /**
+           * Opens a bootstrap modal to show the history of a single feature
+           * @param {String} id the feature id
+           */
+          $scope.showFeatureHistory = function(id) {
+            $scope.$root.$broadcast('showFeatureHistory', id);
+          };
+
           /**
            * Checks if a property should be displayed or not
            * @param  {String} prop the property
@@ -341,6 +350,7 @@ angular.module('CollaborativeMap')
            * based on the configured category styles.
            * @param {Object} category the chosen osm category
            */
+
           function setStyleFromCategory(category) {
             var style = categories[category].style;
             var selFeature = $scope.selectedFeature.feature;
@@ -354,6 +364,7 @@ angular.module('CollaborativeMap')
            * Removes existing simplestyle properties from the given feature
            * @param  {Object} feature the GeoJSON feature
            */
+
           function removeExistingStyle(feature) {
             var simpleStyleKeys = [
               'marker-size',
@@ -365,7 +376,7 @@ angular.module('CollaborativeMap')
               'fill',
               'fill-opacity'
             ];
-            simpleStyleKeys.forEach(function(styleKey){
+            simpleStyleKeys.forEach(function(styleKey) {
               delete feature.properties[styleKey];
             });
           }
