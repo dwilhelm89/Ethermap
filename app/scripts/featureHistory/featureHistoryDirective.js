@@ -301,17 +301,17 @@ angular.module('CollaborativeMap')
               return function() {
                 var sliderValue = Math.round(element.value * 100) / 100;
                 //TODO check if element is layer group => iterate over all layers
-                if (old.setOpacity) {
+                if (old && old.setOpacity) {
                   old.setOpacity(1 - sliderValue);
-                } else if (old.setStyle) {
+                } else if (old && old.setStyle) {
                   old.setStyle({
                     opacity: (1 - sliderValue),
                     fillOpacity: (1 - sliderValue)
                   });
                 }
-                if (current.setOpacity) {
+                if (current && current.setOpacity) {
                   current.setOpacity(sliderValue);
-                } else if (current.setStyle) {
+                } else if (current && current.setStyle) {
                   current.setStyle({
                     opacity: (sliderValue),
                     fillOpacity: (sliderValue)

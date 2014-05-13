@@ -33,13 +33,17 @@ angular.module('CollaborativeMap')
             }
           });
 
+          scope.$on('appendToHistory', function(e, updateEvent) {
+            appendToHistory(updateEvent);
+          });
+
           /**
            * Manually append actions to the history.
            * Used to prevent multiple ajax calls to update the history.
            * Can result in different timestamps on different computers
            * @param {Object} event map draw event
            */
-          scope.appendToHistory = function(event) {
+          function appendToHistory(event) {
             if (event.date) {
               if (!scope.history) {
                 scope.history = [];
@@ -47,12 +51,13 @@ angular.module('CollaborativeMap')
               event.dateString = createDateString(event.date);
               scope.history.push(event);
             }
-          };
+          }
 
           /**
            * Loads the current history for the map.
            * Appends the history to the scope for the history directive
            */
+
           function loadMapHistory() {
             scope.loading = true;
             $http({
