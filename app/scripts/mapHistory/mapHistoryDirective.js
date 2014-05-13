@@ -13,8 +13,8 @@
  */
 
 angular.module('CollaborativeMap')
-  .directive('mapHistory', ['$http',
-    function($http) {
+  .directive('mapHistory', ['$http','MapHandler',
+    function($http, MapHandler) {
 
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
@@ -88,6 +88,14 @@ angular.module('CollaborativeMap')
            */
           scope.showFeatureHistory = function(id) {
             scope.$root.$broadcast('showFeatureHistory', id);
+          };
+
+          /**
+           * Pan to the a selected feature
+           * @param  {String} fid feature id (= leaflet layer id)
+           */
+          scope.panToFeature = function(fid){
+            MapHandler.panToFeature(fid);
           };
 
           /**

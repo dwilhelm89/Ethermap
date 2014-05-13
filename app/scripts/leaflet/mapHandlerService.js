@@ -256,9 +256,9 @@ angular.module('CollaborativeMap')
         panToFeature: function(id) {
           var target = map._layers[id];
 
-          if (target._latlng) {
+          if (target && target._latlng) {
             map.panTo(target._latlng);
-          } else if (target._latlngs) {
+          } else if (target && target._latlngs) {
             var bounds = target.getBounds();
             map.fitBounds(bounds);
           }

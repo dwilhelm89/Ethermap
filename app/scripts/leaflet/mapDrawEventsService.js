@@ -43,7 +43,7 @@ angular.module('CollaborativeMap')
           map.on('draw:created', function(event) {
             scope.selectFeature(event.layer);
             MapHandler.addClickEvent(event.layer);
-            callback(eventToMessage(event, 'created'));
+            callback(eventToMessage(event, 'created feature'));
           });
 
           map.on('draw:edited', function(event) {
@@ -53,7 +53,7 @@ angular.module('CollaborativeMap')
               for (var key in layers) {
                 callback(eventToMessage({
                   layer: layers[key]
-                }, 'edited'));
+                }, 'edited geometry'));
               }
             }
           });
@@ -61,7 +61,7 @@ angular.module('CollaborativeMap')
           map.on('propertyEdited', function(event) {
             if (event && event.layer && event.fid) {
               callback({
-                'action': 'edited',
+                'action': 'edited properties',
                 'feature': event.layer,
                 'fid': event.fid,
                 user: mapScope.userName
@@ -76,7 +76,7 @@ angular.module('CollaborativeMap')
               for (var key in layers) {
                 callback(eventToMessage({
                   layer: layers[key]
-                }, 'deleted'));
+                }, 'deleted feature'));
               }
             }
           });
