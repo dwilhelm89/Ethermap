@@ -1,5 +1,7 @@
 <div class="historyContainer">
-
+  <div ng-hide="history">
+    No history available yet.
+  </div>
   <div ng-repeat="action in history | orderBy: 'date':true">
 
     <div class="history" ng-click="panToFeature(action.id)">

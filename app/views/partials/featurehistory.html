@@ -1,41 +1,49 @@
 <div id="historyModal" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 class="modal-title">Feature {{documentRevision.revs[0]._id}}</h4>
-        Number of Revisions: {{documentRevision.revs.length}}
-      </div>
-      <div class="modal-body">
+      <div ng-show="documentRevision">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Feature {{documentRevision.revs[0]._id}}</h4>
+          Number of Revisions: {{documentRevision.revs.length}}
+        </div>
+        <div class="modal-body">
 
-        <div ng-class="{'hide': hideDocumentRevisionView}">
-          <div ng-repeat="docRev in documentRevision">
-            <div class="documentRevision">
-              <span class="featureRevisionId">Revision {{docRev._rev.split('-')[0]}}:</span>
-              <span ng-if="!docRev._deleted">
-                <div ng-if="$first" class="docRevRevertBtn">
-                  <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
-                  <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
-                </div>
-                <div ng-if="$middle" class="docRevRevertBtn">
-                  <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
-                  <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
-                  <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
-                </div>
-                <div ng-if="$last" class="docRevRevertBtn">
-                  <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
-                </div>
-              </span>
-              <span ng-if="docRev._deleted">
-                This feature has been deleted.
-                <br>
-                <span ng-if="$first">
-                  <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
-                  <input type="button" class="btn btn-default" ng-click="restoreDeletedFeature(docRev._id, docRev)" value="Restore feature">
+          <div ng-class="{'hide': hideDocumentRevisionView}">
+            <div ng-repeat="docRev in documentRevision">
+              <div class="documentRevision">
+                <span class="featureRevisionId">Revision {{docRev._rev.split('-')[0]}}:</span>
+                <span ng-if="!docRev._deleted">
+                  <div ng-if="$first" class="docRevRevertBtn">
+                    <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
+                    <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
+                  </div>
+                  <div ng-if="$middle" class="docRevRevertBtn">
+                    <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
+                    <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
+                    <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
+                  </div>
+                  <div ng-if="$last" class="docRevRevertBtn">
+                    <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
+                  </div>
                 </span>
-              </span>
+                <span ng-if="docRev._deleted">
+                  This feature has been deleted.
+                  <br>
+                  <span ng-if="$first">
+                    <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
+                    <input type="button" class="btn btn-default" ng-click="restoreDeletedFeature(docRev._id, docRev)" value="Restore feature">
+                  </span>
+                </span>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div ng-hide="documentRevision">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">There is no feature history available</h4>
         </div>
       </div>
 
