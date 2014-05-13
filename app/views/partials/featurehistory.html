@@ -4,11 +4,10 @@
       <div ng-show="documentRevision">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title">Feature {{documentRevision.revs[0]._id}}</h4>
-          Number of Revisions: {{documentRevision.revs.length}}
+          <h4 class="modal-title">Feature {{documentRevision[0]._id}}</h4>
+          Number of Revisions: {{documentRevision.length}}
         </div>
         <div class="modal-body">
-
           <div ng-class="{'hide': hideDocumentRevisionView}">
             <div ng-repeat="docRev in documentRevision">
               <div class="documentRevision">
@@ -40,11 +39,14 @@
           </div>
         </div>
       </div>
-      <div ng-hide="documentRevision">
+      <div ng-hide="documentRevision || loading">
         <div class="modal-body">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
           <h4 class="modal-title">There is no feature history available</h4>
         </div>
+      </div>
+      <div style="margin: auto; width: 43px;" ng-show="loading">
+        <div class="loading"></div>
       </div>
 
       <div ng-class="{'hide': hideDiffView}">
