@@ -20,7 +20,8 @@ angular.module('CollaborativeMap')
 
       $scope.loadMap = function() {
         Socket.emit('tester', {
-          command: 'loadMap'
+          command: 'loadMap',
+          map: $scope.destinationMap
         });
       };
 
@@ -58,7 +59,7 @@ angular.module('CollaborativeMap')
               feature.geometry.coordinates[1] = randomNumberFromInterval(51.9, 52);
               feature.geometry.coordinates[0] = randomNumberFromInterval(7.5, 7.7);
               Socket.emit('mapDraw', {
-                mapId: 'tester',
+                mapId: $scope.destinationMap,
                 'event': {
                   'feature': feature,
                   'user': 'testerBot',
@@ -88,7 +89,7 @@ angular.module('CollaborativeMap')
                 .
               success(function(data) { //, status, headers, config) {
                 Socket.emit('mapDraw', {
-                  mapId: 'tester',
+                  mapId: $scope.destinationMap,
                   'event': {
                     'feature': data,
                     'user': 'testerBot',
@@ -121,7 +122,7 @@ angular.module('CollaborativeMap')
             setTimeout(function() {
 
               Socket.emit('mapMovement', {
-                mapId: 'tester',
+                mapId: $scope.destinationMap,
                 'event': {
                   'nE': [randomNumberFromInterval(51.9, 52), randomNumberFromInterval(7.5, 7.7)],
                   'sW': [randomNumberFromInterval(51.9, 52), randomNumberFromInterval(7.5, 7.7)]
@@ -161,10 +162,12 @@ angular.module('CollaborativeMap')
 
       function playBack(data) {
         var delay = $scope.playbackDelay || 1000;
+        console.log(new Date().getTime());
         data.forEach(function(elem, i) {
           (function() {
             setTimeout(function() {
               if (elem.doc && elem.doc.action && elem.doc.event) {
+                console.log(new Date().getTime());
                 if (elem.doc.action === 'move') {
                   sendMovement(elem.doc);
                 }else if(elem.doc.action === 'draw'){

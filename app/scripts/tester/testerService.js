@@ -48,7 +48,7 @@ factory('TesterService', ['Socket',
         if (e && e.command) {
           var command = e.command;
           if (command === 'loadMap') {
-            this.goToMap();
+            this.goToMap(e);
           } else if (command === 'watchAll') {
             this.watchAll();
           } else if (command === 'randomName') {
@@ -63,10 +63,10 @@ factory('TesterService', ['Socket',
       /**
        * Go to the map 'tester' and init a user name
        */
-      goToMap: function() {
+      goToMap: function(e) {
         var tmpName = Math.random();
         this.scope.userInput = tmpName;
-        this.scope.mapIdInput = 'tester';
+        this.scope.mapIdInput = e.map;
         this.scope.startClick();
       },
 
