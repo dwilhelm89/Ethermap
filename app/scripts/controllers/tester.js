@@ -60,7 +60,7 @@ angular.module('CollaborativeMap')
                 'event': {
                   'feature': feature,
                   'user': 'testerBot',
-                  'action': 'created',
+                  'action': 'created feature',
                   'fid': Utils.createId()
                 }
               });
@@ -90,7 +90,7 @@ angular.module('CollaborativeMap')
                   'event': {
                     'feature': data,
                     'user': 'testerBot',
-                    'action': 'created',
+                    'action': 'created feature',
                     'fid': Utils.createId()
                   }
                 });
