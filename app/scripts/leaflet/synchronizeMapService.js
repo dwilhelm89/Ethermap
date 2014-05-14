@@ -157,7 +157,7 @@ angular.module('CollaborativeMap')
 
             var event = res.event;
 
-            if (event.action === 'created feature') {
+            if (event.action === 'created' ||event.action === 'created feature') {
 
               MapHandler.addGeoJSONFeature(map, event, drawnItems);
 
@@ -166,7 +166,7 @@ angular.module('CollaborativeMap')
               MapHandler.removeLayer(map, event, drawnItems);
               MapHandler.addGeoJSONFeature(map, event, drawnItems);
 
-            } else if (event.action === 'deleted feature') {
+            } else if (event.action === 'deleted' || event.action === 'deleted feature') {
 
               MapHandler.removeLayer(map, event, drawnItems);
 
