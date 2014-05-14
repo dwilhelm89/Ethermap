@@ -10,6 +10,8 @@ angular.module('CollaborativeMap')
   .controller('TesterCtrl', ['$http', '$scope', 'Socket', 'Utils',
     function($http, $scope, Socket, Utils) {
 
+      $scope.destinationMap = 'tester';
+
       $scope.evalJS = function() {
         Socket.emit('tester', {
           evalMessage: $scope.evalInput
@@ -110,6 +112,7 @@ angular.module('CollaborativeMap')
 
       };
 
+
       function sendMovementEvents(number, delay) {
         var i = 0;
         for (i; i < number; i++) {
@@ -133,6 +136,60 @@ angular.module('CollaborativeMap')
       function randomNumberFromInterval(min, max) {
         max = max - 1;
         return Math.random() * (max - min + 1) + min;
+      }
+
+
+      $scope.playbackFromDb = function() {
+        var dbName = $scope.playbackDatabase;
+        if (dbName) {
+          $http({
+            method: 'GET',
+            url: 'api/features/' + dbName
+          })
+            .
+          success(function(data) { //, status, headers, config) {
+            if (data && data.rows) {
+              playBack(data.rows);
+            }
+          })
+            .
+          error(function(data) { //, status, headers, config) {
+            console.log(data);
+          });
+        }
+      };
+
+      function playBack(data) {
+        var delay = $scope.playbackDelay || 1000;
+        data.forEach(function(elem, i) {
+          (function() {
+            setTimeout(function() {
+              if (elem.doc && elem.doc.action && elem.doc.event) {
+                if (elem.doc.action === 'move') {
+                  sendMovement(elem.doc);
+                }else if(elem.doc.action === 'draw'){
+                  sendDraw(elem.doc);
+                }
+              }
+            }, delay * i);
+          })();
+
+        });
+      }
+
+
+      function sendMovement(event) {
+        Socket.emit('mapMovement', {
+          mapId: $scope.destinationMap,
+          'event': event.event
+        });
+      }
+
+      function sendDraw(event){
+        Socket.emit('mapDraw',{
+          mapId: $scope.destinationMap,
+          'event': event.event
+        });
       }
 
     }

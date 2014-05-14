@@ -425,3 +425,7 @@ select {
   margin-bottom: 7px;
   margin-right: 7px;
 }
+.leaflet-editing-icon{
+  height: 10px !important;
+  width: 10px !important;
+}
