@@ -193,6 +193,15 @@ angular.module('CollaborativeMap')
             updateFeature();
           }
 
+          function removePropertyType(type) {
+            for (var i = $scope.selectedFeature.properties.length - 1; i >= 0; i--) {
+              if ($scope.selectedFeature.properties[i].key === type) {
+                $scope.selectedFeature.properties.splice(i, 1);
+              }
+            }
+            delete $scope.selectedFeature.feature.properties[type];
+          }
+
           //Variable used to controle the 'hide' class via ng-class
           $scope.hideNewProperty = true;
 
@@ -424,8 +433,24 @@ angular.module('CollaborativeMap')
             $scope.fields = [];
             if ($scope.selectedPreset) {
               //Update the feature
+              var oldPreset = $scope.selectedFeature.feature.properties.preset;
               $scope.selectedFeature.feature.properties.preset = getSelectedPresetName($scope.selectedPreset);
               MapHandler.updateOnlyProperties($scope.selectedFeature);
+
+
+              if (oldPreset) {
+                var oldMembers = presets[oldPreset].fields || [];
+                if (oldMembers) {
+                  oldMembers.forEach(function(member) {
+                    var index = $scope.fields.indexOf(fields[member]);
+                    if (index > -1) {
+                      $scope.fields.splice(index, 1);
+                    }
+                    removePropertyType(fields[member].label);
+                  });
+                }
+              }
+
 
               //Get the fields of the preset
               members = $scope.presets[$scope.selectedPreset].fields || [];
@@ -440,6 +465,7 @@ angular.module('CollaborativeMap')
               });
 
             }
+
           };
 
           /**
