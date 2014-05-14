@@ -340,6 +340,7 @@ angular.module('CollaborativeMap')
           $scope.selectPresets = function() {
             $scope.cancelEditMode();
             $scope.fields = [];
+            $scope.selectedPreset = undefined;
             var selCategory = $scope.selectedCategory;
 
             if (selCategory) {
@@ -437,16 +438,21 @@ angular.module('CollaborativeMap')
               $scope.selectedFeature.feature.properties.preset = getSelectedPresetName($scope.selectedPreset);
               MapHandler.updateOnlyProperties($scope.selectedFeature);
 
+              members = $scope.presets[$scope.selectedPreset].fields || [];
 
+              //Remove the fields of older presets from the feature
               if (oldPreset) {
                 var oldMembers = presets[oldPreset].fields || [];
                 if (oldMembers) {
                   oldMembers.forEach(function(member) {
-                    var index = $scope.fields.indexOf(fields[member]);
-                    if (index > -1) {
-                      $scope.fields.splice(index, 1);
+                    //only delete members if they aren't used by the new preset
+                    if (members.indexOf(member) === -1) {
+                      var index = $scope.fields.indexOf(fields[member]);
+                      if (index > -1) {
+                        $scope.fields.splice(index, 1);
+                      }
+                      removePropertyType(fields[member].label);
                     }
-                    removePropertyType(fields[member].label);
                   });
                 }
               }
