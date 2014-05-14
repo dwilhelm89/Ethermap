@@ -18,12 +18,13 @@ angular.module('CollaborativeMap')
        * @pram {String} name headline for the view
        */
 
-      function startCompare(objA, objB, divId, name) {
-
+      function startCompare(objA, objB, divId, name, hasChanges) {
+        hasChanges[divId] = false;
         var results = document.getElementById(divId);
         results.innerHTML = '';
 
-        compareTree(objA, objB, name, results);
+        compareTree(objA, objB, name, results, divId, hasChanges);
+        console.log(hasChanges);
       }
 
       /**
@@ -34,7 +35,7 @@ angular.module('CollaborativeMap')
        * @param {Object} results html element for the results
        */
 
-      function compareTree(a, b, name, results) {
+      function compareTree(a, b, name, results, divId, hasChanges) {
         var typeA = typeofReal(a);
         var typeB = typeofReal(b);
 
@@ -44,12 +45,15 @@ angular.module('CollaborativeMap')
         var leafNode = document.createElement('span');
         leafNode.appendChild(document.createTextNode(name));
         if (a === undefined) {
+          hasChanges[divId] = true;
           leafNode.setAttribute('class', 'diff-added');
           leafNode.appendChild(document.createTextNode(': ' + bString));
         } else if (b === undefined) {
+          hasChanges[divId] = true;
           leafNode.setAttribute('class', 'diff-removed');
           leafNode.appendChild(document.createTextNode(': ' + aString));
         } else if (typeA !== typeB || (typeA !== 'object' && typeA !== 'array' && a !== b)) {
+          hasChanges[divId] = true;
           leafNode.setAttribute('class', 'diff-changed');
           leafNode.appendChild(document.createTextNode(': ' + aString));
           leafNode.appendChild(document.createTextNode(' => ' + bString));
@@ -81,11 +85,12 @@ angular.module('CollaborativeMap')
             var li = document.createElement('li');
             listNode.appendChild(li);
 
-            compareTree(a && a[keys[i]], b && b[keys[i]], keys[i], li);
+            compareTree(a && a[keys[i]], b && b[keys[i]], keys[i], li, divId, hasChanges);
           }
           results.appendChild(listNode);
         } else {
           results.appendChild(leafNode);
+          return hasChanges;
         }
       }
 
@@ -112,7 +117,7 @@ angular.module('CollaborativeMap')
           $scope.hideDiffView = true;
           $scope.hideMapDiffView = true;
 
-          $scope.$on('showFeatureHistory', function(e, id){
+          $scope.$on('showFeatureHistory', function(e, id) {
             toggleHistoryModal(id);
           });
 
@@ -196,6 +201,7 @@ angular.module('CollaborativeMap')
            * Toggles the visibility of the bootstrap modal
            * @param {String} fid the feature id
            */
+
           function toggleHistoryModal(fid) {
             visible = !visible;
             $('#historyModal').modal('toggle');
@@ -208,6 +214,17 @@ angular.module('CollaborativeMap')
 
           });
 
+          $scope.hasChanges = {
+            diffGeometry: false,
+            diffProperties: false
+          };
+
+
+          $scope.hasGeomChanges = function(action) {
+            var geomChanges = ['created feature', 'deleted feature', 'edited geometry', 'restored'];
+            return geomChanges.indexOf(action) > -1;
+          };
+
           /**
            * Open the textual diff
            * Close the revisions view and the map diff
@@ -218,8 +235,8 @@ angular.module('CollaborativeMap')
           $scope.showTextDiff = function(fid, rev, index) {
             var length = $scope.documentRevision.length;
             if (length >= index + 1) {
-              startCompare($scope.documentRevision[index + 1].properties, $scope.documentRevision[index].properties, 'diffProperties', 'Properties');
-              startCompare($scope.documentRevision[index + 1].geometry.coordinates, $scope.documentRevision[index].geometry.coordinates, 'diffGeometry', 'Geometry');
+              startCompare($scope.documentRevision[index + 1].properties, $scope.documentRevision[index].properties, 'diffProperties', 'Properties', $scope.hasChanges);
+              startCompare($scope.documentRevision[index + 1].geometry.coordinates, $scope.documentRevision[index].geometry.coordinates, 'diffGeometry', 'Geometry', $scope.hasChanges);
             }
             $scope.hideDocumentRevisionView = true;
             $scope.hideDiffView = false;

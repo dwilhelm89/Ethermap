@@ -15,12 +15,12 @@
                 <span ng-if="!docRev._deleted">
                   <div ng-if="$first" class="docRevRevertBtn">
                     <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
-                    <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
+                    <input ng-show="hasGeomChanges(docRev.lastAction)" type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
                   </div>
                   <div ng-if="$middle" class="docRevRevertBtn">
                     <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
                     <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
-                    <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
+                    <input ng-show="hasGeomChanges(docRev.lastAction)" type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
                   </div>
                   <div ng-if="$last" class="docRevRevertBtn">
                     <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
@@ -30,7 +30,7 @@
                   This feature has been deleted.
                   <br>
                   <span ng-if="$first">
-                    <input type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
+                    <input ng-show="hasGeomChanges(docRev.lastAction)" type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
                     <input type="button" class="btn btn-default" ng-click="restoreDeletedFeature(docRev._id, docRev)" value="Restore feature">
                   </span>
                 </span>
@@ -50,8 +50,15 @@
       </div>
 
       <div ng-class="{'hide': hideDiffView}">
-        <div id="diffProperties"></div>
-        <div id="diffGeometry"></div>
+        <div ng-show="hasChanges.diffProperties">
+          <div id="diffProperties"></div>
+        </div>
+        <div ng-show="hasChanges.diffGeometry">
+          <div id="diffGeometry"></div>
+        </div>
+        <div ng-show="!hasChanges.diffGeometry && !hasChanges.diffProperties">
+          <span style="margin-left: 10px;">No changes to the previous revision.</span>
+        </div>
       </div>
 
       <div ng-class="{'hide': hideMapDiffView}">
