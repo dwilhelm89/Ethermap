@@ -29,7 +29,26 @@ angular.module('CollaborativeMap')
           }
 
           function createButton(fidString) {
-            return message.replace(fidString, '<span class="featureInChat" ng-click="panToFeature(\'' + fidString.substring(1) + '\')">Feature</span>');
+            var fid = fidString.substring(1);
+            var className = getClassForFeature(fid);
+            if (className) {
+              return message.replace(fidString, '<div class="featureInChat '+className+'" ng-click="panToFeature(\'' + fid + '\')"></div>');
+            } else {
+              return fidString;
+            }
+          }
+
+          function getClassForFeature(fid) {
+            var type = MapHandler.getLayerTypeFid(fid);
+            if (type === 'point') {
+              return 'markerFeature';
+            } else if (type === 'line') {
+              return 'lineFeature';
+            } else if (type === 'area') {
+              return 'polygonFeature';
+            } else {
+              return false;
+            }
           }
 
           scope.panToFeature = function(fid) {

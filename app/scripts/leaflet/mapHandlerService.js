@@ -401,6 +401,18 @@ angular.module('CollaborativeMap')
           } else if (layer instanceof L.Polyline) {
             return 'line';
           }
+        },
+
+        /**
+         * Return the osm geometry type of a layer based on the feature id
+         * @param  {String} fid feature id
+         * @return {String}     geometry type
+         */
+        getLayerTypeFid: function(fid){
+          var layer = map._layers[fid];
+          if(layer){
+            return this.getLayerType(layer);
+          }
         }
 
       };
