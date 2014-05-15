@@ -7,8 +7,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('chat', ['Socket',
-    function(Socket) {
+  .directive('chat', ['Socket', 'MapHandler',
+    function(Socket, MapHandler) {
 
 
       return {
@@ -16,7 +16,8 @@ angular.module('CollaborativeMap')
         restrict: 'E',
         scope: {},
         link: function postLink($scope) {
-          $scope.messages = window.a = [];
+          $scope.messages = [];
+          $scope.chatMessage = '';
           var mapId = $scope.$parent.mapId;
           var userName = $scope.$parent.userName;
 
@@ -77,6 +78,13 @@ angular.module('CollaborativeMap')
                 send();
               }
             }
+          };
+
+          $scope.referToFeature = function(){
+            MapHandler.getLayerIdOnce(function(fid){
+              $scope.chatMessage += '#' + fid;
+              $scope.$apply();
+            });
           };
 
         }

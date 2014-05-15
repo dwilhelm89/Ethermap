@@ -71,7 +71,7 @@ angular.module('CollaborativeMap')
             .addInfo('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'));
 
           // Initialise the FeatureGroup to store editable layers
-          var drawnItems = new L.FeatureGroup();
+          var drawnItems = window.drawnItems = new L.FeatureGroup();
           map.addLayer(drawnItems);
 
           // Initialise the draw control and pass it the FeatureGroup of editable layers

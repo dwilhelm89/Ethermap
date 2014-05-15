@@ -11,7 +11,8 @@
 </div>
 <div class="chat">
   <div class="chatNew">
-    <input type="text" ng-model="chatMessage" ng-keypress="sendMessage($event)">
-    <input type="button" class="btn btn-default" ng-click="sendMessage()" value="Send">
+    <input type="text" ng-model="chatMessage" ng-keypress="sendMessage($event)" style="width: 250px;"><br>
+    <input type="button" class="btn btn-default" ng-click="referToFeature()" value="Refer to feature">
+    <input type="button" class="btn btn-default" ng-click="sendMessage()" value="Send" style="float:right;">
   </div>
 </div>

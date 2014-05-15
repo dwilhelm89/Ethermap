@@ -1,4 +1,4 @@
-/* Space out content a bit */
+  /* Space out content a bit */
  body {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -232,7 +232,7 @@ input {
   overflow: auto;
   position: absolute;
   top: 250px;
-  bottom: 100px;
+  bottom: 150px;
   width: 300px;
 }
 .chatNew {

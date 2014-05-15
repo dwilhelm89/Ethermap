@@ -76,7 +76,7 @@ angular.module('CollaborativeMap')
             maintainColor: false
           };
 
-          editHandler = window.a = new L.EditToolbar.Edit(map, {
+          editHandler = new L.EditToolbar.Edit(map, {
             featureGroup: L.featureGroup([layer]),
             selectedPathOptions: editPathOptions
           });
@@ -122,8 +122,8 @@ angular.module('CollaborativeMap')
           if (editHandler) {
             editHandler.disable();
           }
-          var delLayer = window._delLayer = map._layers[editFeatureId];
-          var deleteHandler = window._delHandler = new L.EditToolbar.Delete(map, {
+          var delLayer = map._layers[editFeatureId];
+          var deleteHandler = new L.EditToolbar.Delete(map, {
             featureGroup: L.featureGroup([delLayer]),
           });
           deleteHandler.enable();
@@ -159,6 +159,9 @@ angular.module('CollaborativeMap')
           this.updateFeature(layer);
         },
 
+
+        disableClick: false,
+
         /**
          * Adds a click event to a layer.
          * Select a feature on click and highlight it's geometry.
@@ -166,11 +169,30 @@ angular.module('CollaborativeMap')
          */
         addClickEvent: function(layer) {
           layer.on('click', function() {
-            mapScope.selectFeature(layer);
-            // this.highlightFeature(layer);
-            this.editFeature(layer);
+            if (!this.disableClick) {
+              mapScope.selectFeature(layer);
+              this.editFeature(layer);
+            }
           }.bind(this));
         },
+
+        /**
+         * Disable the default click event and return the 
+         * @return {[type]} [description]
+         */
+        getLayerIdOnce: function(cb){
+          //jshint camelcase:false
+          this.disableClick = true;
+          drawnItems.once('click', function(layer){
+            this.disableClick = false;
+            var fid;
+            if(layer && layer.layer && layer.layer._leaflet_id){
+              fid = layer.layer._leaflet_id;
+            }
+            cb(fid);
+          }.bind(this));
+        },
+
 
         /**
          * Fits the map to a given bounding box

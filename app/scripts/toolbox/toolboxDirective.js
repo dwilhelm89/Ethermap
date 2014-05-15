@@ -21,7 +21,7 @@ angular.module('CollaborativeMap')
         replace: true,
 
         link: function postLink($scope, elements) {
-
+          window.MapHandler = MapHandler;
           /**
            * Sets up the IntoJS tags by assigning the html attributes to element which are created at runtime.
            * Currently assigned directly to leaflet and therefore not generic!
