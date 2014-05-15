@@ -140,7 +140,7 @@ angular.module('CollaborativeMap')
         /**
          * Updates a feature by removing the layer and redrawing the feature.
          * Fires a 'propertyEdited' event.
-         * @param  {Objet} layer leaflet layer
+         * @param  {Object} layer leaflet layer
          */
         updateFeature: function(layer) {
           this.removeLayer(map, layer, drawnItems);
@@ -178,7 +178,6 @@ angular.module('CollaborativeMap')
 
         /**
          * Disable the default click event and return the
-         * @return {[type]} [description]
          */
         getLayerIdOnce: function(cb) {
           //jshint camelcase:false

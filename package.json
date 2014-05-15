@@ -59,7 +59,8 @@
     "karma": "~0.10.9",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "grunt-jsdoc": "~0.5.4",
-    "jsdoc": "~3.3.0-alpha5"
+    "jsdoc": "~3.3.0-alpha5",
+    "grunt-sloc": "^0.5.2"
   },
   "engines": {
     "node": ">=0.10.0"

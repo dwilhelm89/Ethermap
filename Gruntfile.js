@@ -362,6 +362,22 @@ module.exports = function(grunt) {
           destination: 'doc'
         }
       }
+    },
+
+    sloc: {
+      'client': {
+        files: {
+          'app/scripts': ['**/*.js'],
+          'app/styles': ['*.css'],
+          'app/views': ['**/*.html']
+        }
+      },
+      'server': {
+        files: {
+          'lib': ['*.js', './**/*.json'],
+          './': ['server.js']
+        }
+      }
     }
 
 
