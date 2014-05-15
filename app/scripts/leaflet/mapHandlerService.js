@@ -177,16 +177,16 @@ angular.module('CollaborativeMap')
         },
 
         /**
-         * Disable the default click event and return the 
+         * Disable the default click event and return the
          * @return {[type]} [description]
          */
-        getLayerIdOnce: function(cb){
+        getLayerIdOnce: function(cb) {
           //jshint camelcase:false
           this.disableClick = true;
-          drawnItems.once('click', function(layer){
+          drawnItems.once('click', function(layer) {
             this.disableClick = false;
             var fid;
-            if(layer && layer.layer && layer.layer._leaflet_id){
+            if (layer && layer.layer && layer.layer._leaflet_id) {
               fid = layer.layer._leaflet_id;
             }
             cb(fid);
@@ -333,17 +333,19 @@ angular.module('CollaborativeMap')
           if (feature) {
             var elem = feature._icon || feature._container.children[0];
             var tmpClass = elem.getAttribute('class');
-            elem.setAttribute('class', tmpClass + 'animateAll');
-            setTimeout(function() {
-              elem.setAttribute('class', tmpClass + ' highlight');
-            }, 50);
-
-            setTimeout(function() {
-              elem.setAttribute('class', tmpClass + ' animateAll');
+            if (tmpClass.indexOf('highlight') === -1) {
+              elem.setAttribute('class', tmpClass + 'animateAll');
               setTimeout(function() {
-                elem.setAttribute('class', tmpClass);
+                elem.setAttribute('class', tmpClass + ' highlight');
+              }, 50);
+
+              setTimeout(function() {
+                elem.setAttribute('class', tmpClass + ' animateAll');
+                setTimeout(function() {
+                  elem.setAttribute('class', tmpClass);
+                }, 1000);
               }, 1000);
-            }, 1000);
+            }
           }
         },
 

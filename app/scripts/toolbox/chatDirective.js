@@ -82,7 +82,7 @@ angular.module('CollaborativeMap')
 
           $scope.referToFeature = function(){
             MapHandler.getLayerIdOnce(function(fid){
-              $scope.chatMessage += '#' + fid;
+              $scope.chatMessage += ' #' + fid;
               $scope.$apply();
             });
           };

@@ -29,7 +29,7 @@ angular.module('CollaborativeMap')
           }
 
           function createButton(fidString) {
-            return message.replace(fidString, '<span class="featureInChat" ng-click="panToFeature(' + fidString.substring(1) + ')">Feature</span>');
+            return message.replace(fidString, '<span class="featureInChat" ng-click="panToFeature(\'' + fidString.substring(1) + '\')">Feature</span>');
           }
 
           scope.panToFeature = function(fid) {
