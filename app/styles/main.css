@@ -429,3 +429,8 @@ select {
   height: 10px !important;
   width: 10px !important;
 }
+.featureInChat{
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
