@@ -2,37 +2,42 @@
   <div style="margin: auto; width: 43px;" ng-show="loading">
     <div class="loading"></div>
   </div>
-  <div ng-hide="history">
-    No history available yet.
-  </div>
-  <span ng-show="history" style="padding-left: 10px">Filter:
-    <input type="text" ng-model="queryText">
-  </span>
-
-  <div ng-repeat="action in history | filter: queryText | orderBy: 'date':true track by $index">
-    <div ng-if="action.actions">
-      <div class="history stacked">
-        <div class="historyDropdown stringLink" ng-click="showHistoryDetails(action)">Show details</div>
-        {{action.user}} made {{action.number}} changes.
-        <br>
-        <div class="historyDate">{{action.dateString}}</div>
-      </div>
+  <div ng-show="isShowMapHistory">
+    <div ng-hide="history">
+      No history available yet.
     </div>
-    <div ng-if="action.action">
-      <div class="history" ng-click="panToFeature(action.id)">
+    <span ng-show="history" style="padding-left: 10px">Filter:
+      <input type="text" ng-model="queryText">
+    </span>
 
-        <div class="historyDropdown dropdown"><a class="dropdown-toggle" role="button" data-toggle="dropdown" href="javascript:;">Actions<b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a tabindex="-1" data-ng-click="showFeatureHistory(action.id)">View History</a>
-            </li>
-          </ul>
+    <div ng-repeat="action in history | filter: queryText | orderBy: 'date':true track by $index">
+      <div ng-if="action.actions">
+        <div class="history stacked">
+          <div class="historyDropdown stringLink" ng-click="showHistoryDetails(action)">Show details</div>
+          {{action.user}} made {{action.number}} changes.
+          <br>
+          <div class="historyDate">{{action.dateString}}</div>
         </div>
+      </div>
+      <div ng-if="action.action">
+        <div class="history" ng-click="panToFeature(action.id)">
 
-        {{action.user}}: {{action.action}}
-        <br>Revision: {{action.rev.split('-')[0]}}
-        <br>
-        <div class="historyDate">{{action.dateString}}</div>
+          <div class="historyDropdown dropdown"><a class="dropdown-toggle" role="button" data-toggle="dropdown" href="javascript:;">Actions<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a tabindex="-1" data-ng-click="showFeatureHistory(action.id)">View History</a>
+              </li>
+            </ul>
+          </div>
+
+          {{action.user}}: {{action.action}}
+          <br>Revision: {{action.rev.split('-')[0]}}
+          <br>
+          <div class="historyDate">{{action.dateString}}</div>
+        </div>
       </div>
     </div>
+  </div>
+  <div ng-show="isShowFeatureHistory">
+    <feature-history></feature-history>
   </div>
 </div>

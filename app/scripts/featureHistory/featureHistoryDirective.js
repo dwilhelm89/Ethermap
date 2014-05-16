@@ -24,7 +24,6 @@ angular.module('CollaborativeMap')
         results.innerHTML = '';
 
         compareTree(objA, objB, name, results, divId, hasChanges);
-        console.log(hasChanges);
       }
 
       /**
@@ -108,43 +107,77 @@ angular.module('CollaborativeMap')
         templateUrl: 'partials/featurehistory',
         replace: true,
         scope: {},
-        // transclude: true,
-        // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+
         link: function($scope) { //, iElm, iAttrs, controller) {
-          var visible = false;
+          //Scope variables (used in the gui)
+          $scope.currentRevisionIndex = 0;
+          $scope.currentRevision = undefined;
+          $scope.documentRevision = [];
+          $scope.numberOfRevisions = undefined;
+          $scope.loading = true;
 
-          $scope.hideDocumentRevisionView = false;
-          $scope.hideDiffView = true;
-          $scope.hideMapDiffView = true;
+          var documentRevisions;
 
-          $scope.$on('showFeatureHistory', function(e, id) {
-            toggleHistoryModal(id);
+          $scope.backToHistory = function() {
+            cleanUp();
+            $scope.$root.$broadcast('closeFeatureHistory');
+
+          };
+
+          $scope.$on('showFeatureHistory', function(e, fid) {
+            init(fid);
           });
 
-          /**
-           * Initialize the view. Removing old history versions.
-           * Show the revisions view and hide the diff views.
-           */
 
-          function init() {
+          function init(fid) {
             $scope.documentRevision = [];
-            $scope.initView();
+            $scope.currentRevisionIndex = 0;
+            loadDocumentHistory(fid);
           }
 
-          /**
-           * Show only the revisions view at the start.
-           * Remove the existing map element, to start completely new.
-           */
-          $scope.initView = function() {
-            $scope.hideDocumentRevisionView = false;
-            $scope.hideDiffView = true;
-            $scope.hideMapDiffView = true;
+          function cleanUp() {
+            $scope.currentRevisionIndex = 0;
+            $scope.currentRevision = undefined;
+            $scope.documentRevision = [];
+            $scope.numberOfRevisions = undefined;
+          }
 
-            var diffMap = document.getElementById('diffMap');
-            if (diffMap) {
-              diffMap.remove();
+          function initView() {
+            if (documentRevisions) {
+              $scope.numberOfRevisions = documentRevisions.length;
+              if ($scope.numberOfRevisions > 0) {
+                setCurrentRevision(0);
+              }
+            }
+          }
+
+          function getPropertyDiff(index) {
+            if ($scope.numberOfRevisions > index + 1) {
+              startCompare(documentRevisions[index + 1].properties, documentRevisions[index].properties, 'diffProperties', 'Properties', $scope.hasChanges);
+              startCompare(documentRevisions[index + 1].geometry.coordinates, documentRevisions[index].geometry.coordinates, 'diffGeometry', 'Geometry', $scope.hasChanges);
+            }
+          }
+
+          $scope.previousRevision = function() {
+            if ($scope.numberOfRevisions > $scope.currentRevisionIndex + 1) {
+              setCurrentRevision($scope.currentRevisionIndex + 1);
             }
           };
+
+          $scope.nextRevision = function() {
+            if ($scope.currentRevisionIndex > 0) {
+              setCurrentRevision($scope.currentRevisionIndex - 1);
+            }
+          };
+
+          function setCurrentRevision(index) {
+            $scope.currentRevisionIndex = index;
+            $scope.currentRevision = documentRevisions[index];
+            getPropertyDiff(index);
+            MapHandler.removeLayerForDiff($scope.currentRevision._id);
+            MapHandler.updateLayerForDiff($scope.currentRevision._id, $scope.currentRevision);
+          }
+
 
           /**
            * Request all revisions from the database.
@@ -162,8 +195,9 @@ angular.module('CollaborativeMap')
               })
                 .
               success(function(data) { //, status, headers, config) {
-                $scope.documentRevision = data;
+                documentRevisions = window.revisions = data;
                 $scope.loading = false;
+                initView();
               })
                 .
               error(function() { //, status, headers, config) {
@@ -197,22 +231,6 @@ angular.module('CollaborativeMap')
             }, 100);
           };
 
-          /**
-           * Toggles the visibility of the bootstrap modal
-           * @param {String} fid the feature id
-           */
-
-          function toggleHistoryModal(fid) {
-            visible = !visible;
-            $('#historyModal').modal('toggle');
-            loadDocumentHistory(fid);
-          }
-
-          $('#historyModal').on('hidden.bs.modal', function() {
-            $scope.documentRevision = [];
-            $scope.initView();
-
-          });
 
           $scope.hasChanges = {
             diffGeometry: false,
@@ -242,103 +260,6 @@ angular.module('CollaborativeMap')
             $scope.hideDiffView = false;
           };
 
-          /**
-           * Opens the map diff view.
-           * Close the revisions and the text difff view.
-           * Initialize the map and draw both feature versions
-           * @param {String} fid feature id
-           * @param {String} rev feature revision
-           * @param {Number} index index of the revisions array
-           */
-          $scope.showMapDiff = function(fid, rev, index) {
-            $scope.hideDocumentRevisionView = true;
-            $scope.hideDiffView = true;
-            $scope.hideMapDiffView = false;
-
-            var container = document.getElementById('diffMapContainer');
-            var m = document.createElement('div');
-            m.setAttribute('id', 'diffMap');
-            //TODO make style as class
-            m.style.height = '300px';
-            container.appendChild(m);
-
-            var map = L.mapbox.map('diffMap');
-
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
-
-            var featureOld = L.geoJson($scope.documentRevision[index + 1], {
-              style: L.mapbox.simplestyle.style,
-              pointToLayer: function(feature, latlon) {
-                if (!feature.properties) {
-                  feature.properties = {};
-                }
-                return L.mapbox.marker.style(feature, latlon);
-              }
-            }).addTo(map);
-
-            var featureCurrent = L.geoJson($scope.documentRevision[index], {
-              style: L.mapbox.simplestyle.style,
-              pointToLayer: function(feature, latlon) {
-                if (!feature.properties) {
-                  feature.properties = {};
-                }
-                return L.mapbox.marker.style(feature, latlon);
-              }
-            }).addTo(map);
-
-            var range = document.getElementById('diffMapRange');
-
-            //Fix crippled map through modal css
-            setTimeout(function() {
-              map.invalidateSize();
-            }, 20);
-
-            //Wait for features to be drawn
-            setTimeout(function() {
-              var lOld, lCurrent;
-              //jshint camelcase: false
-              featureOld.eachLayer(function(l) {
-                lOld = l._leaflet_id;
-              });
-              featureCurrent.eachLayer(function(l) {
-                lCurrent = l._leaflet_id;
-              });
-
-              //Create FeatureGroup to get bounds of both features
-              var features = new L.featureGroup([featureOld, featureCurrent]);
-              map.fitBounds(features.getBounds());
-
-              //Init range slider with the features to be changed
-              range['oninput' in range ? 'oninput' : 'onchange'] = revisionSlider(range, map._layers[lOld], map._layers[lCurrent]);
-            }, 500);
-
-
-            function revisionSlider(element, old, current) {
-
-              return function() {
-                var sliderValue = Math.round(element.value * 100) / 100;
-                //TODO check if element is layer group => iterate over all layers
-                if (old && old.setOpacity) {
-                  old.setOpacity(1 - sliderValue);
-                } else if (old && old.setStyle) {
-                  old.setStyle({
-                    opacity: (1 - sliderValue),
-                    fillOpacity: (1 - sliderValue)
-                  });
-                }
-                if (current && current.setOpacity) {
-                  current.setOpacity(sliderValue);
-                } else if (current && current.setStyle) {
-                  current.setStyle({
-                    opacity: (sliderValue),
-                    fillOpacity: (sliderValue)
-                  });
-                }
-              };
-
-            }
-
-          };
         }
       };
     }

@@ -23,6 +23,9 @@ angular.module('CollaborativeMap')
         scope: {},
         link: function(scope) { //, iElm, iAttrs, controller) {
 
+          scope.isShowMapHistory = true;
+          scope.isShowFeatureHistory = false;
+
           /**
            * Listen to the historyView event. Called when the toolbox history view is opened/closed
            */
@@ -34,6 +37,16 @@ angular.module('CollaborativeMap')
 
           scope.$on('appendToHistory', function(e, updateEvent) {
             appendToHistory(updateEvent);
+          });
+
+          scope.$on('showFeatureHistory', function() {
+            scope.isShowFeatureHistory = true;
+            scope.isShowMapHistory = false;
+          });
+
+          scope.$on('closeFeatureHistory', function(){
+            scope.isShowFeatureHistory = false;
+            scope.isShowMapHistory = true;
           });
 
           /**

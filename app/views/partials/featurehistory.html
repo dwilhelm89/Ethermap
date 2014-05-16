@@ -1,84 +1,30 @@
-<div id="historyModal" class="modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div ng-show="documentRevision">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title">Feature: {{documentRevision[0]._id}}</h4>
-          Number of Revisions: {{documentRevision.length}}
-        </div>
-        <div class="modal-body">
-          <div ng-class="{'hide': hideDocumentRevisionView}">
-            <div ng-repeat="docRev in documentRevision">
-              <div class="documentRevision">
-                <span class="featureRevisionId">Revision {{docRev._rev.split('-')[0]}}:</span>
-                <span ng-if="!docRev._deleted">
-                  <div ng-if="$first" class="docRevRevertBtn">
-                    <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
-                    <input ng-show="hasGeomChanges(docRev.lastAction)" type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
-                  </div>
-                  <div ng-if="$middle" class="docRevRevertBtn">
-                    <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
-                    <input type="button" class="btn btn-default" ng-click="showTextDiff(docRev._id, docRev._rev, $index)" value="Changes">
-                    <input ng-show="hasGeomChanges(docRev.lastAction)" type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
-                  </div>
-                  <div ng-if="$last" class="docRevRevertBtn">
-                    <input type="button" class="btn btn-default" ng-click="revertFeature(docRev._id, docRev._rev)" value="Revert to Revision">
-                  </div>
-                </span>
-                <span ng-if="docRev._deleted">
-                  This feature has been deleted.
-                  <br>
-                  <span ng-if="$first">
-                    <input ng-show="hasGeomChanges(docRev.lastAction)" type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
-                    <input type="button" class="btn btn-default" ng-click="restoreDeletedFeature(docRev._id, docRev)" value="Restore feature">
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div ng-hide="documentRevision || loading">
-        <div class="modal-body">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title">There is no feature history available</h4>
-        </div>
-      </div>
-      <div style="margin: auto; width: 43px;" ng-show="loading">
-        <div class="loading"></div>
-      </div>
+<div class="paddingLeft">
+  <input type="button" class="btn btn-default" value="Back to History" ng-click="backToHistory()" style="float:right">
+  <br>
+  <div style="margin: auto; width: 43px;" ng-show="loading">
+    <div class="loading"></div>
+  </div>
+  <div ng-show="currentRevision">
+      <h4>Feature: {{currentRevision._id}}</h4>
+      Number of Revisions: {{numberOfRevisions}}
+      <br>Current Revision: {{numberOfRevisions-currentRevisionIndex}}
 
-      <div ng-class="{'hide': hideDiffView}">
-        <div ng-show="hasChanges.diffProperties">
-          <div id="diffProperties"></div>
-        </div>
-        <div ng-show="hasChanges.diffGeometry">
-          <div id="diffGeometry"></div>
-        </div>
-        <div ng-show="!hasChanges.diffGeometry && !hasChanges.diffProperties">
-          <span style="margin-left: 10px;">No changes to the previous revision.</span>
-        </div>
-      </div>
+    <br>
+    <br>
+    <input type="button" class="btn btn-default" value="Older" ng-click="previousRevision()">
+    <input type="button" class="btn btn-default" value="Newer" ng-click="nextRevision()">
 
-      <div ng-class="{'hide': hideMapDiffView}">
-        <div id="diffMapContainer"></div>
-        <input id="diffMapRange" type="range" min="0" max="1.0" step="any" value="0.5" style="width: 100%; position: absolute" />
-        <br>
-        <div style="margin: 5px">
-          <span>Previous revision</span>
-          <span style="float:right">Current revision</span>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <div ng-class="{'hide': hideDiffView}">
-          <input type="button" class="btn btn-default" value="Back to History" ng-click="initView()">
-        </div>
-        <div ng-class="{'hide': hideMapDiffView}">
-          <input type="button" class="btn btn-default" value="Back to History" ng-click="initView()">
-        </div>
-      </div>
+    <div ng-show="hasChanges.diffProperties">
+      <h4>Property Changes</h4>
+      <div id="diffProperties" class="chatMessage"></div>
     </div>
+    <div ng-show="hasChanges.diffGeometry">
+      <h4>Geometry Changes</h4>
+      <div id="diffGeometry" class="chatMessage"></div>
+    </div>
+    <div ng-show="!hasChanges.diffGeometry && !hasChanges.diffProperties">
+      <span style="margin-left: 10px;">No changes to the previous revision.</span>
+    </div>
+
   </div>
 </div>

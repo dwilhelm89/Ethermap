@@ -137,6 +137,19 @@ angular.module('CollaborativeMap')
         },
 
 
+        updateLayerForDiff: function(fid, geoJsonLayer) {
+          this.removeLayer(map, {'fid': fid}, map);
+          this.addGeoJSONFeatureToMap(map, {
+            feature: geoJsonLayer,
+            'fid': fid
+          });
+        },
+
+        removeLayerForDiff: function(fid){
+          this.removeLayer(map, {'fid':fid}, drawnItems);
+        },
+
+
         /**
          * Updates a feature by removing the layer and redrawing the feature.
          * Fires a 'propertyEdited' event.
@@ -190,7 +203,7 @@ angular.module('CollaborativeMap')
                 fid = layer.layer._leaflet_id;
               }
               cb(fid);
-            }else{
+            } else {
               cb('');
             }
           }.bind(this));
@@ -321,6 +334,22 @@ angular.module('CollaborativeMap')
             tmpLayer._leaflet_id = event.fid;
             this.addClickEvent(tmpLayer);
             tmpLayer.addTo(drawnItems);
+            //If action is available (edit, create, delete) highight the feature
+            if (event.action) {
+              this.highlightFeature(tmpLayer);
+            }
+          }
+        },
+
+
+        addGeoJSONFeatureToMap: function(map, event) {
+          //jshint camelcase:false
+          var newLayer = this.createSimpleStyleGeoJSONFeature(event.feature);
+          var tmpLayer;
+          for (var key in newLayer._layers) {
+            tmpLayer = newLayer._layers[key];
+            tmpLayer._leaflet_id = event.fid;
+            tmpLayer.addTo(map);
             //If action is available (edit, create, delete) highight the feature
             if (event.action) {
               this.highlightFeature(tmpLayer);

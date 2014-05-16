@@ -487,3 +487,6 @@ select {
   top: 7px;
   left: -7px;
 }
+.paddingLeft{
+  padding-left: 10px;
+}
