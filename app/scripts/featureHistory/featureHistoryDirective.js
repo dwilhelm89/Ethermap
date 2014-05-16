@@ -168,9 +168,15 @@ angular.module('CollaborativeMap')
           function setUpSlider(){
             if(slider){
               slider.max = $scope.numberOfRevisions;
-              slider.value = 0;
+              $scope.sliderValue = $scope.numberOfRevisions;
+              slider.min = 1;
             }
           }
+
+          $scope.sliderChange = function(){
+            console.log($scope.sliderValue);
+            setCurrentRevision($scope.numberOfRevisions - $scope.sliderValue);
+          };
 
           function getPropertyDiff(index) {
             if ($scope.numberOfRevisions > index + 1 && !$scope.currentRevision._deleted) {
@@ -196,7 +202,7 @@ angular.module('CollaborativeMap')
             $scope.currentRevision = documentRevisions[index];
             getPropertyDiff(index);
             var fid = $scope.currentRevision._id;
-            slider.value = index;
+            $scope.sliderValue = $scope.numberOfRevisions - index;
             MapHandler.removeLayerForDiff(fid);
             MapHandler.updateLayerForDiff(fid, $scope.currentRevision);
             MapHandler.highlightFeatureId(fid);
