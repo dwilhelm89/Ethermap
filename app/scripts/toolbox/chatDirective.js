@@ -4,6 +4,11 @@
  * @memberof CollaborativeMap
  * @fileOverview Chat directive. Provides the GUI functionality as well as the WebSocket connection for the chat.
  * @exports CollaborativeMap.chat
+ *
+ * @requires Socket
+ * @requires MapHandler
+ * @requires Tooltip
+ * 
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')

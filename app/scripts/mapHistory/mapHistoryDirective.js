@@ -23,7 +23,6 @@ angular.module('CollaborativeMap')
         scope: {},
         link: function(scope) { //, iElm, iAttrs, controller) {
 
-
           /**
            * Listen to the historyView event. Called when the toolbox history view is opened/closed
            */
