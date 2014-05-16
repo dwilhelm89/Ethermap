@@ -47,6 +47,7 @@ angular.module('CollaborativeMap')
           scope.$on('closeFeatureHistory', function(){
             scope.isShowFeatureHistory = false;
             scope.isShowMapHistory = true;
+            loadMapHistory();
           });
 
           /**

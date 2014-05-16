@@ -57,7 +57,7 @@ angular.module('CollaborativeMap')
           leafNode.appendChild(document.createTextNode(': ' + aString));
           leafNode.appendChild(document.createTextNode(' => ' + bString));
         } else {
-          leafNode.appendChild(document.createTextNode(': ' + aString));
+          // leafNode.appendChild(document.createTextNode(': ' + aString));
         }
 
         if (typeA === 'object' || typeA === 'array' || typeB === 'object' || typeB === 'array') {
@@ -166,7 +166,7 @@ angular.module('CollaborativeMap')
           function getPropertyDiff(index) {
             if ($scope.numberOfRevisions > index + 1) {
               startCompare(documentRevisions[index + 1].properties, documentRevisions[index].properties, 'diffProperties', 'Properties', $scope.hasChanges);
-              startCompare(documentRevisions[index + 1].geometry.coordinates, documentRevisions[index].geometry.coordinates, 'diffGeometry', 'Geometry', $scope.hasChanges);
+              //startCompare(documentRevisions[index + 1].geometry.coordinates, documentRevisions[index].geometry.coordinates, 'diffGeometry', 'Geometry', $scope.hasChanges);
             }
           }
 
@@ -207,7 +207,7 @@ angular.module('CollaborativeMap')
               })
                 .
               success(function(data) { //, status, headers, config) {
-                documentRevisions = window.revisions = data;
+                documentRevisions = data;
                 $scope.loading = false;
                 initView();
               })

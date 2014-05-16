@@ -93,23 +93,6 @@ angular.module('CollaborativeMap')
 
 
       /**
-       * Adds an action element to the toolbox history view
-       * @param  {Object} event = {fid, user, feature}
-       */
-
-      function updateHistoryView(event) {
-        var updateEvent = {
-          id: event.fid,
-          user: event.user,
-          rev: event.feature._rev,
-          action: 'edited',
-          date: new Date().getTime()
-        };
-        mapScope.$root.$broadcast('appendToHistory', updateEvent);
-      }
-
-
-      /**
        * Select/ Reselect a feature
        * @param  {Object} map
        * @param  {Object} event = mapDraw event
@@ -131,9 +114,7 @@ angular.module('CollaborativeMap')
 
       function refreshToolbox(map, event) {
         var views = mapScope.views;
-        if (!views.historyView) {
-          updateHistoryView(event);
-        } else if (!views.toolsView) {
+        if (!views.toolsView) {
           if (mapScope.selectedFeature.fid === event.fid) {
             updateToolsView(map, event);
           }
@@ -142,13 +123,14 @@ angular.module('CollaborativeMap')
 
 
       /**
-       * Connects to the mapDraw Websockets. 
+       * Connects to the mapDraw Websockets.
        * Initializes a toobox refresh
        * Checks for the action type (created, edited, deleted) and adds/updates/deletes a layer.
        * @param  {String} mapId
        * @param  {Object} map
        * @param  {Object} drawnItems = layer group on which the features are drawn
        */
+
       function receiveMapDraws(mapId, map, drawnItems) {
 
         Socket.on(mapId + '-mapDraw', function(res) {
@@ -157,7 +139,7 @@ angular.module('CollaborativeMap')
 
             var event = res.event;
 
-            if (event.action === 'created' ||event.action === 'created feature') {
+            if (event.action === 'created' || event.action === 'created feature') {
 
               MapHandler.addGeoJSONFeature(map, event, drawnItems);
 
@@ -180,6 +162,7 @@ angular.module('CollaborativeMap')
        * Connects to the users WebSockets and updates the users in scope
        * @param  {String} mapId
        */
+
       function receiveUsers(mapId) {
         Socket.on(mapId + '-users', function(res) {
           mapScope.users = res.users;
@@ -191,6 +174,7 @@ angular.module('CollaborativeMap')
        * @param  {String} mapId
        * @param  {String} userName
        */
+
       function login(mapId, userName) {
         Socket.emit('login', {
           'mapId': mapId,
@@ -204,7 +188,7 @@ angular.module('CollaborativeMap')
         /**
          * Initializes the map synchronization:
          * Connects to all WebSocket events:
-         * -mapDraw, -mapMovements, -users 
+         * -mapDraw, -mapMovements, -users
          * @param  {Object} map
          * @param  {Object} scope Angular scope
          * @param  {Object} drawnItems layer group for drawn features

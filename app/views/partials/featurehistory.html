@@ -1,30 +1,26 @@
 <div class="paddingLeft">
   <input type="button" class="btn btn-default" value="Back to History" ng-click="backToHistory()" style="float:right">
-  <br>
+  <br><br>
   <div style="margin: auto; width: 43px;" ng-show="loading">
     <div class="loading"></div>
   </div>
   <div ng-show="currentRevision">
-      <h4>Feature: {{currentRevision._id}}</h4>
-      Number of Revisions: {{numberOfRevisions}}
-      <br>Current Revision: {{numberOfRevisions-currentRevisionIndex}}
+    <h4>Feature: {{currentRevision._id}}</h4>
+    Number of Revisions: {{numberOfRevisions}}
+    <br>Current Revision: {{numberOfRevisions-currentRevisionIndex}}
 
     <br>
     <br>
-    <input type="button" class="btn btn-default" value="Older" ng-click="previousRevision()">
-    <input type="button" class="btn btn-default" value="Newer" ng-click="nextRevision()">
+    <input type="button" class="btn btn-default" value="Older" ng-click="previousRevision()" ng-hide="currentRevisionIndex === (numberOfRevisions-1)">
+    <input type="button" class="btn btn-default" value="Newer" ng-click="nextRevision()" ng-hide="(numberOfRevisions-currentRevisionIndex) === numberOfRevisions">
 
+    <h4>Property Changes</h4>
     <div ng-show="hasChanges.diffProperties">
-      <h4>Property Changes</h4>
       <div id="diffProperties" class="chatMessage"></div>
     </div>
-    <div ng-show="hasChanges.diffGeometry">
-      <h4>Geometry Changes</h4>
-      <div id="diffGeometry" class="chatMessage"></div>
+    <div ng-show="!hasChanges.diffProperties">
+      <span style="margin-left: 10px;">No property changes to the previous revision.</span>
     </div>
-    <div ng-show="!hasChanges.diffGeometry && !hasChanges.diffProperties">
-      <span style="margin-left: 10px;">No changes to the previous revision.</span>
-    </div>
-
+    <input ng-hide="(numberOfRevisions-currentRevisionIndex) === numberOfRevisions" type="button" class="btn btn-default" ng-click="revertFeature(currentRevision._id, currentRevision._rev)" value="Revert to this Revision">
   </div>
 </div>
