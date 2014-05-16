@@ -108,7 +108,7 @@ angular.module('CollaborativeMap')
         replace: true,
         scope: {},
 
-        link: function($scope) { //, iElm, iAttrs, controller) {
+        link: function($scope, element) { //, iElm, iAttrs, controller) {
           //Scope variables (used in the gui)
           $scope.currentRevisionIndex = 0;
           $scope.currentRevision = undefined;
@@ -117,6 +117,7 @@ angular.module('CollaborativeMap')
           $scope.loading = true;
 
           var documentRevisions;
+          var slider = element[0].getElementsByClassName('verticalSlider')[0];
 
           $scope.backToHistory = function() {
             cleanUp();
@@ -159,7 +160,15 @@ angular.module('CollaborativeMap')
               $scope.numberOfRevisions = documentRevisions.length;
               if ($scope.numberOfRevisions > 0) {
                 setCurrentRevision(0);
+                setUpSlider();
               }
+            }
+          }
+
+          function setUpSlider(){
+            if(slider){
+              slider.max = $scope.numberOfRevisions;
+              slider.value = 0;
             }
           }
 
@@ -187,6 +196,7 @@ angular.module('CollaborativeMap')
             $scope.currentRevision = documentRevisions[index];
             getPropertyDiff(index);
             var fid = $scope.currentRevision._id;
+            slider.value = index;
             MapHandler.removeLayerForDiff(fid);
             MapHandler.updateLayerForDiff(fid, $scope.currentRevision);
             MapHandler.highlightFeatureId(fid);

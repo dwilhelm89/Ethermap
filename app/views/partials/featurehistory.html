@@ -2,8 +2,12 @@
   <input type="button" class="btn btn-default" value="Back to History" ng-click="backToHistory()" style="float:right">
   <br>
   <br>
-  <div style="margin: auto; width: 43px;" ng-show="loading">
-    <div class="loading"></div>
+  <div ng-show="loading">
+    <br>
+    <div style="margin: auto; width: 43px;">
+      <div class="loading"></div>
+    </div>
+    <br>
   </div>
   <div ng-show="currentRevision">
     <h4>Feature: {{currentRevision._id}}</h4>
@@ -28,11 +32,13 @@
 
 
     <span ng-if="currentRevision._deleted">
-      <br>
-      This feature has been deleted.
+      <br>This feature has been deleted.
       <br>
       <input ng-show="hasGeomChanges(docRev.lastAction)" type="button" class="btn btn-default" ng-click="showMapDiff(docRev._id, docRev._rev, $index)" value="Show changes on map">
       <input ng-show="(numberOfRevisions-currentRevisionIndex) === numberOfRevisions" type="button" class="btn btn-default" ng-click="restoreDeletedFeature(currentRevision._id, currentRevision)" value="Restore feature">
     </span>
+  </div>
+  <div class="slider">
+    <input type="range" min="0" max="10" step="1" class="verticalSlider">
   </div>
 </div>

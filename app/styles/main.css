@@ -487,6 +487,23 @@ select {
   top: 7px;
   left: -7px;
 }
-.paddingLeft{
+.paddingLeft {
   padding-left: 10px;
+}
+.verticalSlider {
+  writing-mode: bt-lr;
+  /* IE */
+  -webkit-appearance: slider-vertical;
+  /* WebKit */
+  width: 15px;
+  height: 100%;
+  padding: 0 5px;
+}
+.slider {
+  position: fixed;
+  right: 300px;
+  top: 50px;
+  bottom: 0;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.9);
 }
