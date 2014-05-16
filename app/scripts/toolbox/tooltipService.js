@@ -11,10 +11,31 @@ angular.module('CollaborativeMap')
     function() {
 
       return {
-        tooltip: $('.tooltip-leafletstyle')[0],
+        //html element of the tooltip
+        tooltip: undefined,
+        //mousemove function
         eventFunction: undefined,
 
+        createTooltip: function() {
+          if (!this.tooltip) {
+            this.tooltip = document.createElement('div');
+            this.tooltip.className = 'tooltip-leafletstyle';
+            var parentDiv = document.getElementsByTagName('body')[0];
+            parentDiv.appendChild(this.tooltip);
+          }
+        },
+
+        removeTooltip: function(){
+          if(this.tooltip){
+            var parentDiv = document.getElementsByTagName('body')[0];
+            parentDiv.removeChild(this.tooltip);
+          }
+        },
+
         showTooltip: function(text) {
+          if (!this.tooltip) {
+            this.createTooltip();
+          }
           this.updatePosition(this.tooltip);
           this.tooltip.innerHTML = text;
           this.tooltip.style.display = 'block';
@@ -22,8 +43,10 @@ angular.module('CollaborativeMap')
         },
 
         hideTooltip: function() {
-          this.removeMouseHandler();
-          this.tooltip.style.display = 'none';
+          if (this.tooltip) {
+            this.removeMouseHandler();
+            this.tooltip.style.display = 'none';
+          }
         },
 
         addMouseHandler: function() {
@@ -35,6 +58,7 @@ angular.module('CollaborativeMap')
         },
 
         updatePosition: function(element) {
+          //Save the tooltip function as it is required to remove the event handler from the document.
           this.eventFunction = function(e) {
             element.style.left = e.clientX + 'px';
             element.style.top = e.clientY + 'px';
