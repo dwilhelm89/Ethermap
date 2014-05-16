@@ -22,9 +22,10 @@ angular.module('CollaborativeMap')
           var userName = $scope.$parent.userName;
 
           /**
-          * Send a message via Websockets
-          * @param {String} message the chat message
-          */
+           * Send a message via Websockets
+           * @param {String} message the chat message
+           */
+
           function sendMessage(message) {
             message = {
               'message': message,
@@ -37,9 +38,10 @@ angular.module('CollaborativeMap')
           }
 
           /**
-          * Connects to the WebSocket stream. 
-          * Retrieved messages are pushed to the messages array which is used in the ng-repeat
-          */
+           * Connects to the WebSocket stream.
+           * Retrieved messages are pushed to the messages array which is used in the ng-repeat
+           */
+
           function receiveMessage() {
             Socket.on(mapId + '-chat', function(res) {
               $scope.$root.$broadcast('chatmessage');
@@ -53,38 +55,51 @@ angular.module('CollaborativeMap')
           /**
            * Scroll down the chatmessages to the bottom
            */
-          function scrollDown(){
+
+          function scrollDown() {
             var elem = $('.chatMessages')[0];
-            if(elem){
+            if (elem) {
               elem.scrollTop = elem.scrollHeight;
             }
           }
 
           /**
-          * Send a chat message. Called via the Send button or by pressing enter in the GUI
-          * @param {Number} key key code 
-          */
+           * Send a chat message. Called via the Send button or by pressing enter in the GUI
+           * @param {Number} key key code
+           */
           $scope.sendMessage = function(key) {
-            var send = function(){
+            var send = function() {
               var message = $scope.chatMessage;
               $scope.chatMessage = '';
               sendMessage(message);
             };
 
             if ($scope.chatMessage) {
-              if( key && key.keyCode === 13){
+              if (key && key.keyCode === 13) {
                 send();
-              }else if(!key){
+              } else if (!key) {
                 send();
               }
             }
           };
 
-          $scope.referToFeature = function(){
+          $scope.isReferTo = false;
+
+          $scope.cancelReferToFeature = function() {
+            $scope.isReferTo = false;
+            MapHandler.disableClick = false;
+            Tooltip.hideTooltip();
+          };
+
+          $scope.referToFeature = function() {
+            $scope.isReferTo = true;
             Tooltip.showTooltip('Click on the feature you want to refer to.');
-            MapHandler.getLayerIdOnce(function(fid){
-              $scope.chatMessage += ' #' + fid;
+            MapHandler.getLayerIdOnce(function(fid) {
+              if (fid !== '') {
+                $scope.chatMessage += ' #' + fid;
+              }
               Tooltip.hideTooltip();
+              $scope.isReferTo = false;
               $scope.$apply();
             });
           };

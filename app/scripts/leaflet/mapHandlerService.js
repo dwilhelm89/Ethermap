@@ -183,12 +183,16 @@ angular.module('CollaborativeMap')
           //jshint camelcase:false
           this.disableClick = true;
           drawnItems.once('click', function(layer) {
-            this.disableClick = false;
-            var fid;
-            if (layer && layer.layer && layer.layer._leaflet_id) {
-              fid = layer.layer._leaflet_id;
+            if (this.disableClick) {
+              this.disableClick = false;
+              var fid;
+              if (layer && layer.layer && layer.layer._leaflet_id) {
+                fid = layer.layer._leaflet_id;
+              }
+              cb(fid);
+            }else{
+              cb('');
             }
-            cb(fid);
           }.bind(this));
         },
 
@@ -408,9 +412,9 @@ angular.module('CollaborativeMap')
          * @param  {String} fid feature id
          * @return {String}     geometry type
          */
-        getLayerTypeFid: function(fid){
+        getLayerTypeFid: function(fid) {
           var layer = map._layers[fid];
-          if(layer){
+          if (layer) {
             return this.getLayerType(layer);
           }
         }

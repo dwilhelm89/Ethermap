@@ -12,7 +12,8 @@
 <div class="chat">
   <div class="chatNew">
     <input type="text" ng-model="chatMessage" ng-keypress="sendMessage($event)" style="width: 250px;"><br>
-    <input type="button" class="btn btn-default" ng-click="referToFeature()" value="Refer to feature">
+    <input type="button" class="btn btn-default" ng-show="isReferTo" ng-click="cancelReferToFeature()" value="Cancel referring">
+    <input type="button" class="btn btn-default" ng-hide="isReferTo" ng-click="referToFeature()" value="Refer to feature">
     <input type="button" class="btn btn-default" ng-click="sendMessage()" value="Send" style="float:right;">
   </div>
 </div>
