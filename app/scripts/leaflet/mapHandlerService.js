@@ -138,15 +138,29 @@ angular.module('CollaborativeMap')
 
 
         updateLayerForDiff: function(fid, geoJsonLayer) {
-          this.removeLayer(map, {'fid': fid}, map);
+          this.removeLayer(map, {
+            'fid': fid
+          }, map);
           this.addGeoJSONFeatureToMap(map, {
             feature: geoJsonLayer,
             'fid': fid
-          });
+          }, map);
         },
 
-        removeLayerForDiff: function(fid){
-          this.removeLayer(map, {'fid':fid}, drawnItems);
+        removeLayerForDiff: function(fid) {
+          this.removeLayer(map, {
+            'fid': fid
+          }, drawnItems);
+        },
+
+        addFeatureAfterDiff: function(fid, geoJsonLayer) {
+          this.removeLayer(map, {
+            'fid': fid
+          }, map);
+          this.addGeoJSONFeature(map, {
+            feature: geoJsonLayer,
+            'fid': fid
+          }, drawnItems);
         },
 
 
@@ -342,7 +356,7 @@ angular.module('CollaborativeMap')
         },
 
 
-        addGeoJSONFeatureToMap: function(map, event) {
+        addGeoJSONFeatureToMap: function(map, event, drawnItems) {
           //jshint camelcase:false
           var newLayer = this.createSimpleStyleGeoJSONFeature(event.feature);
           var tmpLayer;

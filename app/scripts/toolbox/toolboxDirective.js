@@ -69,6 +69,10 @@ angular.module('CollaborativeMap')
             toolsView: true
           };
 
+          $scope.$on('openToolbox', function(e, view){
+            $scope.toggleToolbar(view);
+          });
+
           $scope.toggleToolbar = function(view) {
             var vs = $scope.views;
             if (vs.toolBarIn) {

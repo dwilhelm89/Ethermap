@@ -93,6 +93,7 @@ angular.module('CollaborativeMap')
            */
           $scope.showFeatureHistory = function(id) {
             $scope.$root.$broadcast('showFeatureHistory', id);
+            $scope.$root.$broadcast('openToolbox', 'historyView');
           };
 
           /**

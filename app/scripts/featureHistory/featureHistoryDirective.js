@@ -128,6 +128,13 @@ angular.module('CollaborativeMap')
             init(fid);
           });
 
+          $scope.$on('toolbox', function() {
+            if ($scope.currentRevision) {
+              cleanUp();
+              $scope.$root.$broadcast('closeFeatureHistory');
+            }
+          });
+
 
           function init(fid) {
             $scope.documentRevision = [];
@@ -136,10 +143,15 @@ angular.module('CollaborativeMap')
           }
 
           function cleanUp() {
+            setOriginalFeature();
             $scope.currentRevisionIndex = 0;
             $scope.currentRevision = undefined;
             $scope.documentRevision = [];
             $scope.numberOfRevisions = undefined;
+          }
+
+          function setOriginalFeature() {
+            MapHandler.addFeatureAfterDiff($scope.currentRevision._id, documentRevisions[0]);
           }
 
           function initView() {
