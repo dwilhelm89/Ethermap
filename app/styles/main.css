@@ -4,6 +4,7 @@
   padding-bottom: 20px;
   font-family:'Roboto', sans-serif;
   background-color: #3c4e5a;
+  overflow: hidden;
 }
 h1, h2, h3 {
   font-family:'Roboto', sans-serif;
@@ -458,4 +459,31 @@ select {
   background-position: -125px -6px;
   height: 20px;
   width: 20px;
+}
+.tooltip-leafletstyle {
+  position: absolute;
+  left: 100px;
+  top: 100px;
+  margin-top: -12px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid transparent;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  color: #fff;
+  font: 12px/18px"Helvetica Neue", Arial, Helvetica, sans-serif;
+  margin-left: 20px;
+  padding: 4px 8px;
+  white-space: nowrap;
+  z-index: 100000;
+  display:none;
+}
+.tooltip-leafletstyle:before {
+  border-right: 6px solid black;
+  border-right-color: rgba(0, 0, 0, 0.5);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  content:"";
+  position: absolute;
+  top: 7px;
+  left: -7px;
 }

@@ -7,8 +7,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('chat', ['Socket', 'MapHandler',
-    function(Socket, MapHandler) {
+  .directive('chat', ['Socket', 'MapHandler', 'Tooltip',
+    function(Socket, MapHandler, Tooltip) {
 
 
       return {
@@ -81,8 +81,10 @@ angular.module('CollaborativeMap')
           };
 
           $scope.referToFeature = function(){
+            Tooltip.showTooltip('Click on the feature you want to refer to.');
             MapHandler.getLayerIdOnce(function(fid){
               $scope.chatMessage += ' #' + fid;
+              Tooltip.hideTooltip();
               $scope.$apply();
             });
           };
