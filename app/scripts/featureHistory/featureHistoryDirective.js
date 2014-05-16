@@ -164,7 +164,7 @@ angular.module('CollaborativeMap')
           }
 
           function getPropertyDiff(index) {
-            if ($scope.numberOfRevisions > index + 1) {
+            if ($scope.numberOfRevisions > index + 1 && !$scope.currentRevision._deleted) {
               startCompare(documentRevisions[index + 1].properties, documentRevisions[index].properties, 'diffProperties', 'Properties', $scope.hasChanges);
               //startCompare(documentRevisions[index + 1].geometry.coordinates, documentRevisions[index].geometry.coordinates, 'diffGeometry', 'Geometry', $scope.hasChanges);
             }
@@ -186,8 +186,10 @@ angular.module('CollaborativeMap')
             $scope.currentRevisionIndex = index;
             $scope.currentRevision = documentRevisions[index];
             getPropertyDiff(index);
-            MapHandler.removeLayerForDiff($scope.currentRevision._id);
-            MapHandler.updateLayerForDiff($scope.currentRevision._id, $scope.currentRevision);
+            var fid = $scope.currentRevision._id;
+            MapHandler.removeLayerForDiff(fid);
+            MapHandler.updateLayerForDiff(fid, $scope.currentRevision);
+            MapHandler.highlightFeatureId(fid);
           }
 
 

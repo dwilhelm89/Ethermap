@@ -377,20 +377,22 @@ angular.module('CollaborativeMap')
          */
         highlightFeature: function(feature) {
           if (feature) {
-            var elem = feature._icon || feature._container.children[0];
-            var tmpClass = elem.getAttribute('class');
-            if (tmpClass.indexOf('highlight') === -1) {
-              elem.setAttribute('class', tmpClass + 'animateAll');
-              setTimeout(function() {
-                elem.setAttribute('class', tmpClass + ' highlight');
-              }, 50);
-
-              setTimeout(function() {
-                elem.setAttribute('class', tmpClass + ' animateAll');
+            if (feature._icon || feature._container) {
+              var elem = feature._icon || feature._container.children[0];
+              var tmpClass = elem.getAttribute('class');
+              if (tmpClass.indexOf('highlight') === -1) {
+                elem.setAttribute('class', tmpClass + 'animateAll');
                 setTimeout(function() {
-                  elem.setAttribute('class', tmpClass);
+                  elem.setAttribute('class', tmpClass + ' highlight');
+                }, 50);
+
+                setTimeout(function() {
+                  elem.setAttribute('class', tmpClass + ' animateAll');
+                  setTimeout(function() {
+                    elem.setAttribute('class', tmpClass);
+                  }, 1000);
                 }, 1000);
-              }, 1000);
+              }
             }
           }
         },
