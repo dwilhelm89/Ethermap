@@ -197,13 +197,18 @@ angular.module('CollaborativeMap')
             }
           };
 
+          /**
+           * Sets a revision to the scope variables based on its index in the revisions array.
+           * 
+           * @param {[type]} index [description]
+           */
           function setCurrentRevision(index) {
             $scope.currentRevisionIndex = index;
             $scope.currentRevision = documentRevisions[index];
             getPropertyDiff(index);
             var fid = $scope.currentRevision._id;
             $scope.sliderValue = $scope.numberOfRevisions - index;
-            MapHandler.removeLayerForDiff(fid);
+            MapHandler.removeLayerFid(fid);
             MapHandler.updateLayerForDiff(fid, $scope.currentRevision);
             MapHandler.highlightFeatureId(fid);
           }

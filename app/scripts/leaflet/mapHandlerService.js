@@ -136,7 +136,12 @@ angular.module('CollaborativeMap')
 
         },
 
-
+        /**
+         * Update a layer for displayling the geometry diffs.
+         * Doesn't add the layer to the drawnItems group and doesn't make it editable.
+         * @param  {String} fid          feature id
+         * @param  {Object} geoJsonLayer geojson object
+         */
         updateLayerForDiff: function(fid, geoJsonLayer) {
           this.removeLayer(map, {
             'fid': fid
@@ -147,7 +152,12 @@ angular.module('CollaborativeMap')
           }, map);
         },
 
-        removeLayerForDiff: function(fid) {
+        /**
+         * Removes the layer from the drawnItem feature group and from the map.
+         * Serves as a wrapper as no drawnItems and map variable is needed.
+         * @param  {String} fid the feature id
+         */
+        removeLayerFid: function(fid) {
           this.removeLayer(map, {
             'fid': fid
           }, drawnItems);
