@@ -35,15 +35,26 @@ angular.module('CollaborativeMap')
             }
           });
 
+          /**
+           * Is this still used?
+           */
           scope.$on('appendToHistory', function(e, updateEvent) {
             appendToHistory(updateEvent);
           });
 
+          /**
+           * Event listener for the feature history event. Called when the "show changes" buttons are clicked.
+           * toggles the view so that the feature history can be shown
+           */
           scope.$on('showFeatureHistory', function() {
             scope.isShowFeatureHistory = true;
             scope.isShowMapHistory = false;
           });
 
+          /**
+           * Event listener for the feature history close event.
+           * Toggle the view for the map history and reload the history.
+           */
           scope.$on('closeFeatureHistory', function(){
             scope.isShowFeatureHistory = false;
             scope.isShowMapHistory = true;
@@ -96,6 +107,11 @@ angular.module('CollaborativeMap')
             });
           }
 
+          /**
+           * Combine similar actions to avoid a map history pollution if one person makes many changes.
+           * @param  {Array} values the history actions
+           * @return {Array}        the aggregated history actions
+           */
           function reduceActions(values) {
             var result = [];
             values.forEach(function(elem) {

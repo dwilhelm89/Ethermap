@@ -146,7 +146,7 @@ angular.module('CollaborativeMap')
           this.removeLayer(map, {
             'fid': fid
           }, map);
-          this.addGeoJSONFeatureToMap(map, {
+          this.addGeoJSONFeature(map, {
             feature: geoJsonLayer,
             'fid': fid
           }, map);
@@ -163,14 +163,20 @@ angular.module('CollaborativeMap')
           }, drawnItems);
         },
 
+        /**
+         * Adds a layer if it doesn't already exist.
+         * Used after the user has reviewed older revisions.
+         * @param {String} fid          the feature id
+         * @param {Object} geoJsonLayer geojson object
+         */
         addFeatureAfterDiff: function(fid, geoJsonLayer) {
-          this.removeLayer(map, {
-            'fid': fid
-          }, map);
-          this.addGeoJSONFeature(map, {
-            feature: geoJsonLayer,
-            'fid': fid
-          }, drawnItems);
+          //If feature exists, a newer version has been added while the user was reviewing different revisions
+          if(!map._layers[fid]){
+            this.addGeoJSONFeature(map, {
+              feature: geoJsonLayer,
+              'fid': fid
+            }, drawnItems);
+          }
         },
 
 
@@ -365,21 +371,6 @@ angular.module('CollaborativeMap')
           }
         },
 
-
-        addGeoJSONFeatureToMap: function(map, event, drawnItems) {
-          //jshint camelcase:false
-          var newLayer = this.createSimpleStyleGeoJSONFeature(event.feature);
-          var tmpLayer;
-          for (var key in newLayer._layers) {
-            tmpLayer = newLayer._layers[key];
-            tmpLayer._leaflet_id = event.fid;
-            tmpLayer.addTo(map);
-            //If action is available (edit, create, delete) highight the feature
-            if (event.action) {
-              this.highlightFeature(tmpLayer);
-            }
-          }
-        },
 
         /**
          * Highlights a feature for a few seconds (differentation between svgs and html elements)

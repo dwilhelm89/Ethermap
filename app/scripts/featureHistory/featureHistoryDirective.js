@@ -119,16 +119,27 @@ angular.module('CollaborativeMap')
           var documentRevisions;
           var slider = element[0].getElementsByClassName('verticalSlider')[0];
 
+          /**
+           * Cleans up the revision variables and emits the 'closeFeatureHistory' event.
+           * Used by the mapHistoryDirective to show the default map history
+           */
           $scope.backToHistory = function() {
             cleanUp();
             $scope.$root.$broadcast('closeFeatureHistory');
 
           };
 
+          /**
+           * Event called when clicking the "view changes" buttons.
+           * Initializes the feature history with the given feature id
+           */
           $scope.$on('showFeatureHistory', function(e, fid) {
             init(fid);
           });
 
+          /**
+           * Remove the feature revisions if a different toolbox view is opened.
+           */
           $scope.$on('toolbox', function() {
             if ($scope.currentRevision) {
               cleanUp();
@@ -136,13 +147,22 @@ angular.module('CollaborativeMap')
             }
           });
 
-
+          /**
+           * Load the document revisions history and clear eixisting values.
+           * @param  {[type]} fid [description]
+           * @return {[type]}     [description]
+           */
           function init(fid) {
             $scope.documentRevision = [];
             $scope.currentRevisionIndex = 0;
             loadDocumentHistory(fid);
           }
 
+          /**
+           * Remove the document revisions from all variables.
+           * This automatically clears the view.
+           * Redraws the newest revision in the map.
+           */
           function cleanUp() {
             setOriginalFeature();
             $scope.currentRevisionIndex = 0;
@@ -151,20 +171,42 @@ angular.module('CollaborativeMap')
             $scope.numberOfRevisions = undefined;
           }
 
+          /**
+           * Remove the "diffFeature" from the map and redraw the newest revision
+           */
           function setOriginalFeature() {
+            MapHandler.removeLayerFid('diff-'+$scope.currentRevision._id);
             MapHandler.addFeatureAfterDiff($scope.currentRevision._id, documentRevisions[0]);
           }
 
+          /**
+           * Remove the original feature from the map
+           */
+          function removeOriginalFeature(){
+            var fid = documentRevisions[0]._id;
+            MapHandler.removeLayerFid(fid);
+          }
+
+          /**
+           * Assignes the scope variables with the current revisions.
+           * Removes the original feature from the map so that only the "diff features" are shown.
+           * Init the slider setup.
+           */
           function initView() {
             if (documentRevisions) {
               $scope.numberOfRevisions = documentRevisions.length;
               if ($scope.numberOfRevisions > 0) {
+                removeOriginalFeature();
                 setCurrentRevision(0);
                 setUpSlider();
               }
             }
           }
 
+          /**
+           * Initializes the range slider with the number of document revisions.
+           * Sets the current value to the number of revisions so that the slider starts with the top position.
+           */
           function setUpSlider(){
             if(slider){
               slider.max = $scope.numberOfRevisions;
@@ -173,24 +215,39 @@ angular.module('CollaborativeMap')
             }
           }
 
+          /**
+           * OnChange method of the range slider. Numbers have to be inverted so that the newest revision is on top.
+           */
           $scope.sliderChange = function(){
-            console.log($scope.sliderValue);
             setCurrentRevision($scope.numberOfRevisions - $scope.sliderValue);
           };
 
+          /**
+           * Fill the changes diff with the textual diff representation
+           * @param  {Number} index document revision array index
+           */
           function getPropertyDiff(index) {
             if ($scope.numberOfRevisions > index + 1 && !$scope.currentRevision._deleted) {
+              //Textual diff for properties
               startCompare(documentRevisions[index + 1].properties, documentRevisions[index].properties, 'diffProperties', 'Properties', $scope.hasChanges);
+              //Textual diff for geometry
               //startCompare(documentRevisions[index + 1].geometry.coordinates, documentRevisions[index].geometry.coordinates, 'diffGeometry', 'Geometry', $scope.hasChanges);
             }
           }
 
+          /**
+           * Sets the current revision with the next revision index
+           * @return {[type]} [description]
+           */
           $scope.previousRevision = function() {
             if ($scope.numberOfRevisions > $scope.currentRevisionIndex + 1) {
               setCurrentRevision($scope.currentRevisionIndex + 1);
             }
           };
 
+          /**
+           * Sets the current revision with the previous revision index
+           */
           $scope.nextRevision = function() {
             if ($scope.currentRevisionIndex > 0) {
               setCurrentRevision($scope.currentRevisionIndex - 1);
@@ -206,7 +263,7 @@ angular.module('CollaborativeMap')
             $scope.currentRevisionIndex = index;
             $scope.currentRevision = documentRevisions[index];
             getPropertyDiff(index);
-            var fid = $scope.currentRevision._id;
+            var fid = 'diff-'+$scope.currentRevision._id;
             $scope.sliderValue = $scope.numberOfRevisions - index;
             MapHandler.removeLayerFid(fid);
             MapHandler.updateLayerForDiff(fid, $scope.currentRevision);
@@ -266,13 +323,18 @@ angular.module('CollaborativeMap')
             }, 100);
           };
 
-
+          //Variables are changed while the textual diff is created.
+          //Used by the GUI to decide which view to display.
           $scope.hasChanges = {
             diffGeometry: false,
             diffProperties: false
           };
 
-
+          /**
+           * Checks the action attribute of a feature to decide if there have been geometry changes (true) or property changes (false).
+           * @param  {String}  action the action string of the feature
+           * @return {Boolean}        true if there are geometry changes
+           */
           $scope.hasGeomChanges = function(action) {
             var geomChanges = ['created feature', 'deleted feature', 'edited geometry', 'restored'];
             return geomChanges.indexOf(action) > -1;
