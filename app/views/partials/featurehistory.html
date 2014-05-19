@@ -12,7 +12,7 @@
   <div ng-show="currentRevision">
     <h4>Feature: {{currentRevision._id}}</h4>
     Number of Revisions: {{numberOfRevisions}}
-    <br>Current Revision: {{numberOfRevisions-currentRevisionIndex}}
+    <br>Displayed Revision: {{numberOfRevisions-currentRevisionIndex}}
 
     <br>
     <br>
@@ -39,6 +39,9 @@
     </span>
   </div>
   <div class="slider">
+    {{numberOfRevisions}}<br>
     <input type="range" min="0" max="10" step="1" class="verticalSlider" ng-model="sliderValue" ng-change="sliderChange($event)" orient="vertical">
+    <br>
+    1
   </div>
 </div>
