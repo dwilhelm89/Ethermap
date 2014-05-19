@@ -25,7 +25,7 @@
         <div id="diffProperties" class="chatMessage"></div>
       </div>
       <div ng-show="!hasChanges.diffProperties">
-        <span style="margin-left: 10px;">No property changes to the previous revision.</span>
+        <span style="margin-left: 10px;">No property changes to the previous revision. Check the geometry.</span>
       </div>
       <input ng-hide="(numberOfRevisions-currentRevisionIndex) === numberOfRevisions || currentRevision._deleted" type="button" class="btn btn-default" ng-click="revertFeature(currentRevision._id, currentRevision._rev)" value="Revert to this Revision">
     </span>
