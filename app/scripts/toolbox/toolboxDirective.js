@@ -147,7 +147,7 @@ angular.module('CollaborativeMap')
           function highlightOnChatMessage() {
             $scope.$on('chatmessage', function() {
               if ($scope.views.userView) {
-                var elem = elements.children()[0];
+                var elem = elements.children()[0].children[0];
                 var className = elem.className;
                 if (className.indexOf('orangeBackground') < 0) {
                   className += ' orangeBackground';
@@ -158,7 +158,7 @@ angular.module('CollaborativeMap')
 
             $scope.$on('toolbox', function(e, event) {
               if (event === 'userView') {
-                var elem = elements.children()[0];
+                var elem = elements.children()[0].children[0];
                 var className = elem.className;
                 if (className.indexOf('orangeBackground') > -1) {
                   elem.className = className.replace(' orangeBackground', '');
