@@ -149,7 +149,7 @@ angular.module('CollaborativeMap')
           this.addGeoJSONFeature(map, {
             feature: geoJsonLayer,
             'fid': fid
-          }, map);
+          }, map, true);
         },
 
         /**
@@ -171,7 +171,7 @@ angular.module('CollaborativeMap')
          */
         addFeatureAfterDiff: function(fid, geoJsonLayer) {
           //If feature exists, a newer version has been added while the user was reviewing different revisions
-          if(!map._layers[fid]){
+          if (!map._layers[fid]) {
             this.addGeoJSONFeature(map, {
               feature: geoJsonLayer,
               'fid': fid
@@ -355,14 +355,16 @@ angular.module('CollaborativeMap')
          * @param {Object} event = {feature, fid //feature id}
          * @param {Object} drawnItems = layer group
          */
-        addGeoJSONFeature: function(map, event, drawnItems) {
+        addGeoJSONFeature: function(map, event, drawnItems, isntEditable) {
           //jshint camelcase:false
           var newLayer = this.createSimpleStyleGeoJSONFeature(event.feature);
           var tmpLayer;
           for (var key in newLayer._layers) {
             tmpLayer = newLayer._layers[key];
             tmpLayer._leaflet_id = event.fid;
-            this.addClickEvent(tmpLayer);
+            if (!isntEditable) {
+              this.addClickEvent(tmpLayer);
+            }
             tmpLayer.addTo(drawnItems);
             //If action is available (edit, create, delete) highight the feature
             if (event.action) {
