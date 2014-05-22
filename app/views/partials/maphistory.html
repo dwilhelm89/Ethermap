@@ -3,8 +3,10 @@
     <div class="loading"></div>
   </div>
   <div ng-show="isShowMapHistory">
-    <div ng-hide="history">
-      No history available yet.
+    <div ng-hide="loading">
+      <div ng-hide="history">
+        No history available yet.
+      </div>
     </div>
     <span ng-show="history" style="padding-left: 10px">Filter:
       <input type="text" ng-model="queryText">
