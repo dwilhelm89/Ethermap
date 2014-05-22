@@ -2,8 +2,8 @@
   <div class="featureProperties">
     <div ng-if="selectedFeature">
       <input type="button" class="btn btn-default" ng-click="showFeatureHistory(selectedFeature.fid)" value="Show Changes">
-      <button type="button" class="btn btn-default" ng-click="deleteFeature()">
-        <span class="glyphicon glyphicon-trash"></span>Delete
+      <button type="button" class="btn btn-default" style="float: right" ng-click="deleteFeature()">
+        <span class="glyphicon glyphicon-trash"></span>  Delete
       </button>
       <br>
       <select ng-model="$parent.selectedCategory" ng-change="selectPresets()">

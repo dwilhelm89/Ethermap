@@ -223,6 +223,14 @@ angular.module('CollaborativeMap')
           });
         },
 
+        handleEditModeOnFeatureUpdate: function(layer){
+          //jshint camelcase:false
+          if(editHandler && editFeatureId === layer._leaflet_id){
+            this.removeEditHandler();
+            this.editFeature(layer);
+          }
+        },
+
         updateOnlyProperties: function(layer) {
           if (editFeatureId) {
             var tmpLayer = map._layers[editFeatureId].toGeoJSON();
@@ -401,6 +409,7 @@ angular.module('CollaborativeMap')
               this.highlightFeature(tmpLayer);
             }
           }
+          this.handleEditModeOnFeatureUpdate(tmpLayer);
         },
 
 
