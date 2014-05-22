@@ -508,3 +508,15 @@ select {
   background-color: rgba(255, 255, 255, 0.9);
   padding-bottom: 20px;
 }
+.otherEditors {
+  bottom: 100px;
+  position: absolute;
+  height: 100px;
+  overflow: auto;
+}
+.featureProperties {
+  position: absolute;
+  overflow-y: auto;
+  bottom: 210px;
+  top: 10px;
+}

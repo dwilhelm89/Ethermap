@@ -36,7 +36,7 @@ angular.module('CollaborativeMap')
            * Called from the feature onClick through the map services.
            * @param {Object} feature the leaflet layer
            */
-          $scope.selectFeature = function(feature) {
+          $scope.selectFeature = function(feature, editByUser) {
 
             //TODO: filter simplestyle spec items: https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
 
@@ -79,12 +79,22 @@ angular.module('CollaborativeMap')
 
             }
 
+            $scope.editByUser = editByUser;
+
             //$apply has to be called manually, if the function is called from a different event (here leaflet click)
             if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
               $scope.$apply();
             }
 
           };
+
+          $scope.$on('editHandlerUpdate', function(event, data) {
+            $scope.editByUser = data;
+            //$apply has to be called manually, if the function is called from a different event (here leaflet click)
+            if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
+              $scope.$apply();
+            }
+          });
 
 
           /**

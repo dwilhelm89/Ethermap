@@ -182,6 +182,28 @@ angular.module('CollaborativeMap')
         });
       }
 
+      function editFeatureEvents(mapId){
+        mapScope.$root.$on('editHandler', function(event, active, fid){
+          sendEditFeatureEvent(mapId, active, fid);
+        });
+
+        Socket.on(mapId + '-editFeature', function(data){
+          MapHandler.setEditFeatureEvent(data);
+        });
+      }
+
+      function sendEditFeatureEvent(mapId, active, fid){
+        var message = {
+          'mapId': mapId,
+          'user' : mapScope.userName,
+          'fid': fid,
+          'active': active
+        };
+        Socket.emit('editFeature', message, function(res) {
+          console.log(res);
+        });
+      }
+
 
       return {
 
@@ -209,6 +231,8 @@ angular.module('CollaborativeMap')
           });
 
           receiveMapDraws(scope.mapId, map, drawnItems);
+
+          editFeatureEvents(scope.mapId);
         }
 
 

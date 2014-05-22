@@ -84,7 +84,7 @@ angular.module('CollaborativeMap')
           //jshint camelcase:false
           editFeatureId = layer._leaflet_id;
           editHandler.enable();
-          mapScope.$emit('editHandler', true);
+          mapScope.$emit('editHandler', true, editFeatureId);
 
           layer.on('dragend', function() {
             editHandler.save();
@@ -111,7 +111,36 @@ angular.module('CollaborativeMap')
           if (editHandler) {
             editHandler.disable();
             editHandler = undefined;
-            mapScope.$emit('editHandler', false);
+            mapScope.$emit('editHandler', false, editFeatureId);
+          }
+        },
+
+        editByUser: {},
+        /**
+         * Stores the current editors by feature id. Called through the synchronizeMapService socket listeners.
+         * @param {Object} event {user, id, active, mapId}
+         */
+        setEditFeatureEvent: function(event){
+          if(event.user && event.fid){
+            if(event.active){
+              if(this.editByUser[event.fid]){
+                this.editByUser[event.fid].push(event.user);
+              }else{
+                this.editByUser[event.fid] = [event.user];
+              }
+            }else{
+              this.editByUser[event.fid].splice(this.editByUser[event.fid].indexOf(event.user));
+              if(this.editByUser[event.fid].length === 0){
+                delete this.editByUser[event.fid];
+              }
+            }
+            this.fireEditFeatureEvent(event);
+          }
+        },
+
+        fireEditFeatureEvent: function(event){
+          if(editFeatureId === event.fid){
+            mapScope.$emit('editHandlerUpdate', this.editByUser[editFeatureId]);
           }
         },
 
@@ -211,9 +240,10 @@ angular.module('CollaborativeMap')
          * @param {Object} layer leaflet layer
          */
         addClickEvent: function(layer) {
+          //jshint camelcase:false
           layer.on('click', function() {
             if (!this.disableClick) {
-              mapScope.selectFeature(layer);
+              mapScope.selectFeature(layer, this.editByUser[layer._leaflet_id]);
               this.editFeature(layer);
             }
           }.bind(this));

@@ -1,52 +1,63 @@
 <div style="margin-left: 3px">
-  <div ng-if="selectedFeature">
-    <input type="button" class="btn btn-default" ng-click="showFeatureHistory(selectedFeature.fid)" value="Show Changes">
-    <input type="button" class="btn btn-default" ng-click="deleteFeature()" value="Delete">
-    <br>
-    <select ng-model="$parent.selectedCategory" ng-change="selectPresets()">
-      <option value="" disabled selected>Select a category</option>
-      <option value="{{key}}" ng-repeat="(key, value) in categories">{{categories[key].name}}</option>
-    </select>
-    <br>
-    <span ng-show="presets">
-      <select id="presetSelect" ng-model="$parent.selectedPreset" ng-change="selectFields()">
-        <option value="" disabled selected>Select a sub category</option>
-        <option value="{{key}}" ng-repeat="(key, value) in presets">{{presets[key].name}}</option>
+  <div class="featureProperties">
+    <div ng-if="selectedFeature">
+      <input type="button" class="btn btn-default" ng-click="showFeatureHistory(selectedFeature.fid)" value="Show Changes">
+      <button type="button" class="btn btn-default" ng-click="deleteFeature()">
+        <span class="glyphicon glyphicon-trash"></span>Delete
+      </button>
+      <br>
+      <select ng-model="$parent.selectedCategory" ng-change="selectPresets()">
+        <option value="" disabled selected>Select a category</option>
+        <option value="{{key}}" ng-repeat="(key, value) in categories">{{categories[key].name}}</option>
       </select>
       <br>
-    </span>
-    <br>
+      <span ng-show="presets">
+        <select id="presetSelect" ng-model="$parent.selectedPreset" ng-change="selectFields()">
+          <option value="" disabled selected>Select a sub category</option>
+          <option value="{{key}}" ng-repeat="(key, value) in presets">{{presets[key].name}}</option>
+        </select>
+        <br>
+      </span>
+      <br>
 
-    <div id="featurePropsForm" ng-repeat="prop in selectedFeature.properties">
-      <div class="input-group">
-        <label class="input-group-addon propertyLabel" for="{{prop.key}}">{{prop.key}}</label>
-        <input type="text" class="form-control" value="{{prop.value}}" id="{{prop.key}}" ng-model="prop.value" ng-change="propertyChanged()">
-        <span class="input-group-btn">
-          <button class="btn btn-default propertyRemoveBtn" type="button" ng-click="removeProperty($index)">-</button>
-        </span>
+      <div id="featurePropsForm" ng-repeat="prop in selectedFeature.properties">
+        <div class="input-group">
+          <label class="input-group-addon propertyLabel" for="{{prop.key}}">{{prop.key}}</label>
+          <input type="text" class="form-control" value="{{prop.value}}" id="{{prop.key}}" ng-model="prop.value" ng-change="propertyChanged()">
+          <span class="input-group-btn">
+            <button class="btn btn-default propertyRemoveBtn" type="button" ng-click="removeProperty($index)">-</button>
+          </span>
+        </div>
       </div>
+      <div ng-hide="selectedFeature.properties.length">This feature has no properties yet.</div>
+      <input type="button" class="btn btn-default" ng-click="addNewProperty($event)" value="Add new Property">
+      <br>
+      <input type="button" class="btn btn-default stopEditBtn" id="stopEditBtn" ng-click="cancelEditMode()" value="Stop Editing">
+
     </div>
-    <div ng-hide="selectedFeature.properties.length">This feature has no properties yet.</div>
-    <input type="button" class="btn btn-default" ng-click="addNewProperty($event)" value="Add new Property">
-    <br>
-    <input type="button" class="btn btn-default stopEditBtn" id="stopEditBtn" ng-click="cancelEditMode()" value="Stop Editing">
+    <div ng-if="!selectedFeature">
+      Click on a feature to open it's properties...
+    </div>
 
+
+    <div ng-class="{'hide': hideNewProperty}">
+      <h3>New Property</h3>
+      <label for="newKey">Property Name</label>
+      <br>
+      <input id="newKey" type="text" ng-model="newKey">
+      <br>
+      <label for="newValue">Value</label>
+      <br>
+      <input id="newValue" type="text" ng-model="newValue" ng-keypress="newProperty($event)">
+      <input type="button" class="btn btn-default" ng-click="newProperty()" value="Save">
+    </div>
   </div>
-  <div ng-if="!selectedFeature">
-    Click on a feature to open it's properties...
-  </div>
 
-
-  <div ng-class="{'hide': hideNewProperty}">
-    <h3>New Property</h3>
-    <label for="newKey">Property Name</label>
-    <br>
-    <input id="newKey" type="text" ng-model="newKey">
-    <br>
-    <label for="newValue">Value</label>
-    <br>
-    <input id="newValue" type="text" ng-model="newValue" ng-keypress="newProperty($event)">
-    <input type="button" class="btn btn-default" ng-click="newProperty()" value="Save">
+  <div class="otherEditors" ng-show="editByUser.length > 0">
+    <h4>Other users editing this feature</h4>
+    <div ng-repeat="editUser in editByUser">
+      {{editUser}}
+    </div>
   </div>
 
 
