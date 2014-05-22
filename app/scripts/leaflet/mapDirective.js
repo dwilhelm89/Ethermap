@@ -2,7 +2,7 @@
 
 /**
  * @memberof CollaborativeMap
- * @fileOverview Leaflet map directive. 
+ * @fileOverview Leaflet map directive.
  * Initializes the map.
  * Loads already existing features from the Database.
  * Initializes the map Synchronization and the MapHandler
@@ -24,6 +24,7 @@ angular.module('CollaborativeMap')
        * @param  {Object} map
        * @param  {Object} drawnItems = layer group for features
        */
+
       function loadFeatures(http, mapId, map, drawnItems) {
         showLoading();
         http({
@@ -39,22 +40,33 @@ angular.module('CollaborativeMap')
                 }, drawnItems);
               });
             }
-            document.body.removeChild(mapLoadingDiv);
+            removeLoading();
 
           })
           .error(function(data) { //, status, headers, config) {
             console.log(data);
-            document.body.removeChild(mapLoadingDiv);
+            removeLoading();
           });
       }
 
-      function showLoading(){
+      /**
+       * Creates a loading div
+       */
+
+      function showLoading() {
         mapLoadingDiv = document.createElement('div');
         mapLoadingDiv.className = 'mapLoading';
         var loading = document.createElement('div');
         loading.className = 'loading';
         mapLoadingDiv.appendChild(loading);
         document.body.appendChild(mapLoadingDiv);
+      }
+
+      /**
+       * Removes the loading div from the page
+       */
+      function removeLoading() {
+        document.body.removeChild(mapLoadingDiv);
       }
 
 
@@ -88,7 +100,7 @@ angular.module('CollaborativeMap')
           map.addLayer(drawnItems);
 
           // Initialise the draw control and pass it the FeatureGroup of editable layers
-          var drawControl = window._drawControl =  new L.Control.Draw({
+          var drawControl = window._drawControl = new L.Control.Draw({
             edit: false,
             draw: {
               circle: false,

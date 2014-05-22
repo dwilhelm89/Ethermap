@@ -120,17 +120,17 @@ angular.module('CollaborativeMap')
          * Stores the current editors by feature id. Called through the synchronizeMapService socket listeners.
          * @param {Object} event {user, id, active, mapId}
          */
-        setEditFeatureEvent: function(event){
-          if(event.user && event.fid){
-            if(event.active){
-              if(this.editByUser[event.fid]){
+        setEditFeatureEvent: function(event) {
+          if (event.user && event.fid) {
+            if (event.active) {
+              if (this.editByUser[event.fid]) {
                 this.editByUser[event.fid].push(event.user);
-              }else{
+              } else {
                 this.editByUser[event.fid] = [event.user];
               }
-            }else{
+            } else if (this.editByUser[event.fid]) {
               this.editByUser[event.fid].splice(this.editByUser[event.fid].indexOf(event.user));
-              if(this.editByUser[event.fid].length === 0){
+              if (this.editByUser[event.fid].length === 0) {
                 delete this.editByUser[event.fid];
               }
             }
@@ -138,8 +138,8 @@ angular.module('CollaborativeMap')
           }
         },
 
-        fireEditFeatureEvent: function(event){
-          if(editFeatureId === event.fid){
+        fireEditFeatureEvent: function(event) {
+          if (editFeatureId === event.fid) {
             mapScope.$emit('editHandlerUpdate', this.editByUser[editFeatureId]);
           }
         },
@@ -223,14 +223,23 @@ angular.module('CollaborativeMap')
           });
         },
 
-        handleEditModeOnFeatureUpdate: function(layer){
+        /**
+         * If a feature gets update, it is redrawn and the editMode is lost. Therefore, restart the editHandler
+         * @param  {Object} layer map layer
+         */
+        handleEditModeOnFeatureUpdate: function(layer) {
           //jshint camelcase:false
-          if(editHandler && editFeatureId === layer._leaflet_id){
+          if (editHandler && editFeatureId === layer._leaflet_id) {
             this.removeEditHandler();
             this.editFeature(layer);
           }
         },
 
+        /**
+         * Update the properties of a layer but reuse the existing geometry. Used by the featurePropertiesDirective.
+         * Prevents the loss of geometry changes which may have occured while editing the properties.
+         * @param  {Object} layer feature
+         */
         updateOnlyProperties: function(layer) {
           if (editFeatureId) {
             var tmpLayer = map._layers[editFeatureId].toGeoJSON();
@@ -239,7 +248,7 @@ angular.module('CollaborativeMap')
           this.updateFeature(layer);
         },
 
-
+        //used to temporily disable the "edit" click
         disableClick: false,
 
         /**
@@ -421,17 +430,17 @@ angular.module('CollaborativeMap')
           if (feature) {
             if (feature._icon || feature._container) {
               var elem = feature._icon || feature._container.children[0];
-              var tmpClass = elem.getAttribute('class');
-              if (tmpClass.indexOf('highlight') === -1) {
-                elem.setAttribute('class', tmpClass + 'animateAll');
+              if (elem.getAttribute('class').indexOf('highlight') === -1) {
+                elem.setAttribute('class', elem.getAttribute('class') + 'animateAll');
                 setTimeout(function() {
-                  elem.setAttribute('class', tmpClass + ' highlight');
+                  elem.setAttribute('class', elem.getAttribute('class') + ' highlight');
                 }, 50);
 
                 setTimeout(function() {
-                  elem.setAttribute('class', tmpClass + ' animateAll');
+                  elem.setAttribute('class', elem.getAttribute('class') + ' animateAll');
                   setTimeout(function() {
-                    elem.setAttribute('class', tmpClass);
+                    elem.setAttribute('class', elem.getAttribute('class').replace(/highlight/g, ''));
+                    elem.setAttribute('class', elem.getAttribute('class').replace(/animateAll/g, ''));
                   }, 1000);
                 }, 1000);
               }
