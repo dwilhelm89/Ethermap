@@ -15,6 +15,7 @@
 angular.module('CollaborativeMap')
   .directive('map', ['$http', 'MapHandler', 'SynchronizeMap',
     function($http, MapHandler, SynchronizeMap) {
+      var mapLoadingDiv;
 
       /**
        * Loads the initial features from the database and adds the features to the map
@@ -24,6 +25,7 @@ angular.module('CollaborativeMap')
        * @param  {Object} drawnItems = layer group for features
        */
       function loadFeatures(http, mapId, map, drawnItems) {
+        showLoading();
         http({
           method: 'GET',
           url: '/api/features/' + mapId
@@ -37,11 +39,22 @@ angular.module('CollaborativeMap')
                 }, drawnItems);
               });
             }
+            document.body.removeChild(mapLoadingDiv);
 
           })
           .error(function(data) { //, status, headers, config) {
             console.log(data);
+            document.body.removeChild(mapLoadingDiv);
           });
+      }
+
+      function showLoading(){
+        mapLoadingDiv = document.createElement('div');
+        mapLoadingDiv.className = 'mapLoading';
+        var loading = document.createElement('div');
+        loading.className = 'loading';
+        mapLoadingDiv.appendChild(loading);
+        document.body.appendChild(mapLoadingDiv);
       }
 
 

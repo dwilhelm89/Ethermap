@@ -417,6 +417,7 @@ select {
   background-image: url(../images/ajax-loader.gif);
   height: 11px;
   width: 43px;
+  margin: auto;
 }
 .introjs-helperNumberLayer {
   display:none;
@@ -519,4 +520,15 @@ select {
   overflow-y: auto;
   bottom: 210px;
   top: 10px;
+}
+.mapLoading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-color: #3c4e5a;
+  height: 100px;
+  width: 200px;
+  margin-left: -100px;
+  margin-top: -100px;
+  padding-top: 45px;
 }
