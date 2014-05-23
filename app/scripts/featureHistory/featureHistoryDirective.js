@@ -149,8 +149,7 @@ angular.module('CollaborativeMap')
 
           /**
            * Load the document revisions history and clear eixisting values.
-           * @param  {[type]} fid [description]
-           * @return {[type]}     [description]
+           * @param  {string} fid feature id
            */
           function init(fid) {
             $scope.documentRevision = [];
@@ -237,7 +236,6 @@ angular.module('CollaborativeMap')
 
           /**
            * Sets the current revision with the next revision index
-           * @return {[type]} [description]
            */
           $scope.previousRevision = function() {
             if ($scope.numberOfRevisions > $scope.currentRevisionIndex + 1) {
@@ -257,7 +255,7 @@ angular.module('CollaborativeMap')
           /**
            * Sets a revision to the scope variables based on its index in the revisions array.
            * 
-           * @param {[type]} index [description]
+           * @param {Number} index array index
            */
           function setCurrentRevision(index) {
             $scope.currentRevisionIndex = index;
