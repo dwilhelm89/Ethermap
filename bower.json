@@ -11,7 +11,8 @@
     "angular-cookies": "1.2.11",
     "angular-sanitize": "1.2.11",
     "angular-route": "1.2.11",
-    "intro.js": "~0.8.0"
+    "intro.js": "~0.8.0",
+    "oboe": "~1.14.6"
   },
   "directory": "app/bower_components",
   "devDependencies": {

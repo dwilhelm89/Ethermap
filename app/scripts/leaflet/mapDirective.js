@@ -13,38 +13,29 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('map', ['$http', 'MapHandler', 'SynchronizeMap',
-    function($http, MapHandler, SynchronizeMap) {
+  .directive('map', ['MapHandler', 'SynchronizeMap',
+    function(MapHandler, SynchronizeMap) {
       var mapLoadingDiv;
 
       /**
-       * Loads the initial features from the database and adds the features to the map
-       * @param  {Object} http
-       * @param  {String} mapId
-       * @param  {Object} map
-       * @param  {Object} drawnItems = layer group for features
+       * Load the features for the current map from the database
+       * @param  {String} mapId      the map id
+       * @param  {Object} map        the map
+       * @param  {Object} drawnItems layer group for the drawn items
        */
-
-      function loadFeatures(http, mapId, map, drawnItems) {
+      function loadFeatures(mapId, map, drawnItems) {
         showLoading();
-        http({
-          method: 'GET',
-          url: '/api/features/' + mapId
-        })
-          .success(function(data) { //, status, headers, config) {
-            if (data.rows) {
-              data.rows.forEach(function(row) {
-                MapHandler.addGeoJSONFeature(map, {
+        oboe('/api/features/' + mapId)
+          .node('rows.*', function(row) {
+
+            // This callback will be called everytime a new object is
+            // found in the foods array.
+            MapHandler.addGeoJSONFeature(map, {
                   'feature': row.doc,
                   'fid': row.doc._id
                 }, drawnItems);
-              });
-            }
-            removeLoading();
-
           })
-          .error(function(data) { //, status, headers, config) {
-            console.log(data);
+          .done(function() {
             removeLoading();
           });
       }
@@ -65,6 +56,7 @@ angular.module('CollaborativeMap')
       /**
        * Removes the loading div from the page
        */
+
       function removeLoading() {
         document.body.removeChild(mapLoadingDiv);
       }
@@ -140,7 +132,7 @@ angular.module('CollaborativeMap')
           map.options.drawControlTooltips = true;
 
           //Load already existing features from the db
-          loadFeatures($http, $scope.mapId, map, drawnItems);
+          loadFeatures($scope.mapId, map, drawnItems);
 
           //Initialize the MapHandler (wrapper for all map based actions)
           MapHandler.initMapHandler(map, drawnItems, $scope.$parent, drawControl);
