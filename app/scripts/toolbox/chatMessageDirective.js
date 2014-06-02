@@ -61,6 +61,9 @@ angular.module('CollaborativeMap')
             message = scope.message.message;
           }
 
+          message = message.replace(/<script/g,'');
+          message = message.replace(/<style/g,'');
+
           exchangeFid(message);
           element[0].innerHTML = message;
           var e = angular.element(element[0]);
