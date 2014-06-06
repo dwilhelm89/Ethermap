@@ -32,7 +32,7 @@ angular.module('CollaborativeMap')
             var fid = fidString.substring(1);
             var className = getClassForFeature(fid);
             if (className) {
-              return message.replace(fidString, '<div class="featureInChat '+className+'" ng-click="panToFeature(\'' + fid + '\')"></div>');
+              return message.replace(fidString, '<div class="featureInChat '+className+'" ng-click="panToFeature(\'' + fid + '\')"></div> ');
             } else {
               return fidString;
             }

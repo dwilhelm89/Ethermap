@@ -20,7 +20,7 @@ angular.module('CollaborativeMap')
         templateUrl: 'partials/chat',
         restrict: 'E',
         scope: {},
-        link: function postLink($scope) {
+        link: function postLink($scope, element) {
           $scope.messages = [];
           $scope.chatMessage = '';
           var mapId = $scope.$parent.mapId;
@@ -101,8 +101,12 @@ angular.module('CollaborativeMap')
             Tooltip.showTooltip('Click on the feature you want to refer to.');
             MapHandler.getLayerIdOnce(function(fid) {
               if (fid !== '') {
-                $scope.chatMessage += ' #' + fid;
+                $scope.chatMessage += ' #' + fid + ' ';
               }
+              setTimeout(function(){
+                element.find('input')[0].scrollLeft = element.find('input')[0].scrollWidth;
+                element.find('input')[0].focus();
+              },50);
               Tooltip.hideTooltip();
               $scope.isReferTo = false;
               $scope.$apply();
