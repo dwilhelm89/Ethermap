@@ -23,6 +23,7 @@ angular.module('CollaborativeMap')
        * @param  {Object} map        the map
        * @param  {Object} drawnItems layer group for the drawn items
        */
+
       function loadFeatures(mapId, map, drawnItems) {
         showLoading();
         oboe('/api/features/' + mapId)
@@ -31,9 +32,9 @@ angular.module('CollaborativeMap')
             // This callback will be called everytime a new object is
             // found in the foods array.
             MapHandler.addGeoJSONFeature(map, {
-                  'feature': row.doc,
-                  'fid': row.doc._id
-                }, drawnItems);
+              'feature': row.doc,
+              'fid': row.doc._id
+            }, drawnItems);
           })
           .done(function() {
             removeLoading();
@@ -75,17 +76,24 @@ angular.module('CollaborativeMap')
           //expose map for debugging purposes
           //var map = window._map = L.mapbox.map('map', 'dnns.h8dkb1bh');
           var map = window._map = L.mapbox.map('map')
-            .setView([51.95, 7.62], 13);
+            .setView([44.88801585301702, 18.732590675354], 14);
 
-          // add an OpenStreetMap tile layer
-          //         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
-          //            .addTo(map);
-          L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png').addTo(map);
+
+          map.setMaxBounds([
+            [51.84945880417875,7.674551010131836],[51.89053068373116,7.748794555664062]
+          ]);
+
+          var mapLink = '<a href="http://www.esri.com/">Esri</a>';
+          var wholink = 'i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+          L.tileLayer(
+            'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+              maxZoom: 18,
+            }).addTo(map);
 
           map.addControl(L.mapbox.infoControl({
               position: 'bottomleft'
             })
-            .addInfo('&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'));
+            .addInfo('&copy; ' + mapLink + ', ' + wholink));
 
           // Initialise the FeatureGroup to store editable layers
           var drawnItems = window.drawnItems = new L.FeatureGroup();
