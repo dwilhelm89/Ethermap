@@ -31,7 +31,7 @@ angular.module('CollaborativeMap')
             var jsIntro = introJs();
 
             var drawFeatures = document.getElementsByClassName('leaflet-draw-toolbar leaflet-bar')[0];
-            drawFeatures.setAttribute('data-intro', 'These are the drawing tools. They can be used to create markers (e.g. points of interest), lines (e.g. streets, rivers) and polygons (e.g. buildings, parks).');
+            drawFeatures.setAttribute('data-intro', 'These are the drawing tools. They can be used to create markers (e.g. points of interest), lines (e.g. streets, rivers) and polygons (e.g. buildings, parks).<br><a href="images/create_edit.gif" target="_blank">Demo</a>');
             drawFeatures.setAttribute('data-step', '1');
 
             jsIntro.onbeforechange(function(targetElement) {
