@@ -402,7 +402,7 @@ angular.module('CollaborativeMap')
          * @param {Object} event = {feature, fid //feature id}
          * @param {Object} drawnItems = layer group
          */
-        addGeoJSONFeature: function(map, event, drawnItems, isntEditable) {
+        addGeoJSONFeature: function(map, event, drawnItems, isntEditable, color) {
           //jshint camelcase:false
           var newLayer = this.createSimpleStyleGeoJSONFeature(event.feature);
           var tmpLayer;
@@ -415,7 +415,7 @@ angular.module('CollaborativeMap')
             tmpLayer.addTo(drawnItems);
             //If action is available (edit, create, delete) highight the feature
             if (event.action) {
-              this.highlightFeature(tmpLayer);
+              this.highlightFeature(tmpLayer, color);
             }
           }
           this.handleEditModeOnFeatureUpdate(tmpLayer);
@@ -426,20 +426,30 @@ angular.module('CollaborativeMap')
          * Highlights a feature for a few seconds (differentation between svgs and html elements)
          * @param  {Object} feature leaflet feature
          */
-        highlightFeature: function(feature) {
+        highlightFeature: function(feature, color) {
           if (feature) {
             if (feature._icon || feature._container) {
+              color = color || '#FFFF03';
               var elem = feature._icon || feature._container.children[0];
               if (elem.getAttribute('class').indexOf('highlight') === -1) {
                 elem.setAttribute('class', elem.getAttribute('class') + 'animateAll');
                 setTimeout(function() {
-                  elem.setAttribute('class', elem.getAttribute('class') + ' highlight');
+                  // elem.setAttribute('class', elem.getAttribute('class') + ' highlight');
+                  elem.style.stroke = color;
+                  elem.style.strokeWidth = '5px';
+                  elem.style.backgroundShadow = '0 0 20px 5px ' + color;
+                  elem.style.border = 'solid';
+                  elem.style.borderColor = color;
                 }, 50);
 
                 setTimeout(function() {
                   elem.setAttribute('class', elem.getAttribute('class') + ' animateAll');
                   setTimeout(function() {
-                    elem.setAttribute('class', elem.getAttribute('class').replace(/highlight/g, ''));
+                    elem.style.stroke = '';
+                    elem.style.strokeWidth = '';
+                    elem.style.backgroundShadow = '';
+                    elem.style.border = '';
+                    elem.style.borderColor = '';
                     elem.setAttribute('class', elem.getAttribute('class').replace(/animateAll/g, ''));
                   }, 1000);
                 }, 1000);
