@@ -322,7 +322,8 @@ angular.module('CollaborativeMap')
           });
           bound.addTo(map);
           map.fitBounds(bound, {
-            'padding': [5, 5]
+            'paddingBottomRight': [300, 1],
+            'paddingTopLeft': [1, 1]
           });
           setTimeout(function() {
             map.removeLayer(bound);
