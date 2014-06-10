@@ -30,13 +30,16 @@ angular.module('CollaborativeMap')
             /*global introJs */
             var jsIntro = introJs();
 
+            var layerSwitcherTool = document.getElementsByClassName('leaflet-control-layers-toggle')[0];
+            layerSwitcherTool.setAttribute('data-intro', 'Use this tool to toggle different layers (Satellite, Floodings, etc.) on or off.');
+
             var drawFeatures = document.getElementsByClassName('leaflet-draw-toolbar leaflet-bar')[0];
             drawFeatures.setAttribute('data-intro', 'These are the drawing tools. They can be used to create markers (e.g. points of interest), lines (e.g. streets, rivers) and polygons (e.g. buildings, parks).<br><a href="images/create_edit.gif" target="_blank">Demo</a>');
             drawFeatures.setAttribute('data-step', '1');
 
-            jsIntro.onbeforechange(function(targetElement) {
-              console.log('before new step', targetElement);
-            });
+            // jsIntro.onbeforechange(function(targetElement) {
+            //   console.log('before new step', targetElement);
+            // });
 
             jsIntro.onafterchange(function(targetElement) {
               var rightDif = $(window).width() - targetElement.getBoundingClientRect().right;
@@ -57,6 +60,10 @@ angular.module('CollaborativeMap')
             setUpIntroJS().start();
 
           };
+
+          setTimeout(function(){
+            $('#tutorialModal').modal('show');
+          },200);
 
           /**
            * Variables used by the html tool elements via ng-class.

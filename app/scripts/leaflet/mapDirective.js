@@ -88,10 +88,19 @@ angular.module('CollaborativeMap')
 
           var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 
+          var water = L.tileLayer.wms('https://geodienste.sachsen.de/wms_geosn_dopsb2013/guest', {
+            format: 'image/png',
+            transparent: true,
+            opacity: 0.9,
+            layers: '1'
+          }).addTo(map);
+
           L.control.layers({
             'Aerial': aerial,
             'OpenStreetMap': osm
-          }, {}, {
+          }, {
+            'Floodings': water
+          }, {
             position: 'topleft'
           }).addTo(map);
 
