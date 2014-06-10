@@ -68,6 +68,9 @@ angular.module('CollaborativeMap')
             if (tmpGeoJSON.properties && tmpGeoJSON.properties.category) {
               $scope.selectedCategory = tmpGeoJSON.properties.category;
               setPresetsInScope($scope.selectedCategory);
+              setTimeout(function() {
+                $('#categorySelect')[0].value = $scope.selectedCategory;
+              }, 40);
             }
             if (tmpGeoJSON.properties && tmpGeoJSON.properties.preset) {
               var i = getPresetIndex(tmpGeoJSON.properties.preset);
