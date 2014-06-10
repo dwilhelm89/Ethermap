@@ -357,6 +357,7 @@ select {
 }
 .orangeBackground {
   background-color: orange;
+  color: black;
 }
 .greenBackground {
   background-color: rgb(7, 189, 7) !important;
