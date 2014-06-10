@@ -16,6 +16,35 @@
       "fill": "#F00"
     }
   },
+  "category-disaster": {
+    "geometry": "area",
+    "name": "Disaster",
+    "icon": "disaster",
+    "members": [
+      "disaster/flooding",
+      "disaster/fire"
+    ],
+    "style": {
+      "stroke": "#00F",
+      "fill": "#00F"
+    }
+  },
+  "category-disasterPoint": {
+    "geometry": "point",
+    "name": "Disaster",
+    "members": [],
+    "style": {
+      "marker-symbol": "fire-station"
+    }
+  },
+  "category-disasterLine": {
+    "geometry": "line",
+    "name": "Disaster",
+    "members": [],
+    "style": {
+      "stroke": "#00F"
+    }
+  },
   "category-landuse": {
     "geometry": "area",
     "name": "Land Use",
