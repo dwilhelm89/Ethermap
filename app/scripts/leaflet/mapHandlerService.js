@@ -311,15 +311,19 @@ angular.module('CollaborativeMap')
          * Zooms to the rectangle
          * @param  {Object} bounds Leaflet bounding box (L.LatLngBounds)
          */
-        paintUserBounds: function(bounds) {
+        paintUserBounds: function(bounds, color) {
+          var boundsColor = color || '#ff0000';
+
           var bound = L.rectangle(bounds, {
-            color: '#ff0000',
-            weight: 1,
-            fill: false
+            color: boundsColor,
+            weight: 2,
+            fill: false,
+            opacity: 1
           });
           bound.addTo(map);
           map.fitBounds(bound, {
-            'padding': [5, 5]
+            'paddingBottomRight': [300, 1],
+            'paddingTopLeft': [1, 1]
           });
           setTimeout(function() {
             map.removeLayer(bound);

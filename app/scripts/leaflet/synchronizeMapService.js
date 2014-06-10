@@ -6,8 +6,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .service('SynchronizeMap', ['MapMovementEvents', 'MapDrawEvents', 'Socket', 'MapHandler',
-    function(MapMovementEvents, MapDrawEvents, Socket, MapHandler) {
+  .service('SynchronizeMap', ['MapMovementEvents', 'MapDrawEvents', 'Socket', 'MapHandler', 'Users',
+    function(MapMovementEvents, MapDrawEvents, Socket, MapHandler, Users) {
 
 
       var mapScope;
@@ -141,12 +141,12 @@ angular.module('CollaborativeMap')
 
             if (event.action === 'created' || event.action === 'created feature') {
 
-              MapHandler.addGeoJSONFeature(map, event, drawnItems, false, getUserColor(res.event.user));
+              MapHandler.addGeoJSONFeature(map, event, drawnItems, false, Users.getUserColorByName(res.event.user));
 
             } else if (event.action === 'edited' || event.action === 'edited geometry' || event.action === 'edited properties' || event.action === 'reverted') {
 
               MapHandler.removeLayer(map, event, drawnItems);
-              MapHandler.addGeoJSONFeature(map, event, drawnItems, false, getUserColor(res.event.user));
+              MapHandler.addGeoJSONFeature(map, event, drawnItems, false, Users.getUserColorByName(res.event.user));
 
             } else if (event.action === 'deleted' || event.action === 'deleted feature') {
 
@@ -158,14 +158,6 @@ angular.module('CollaborativeMap')
         });
       }
 
-      function getUserColor(userName){
-        for(var key in mapScope.users){
-          if(mapScope.users[key].name === userName){
-            return mapScope.users[key].color;
-          }
-        }
-      }
-
 
       /**
        * Connects to the users WebSockets and updates the users in scope
@@ -174,21 +166,7 @@ angular.module('CollaborativeMap')
 
       function receiveUsers(mapId) {
         Socket.on(mapId + '-users', function(res) {
-          var tmpUsers = {};
-          if(!mapScope.users){
-            mapScope.users = {};
-          }
-          for(var key in res.users){
-            if(mapScope.users[key]){
-              tmpUsers[key] = mapScope.users[key];
-            }else{
-              tmpUsers[key] = {
-                name: res.users[key],
-                color: randomColor()
-              };
-            }
-          }
-          mapScope.users = tmpUsers;
+          mapScope.users = Users.receiveUsers(res.users);
         });
       }
 
