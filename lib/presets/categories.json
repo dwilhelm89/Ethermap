@@ -32,7 +32,10 @@
   "category-disasterPoint": {
     "geometry": "point",
     "name": "Disaster",
-    "members": [],
+    "members": [
+      "disaster/helpRequired",
+      "disaster/disaster"
+    ],
     "style": {
       "marker-symbol": "fire-station"
     }

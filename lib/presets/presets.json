@@ -1,26 +1,42 @@
 {
+  "disaster/disaster": {
+    "geometry": [
+      "area",
+      "point",
+      "line"
+    ],
+    "terms": [],
+    "fields": [],
+    "tags": {},
+    "name": "Damage"
+  },
+  "disaster/helpRequired": {
+    "geometry": [
+      "area",
+      "point",
+      "line"
+    ],
+    "terms": [],
+    "fields": [],
+    "tags": {},
+    "name": "Help required"
+  },
   "disaster/flooding": {
     "geometry": [
       "area"
     ],
-    "terms": [
-    ],
-    "fields": [
-    ],
-    "tags": {
-    },
+    "terms": [],
+    "fields": [],
+    "tags": {},
     "name": "Flooding"
   },
   "disaster/fire": {
     "geometry": [
       "area"
     ],
-    "terms": [
-    ],
-    "fields": [
-    ],
-    "tags": {
-    },
+    "terms": [],
+    "fields": [],
+    "tags": {},
     "name": "Fire"
   },
   "address": {
