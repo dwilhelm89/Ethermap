@@ -13,8 +13,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('toolbox', ['$http', '$compile', 'MapHandler',
-    function($http, $compile, MapHandler) {
+  .directive('toolbox', ['$http', '$compile', 'MapHandler','Users',
+    function($http, $compile, MapHandler, Users) {
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
         templateUrl: 'partials/toolbox',
@@ -117,7 +117,7 @@ angular.module('CollaborativeMap')
           $scope.getUserBounds = function(userId) {
             var bounds = $scope.userBounds[userId];
             if (bounds) {
-              MapHandler.paintUserBounds(bounds);
+              MapHandler.paintUserBounds(bounds, Users.getUserById(userId).color || 'undefined');
             } else {
               window.alert('The user hasn\'t mooved since you logged in');
             }
