@@ -76,19 +76,33 @@ angular.module('CollaborativeMap')
           //expose map for debugging purposes
           //var map = window._map = L.mapbox.map('map', 'dnns.h8dkb1bh');
           var map = window._map = L.mapbox.map('map')
-            .setView([44.88801585301702, 18.732590675354], 14);
+            .setView([51.054611, 13.736880], 14);
 
-
-          map.setMaxBounds([
-            [51.84945880417875,7.674551010131836],[51.89053068373116,7.748794555664062]
-          ]);
 
           var mapLink = '<a href="http://www.esri.com/">Esri</a>';
           var wholink = 'i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
-          L.tileLayer(
+          var aerial = L.tileLayer(
             'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
               maxZoom: 18,
             }).addTo(map);
+
+          var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+
+          var water = L.tileLayer.wms('https://geodienste.sachsen.de/wms_geosn_dopsb2013/guest', {
+            format: 'image/png',
+            transparent: true,
+            opacity: 0.9,
+            layers: '1'
+          }).addTo(map);
+
+          L.control.layers({
+            'Aerial': aerial,
+            'OpenStreetMap': osm
+          }, {
+            'Floodings': water
+          }, {
+            position: 'topleft'
+          }).addTo(map);
 
           map.addControl(L.mapbox.infoControl({
               position: 'bottomleft'
