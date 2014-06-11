@@ -116,7 +116,7 @@ angular.module('CollaborativeMap')
            */
 
           function allowedProp(prop) {
-            var notAllowed = ['category', 'preset', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-linecap', 'fill', 'marker-symbol'];
+            var notAllowed = ['category', 'preset', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-linecap', 'fill', 'marker-color', 'marker-symbol'];
             //var notAllowed = ['category', 'preset'];
             if (notAllowed.indexOf(prop) > -1) {
               return false;

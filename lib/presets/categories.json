@@ -1,218 +1,128 @@
 {
-  "category-building": {
+  "category-floodedArea": {
     "geometry": "area",
-    "name": "Building",
-    "icon": "building",
+    "name": "Flooding",
     "members": [
-      "building/house",
-      "building/apartments",
-      "building/commercial",
-      "building/industrial",
-      "building/residential",
-      "building"
-    ],
-    "style": {
-      "stroke": "#F00",
-      "fill": "#F00"
-    }
-  },
-  "category-disaster": {
-    "geometry": "area",
-    "name": "Disaster",
-    "icon": "disaster",
-    "members": [
-      "disaster/flooding",
-      "disaster/fire",
-      "disaster/collapsing",
-      "disaster/blockedArea"
+      "blocked/building",
+      "blocked/land",
+      "blocked/street"
     ],
     "style": {
       "stroke": "#00F",
       "fill": "#00F"
     }
   },
-  "category-disasterPoint": {
-    "geometry": "point",
-    "name": "Disaster",
-    "members": [
-      "disaster/helpRequired",
-      "disaster/disaster"
-    ],
-    "style": {
-      "marker-symbol": "fire-station"
-    }
-  },
-  "category-disasterLine": {
-    "geometry": "line",
-    "name": "Disaster",
-    "members": [
-      "disaster/blockedRoad"
-    ],
-    "style": {
-      "stroke": "#00F"
-    }
-  },
-  "category-landuse": {
+  "category-blockedArea": {
     "geometry": "area",
-    "name": "Land Use",
-    "icon": "land-use",
+    "name": "Blocked Area",
     "members": [
-      "landuse/residential",
-      "landuse/industrial",
-      "landuse/commercial",
-      "landuse/retail",
-      "landuse/farm",
-      "landuse/farmyard",
-      "landuse/forest",
-      "landuse/meadow",
-      "landuse/cemetery",
-      "landuse/military"
+      "blocked/building",
+      "blocked/land",
+      "blocked/street"
     ],
     "style": {
-      "stroke": "rgba(140, 208, 95, 0.9)",
-      "fill": "rgba(140, 208, 95, 0.7)"
+      "stroke": "#F0F",
+      "fill": "#F0F"
     }
   },
-  "category-path": {
+  "category-floodedStreet": {
     "geometry": "line",
-    "name": "Path",
-    "icon": "category-path",
-    "members": [
-      "highway/footway",
-      "highway/cycleway",
-      "highway/bridleway",
-      "highway/path",
-      "highway/steps"
-    ],
-    "style": {}
+    "name": "Flooded Street",
+    "members": [],
+    "style": {
+      "stroke": "#00F",
+      "stroke-width": 2,
+      "fill": "#00F"
+    }
   },
-  "category-rail": {
+  "category-floodedRail": {
     "geometry": "line",
-    "name": "Rail",
-    "icon": "category-rail",
-    "members": [
-      "railway/rail",
-      "railway/subway",
-      "railway/tram",
-      "railway/monorail",
-      "railway/disused",
-      "railway/abandoned"
-    ],
-    "style": {}
+    "name": "Flooded Rail",
+    "members": [],
+    "style": {
+      "stroke": "#00F",
+      "stroke-width": 2,
+      "fill": "#00F"
+    }
   },
-  "category-road": {
+  "category-floodedPath": {
     "geometry": "line",
-    "name": "Road",
-    "icon": "category-roads",
-    "members": [
-      "highway/residential",
-      "highway/motorway",
-      "highway/trunk",
-      "highway/primary",
-      "highway/secondary",
-      "highway/tertiary",
-      "highway/service",
-      "highway/motorway_link",
-      "highway/trunk_link",
-      "highway/primary_link",
-      "highway/secondary_link",
-      "highway/tertiary_link",
-      "highway/unclassified",
-      "highway/track",
-      "highway/road"
-    ],
+    "name": "Flooded Path",
+    "members": [],
     "style": {
-      "stroke": "#555555"
+      "stroke": "#00F",
+      "stroke-width": 2,
+      "fill": "#00F"
     }
   },
-  "category-route": {
-    "geometry": "relation",
-    "name": "Route",
-    "icon": "route",
-    "members": [
-      "type/route/road",
-      "type/route/bicycle",
-      "type/route/foot",
-      "type/route/hiking",
-      "type/route/bus",
-      "type/route/train",
-      "type/route/tram",
-      "type/route/ferry",
-      "type/route/power",
-      "type/route/pipeline",
-      "type/route/detour",
-      "type/route_master",
-      "type/route"
-    ],
-    "style": {
-      "stroke": "#555555"
-    }
-  },
-  "category-water-area": {
-    "geometry": "area",
-    "name": "Water",
-    "icon": "water",
-    "members": [
-      "natural/water/lake",
-      "natural/water/pond",
-      "natural/water/reservoir",
-      "natural/water"
-    ],
-    "style": {
-      "stroke": "rgba(119, 211, 222, 0.9)",
-      "fill": "rgba(119, 211, 222, 0.7)"
-    }
-  },
-  "category-water-line": {
+  "category-blockedPath": {
     "geometry": "line",
-    "name": "Water",
-    "icon": "category-water",
-    "members": [
-      "waterway/river",
-      "waterway/stream",
-      "waterway/canal",
-      "waterway/ditch",
-      "waterway/drain"
-    ],
+    "name": "Blocked Path",
+    "members": [],
     "style": {
-      "stroke": "rgb(119, 211, 222)"
+      "stroke": "#000",
+      "stroke-width": 2,
+      "fill": "#FF"
     }
   },
-  "category-amenity": {
+  "category-blockedStreet": {
+    "geometry": "line",
+    "name": "Blocked Street",
+    "members": [],
+    "style": {
+      "stroke": "#000",
+      "stroke-width": 2,
+      "fill": "#000"
+    }
+  },
+  "category-blockedRail": {
+    "geometry": "line",
+    "name": "Blocked Rail",
+    "members": [],
+    "style": {
+      "stroke": "#000",
+      "stroke-width": 2,
+      "fill": "#000"
+    }
+  },
+  "category-helpRequired": {
     "geometry": "point",
-    "name": "Amenity",
+    "name": "Help required",
     "members": [
-      "amenity/hospital",
-      "amenity/place_of_worship",
-      "amenity/cafe",
-      "amenity/restaurant",
-      "amenity/bar",
-      "amenity/bank"
+      "help/sandbags",
+      "help/medical",
+      "help/cleanup"
     ],
-    "style": {}
+    "style": {
+      "marker-symbol": "golf",
+      "marker-color": "#F50"
+    }
   },
-  "category-leisure": {
+  "category-damage": {
     "geometry": "point",
-    "name": "Leisure",
-    "members": [
-      "leisure/common",
-      "leisure/park",
-      "leisure/ice_rink",
-      "leisure/playground"
-
-    ],
-    "style": {}
+    "name": "Damage",
+    "members": [],
+    "style": {
+      "marker-symbol": "fire-station",
+      "marker-color": "#F00"
+    }
   },
-  "category-shop": {
+  "category-meetingPoint": {
     "geometry": "point",
-    "name": "Shop",
-    "members": [
-      "shop/supermarket",
-      "shop/alcohol",
-      "shop/art",
-      "shop/bakery",
-      "shop/bicycle"
-    ],
-    "style": {}
+    "name": "Meeting point",
+    "members": [],
+    "style": {
+      "marker-symbol": "embassy",
+      "marker-color": "#00F"
+    }
+  },
+  "category-restingPoint": {
+    "geometry": "point",
+    "name": "Resting Point",
+    "members": [],
+    "style": {
+      "marker-symbol": "restaurant",
+      "marker-color": "#0F0"
+    }
   }
 }
