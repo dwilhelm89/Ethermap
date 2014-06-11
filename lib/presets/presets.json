@@ -10,6 +10,33 @@
     "tags": {},
     "name": "Damage"
   },
+  "disaster/blockedRoad": {
+    "geometry": [
+      "line"
+    ],
+    "terms": [],
+    "fields": [],
+    "tags": {},
+    "name": "Blocked Road"
+  },
+  "disaster/blockedArea": {
+    "geometry": [
+      "area"
+    ],
+    "terms": [],
+    "fields": [],
+    "tags": {},
+    "name": "Blocked Area"
+  },
+  "disaster/collapsing": {
+    "geometry": [
+      "area"
+    ],
+    "terms": [],
+    "fields": [],
+    "tags": {},
+    "name": "Collapsing Buildings"
+  },
   "disaster/helpRequired": {
     "geometry": [
       "area",

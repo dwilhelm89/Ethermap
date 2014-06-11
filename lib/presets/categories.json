@@ -22,7 +22,9 @@
     "icon": "disaster",
     "members": [
       "disaster/flooding",
-      "disaster/fire"
+      "disaster/fire",
+      "disaster/collapsing",
+      "disaster/blockedArea"
     ],
     "style": {
       "stroke": "#00F",
@@ -43,7 +45,9 @@
   "category-disasterLine": {
     "geometry": "line",
     "name": "Disaster",
-    "members": [],
+    "members": [
+      "disaster/blockedRoad"
+    ],
     "style": {
       "stroke": "#00F"
     }
