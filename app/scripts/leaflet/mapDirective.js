@@ -76,14 +76,14 @@ angular.module('CollaborativeMap')
           //expose map for debugging purposes
           //var map = window._map = L.mapbox.map('map', 'dnns.h8dkb1bh');
           var map = window._map = L.mapbox.map('map')
-            .setView([51.054611, 13.736880], 14);
+            .setView([51.08921076570122, 13.625020980834961], 14);
 
 
           var mapLink = '<a href="http://www.esri.com/">Esri</a>';
           var wholink = 'i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
           var aerial = L.tileLayer(
             'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-              maxZoom: 18,
+              maxZoom: 16,
             }).addTo(map);
 
           var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
@@ -108,6 +108,36 @@ angular.module('CollaborativeMap')
               position: 'bottomleft'
             })
             .addInfo('&copy; ' + mapLink + ', ' + wholink));
+
+
+          //User study area:
+          L.geoJson({
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+              'type': 'Polygon',
+              'coordinates': [
+                [
+                  [13.589057922363281, 51.06950206859349],
+                  [13.589057922363281, 51.11128208389564],
+                  [13.672828674316406, 51.11128208389564],
+                  [13.672828674316406, 51.06950206859349],
+                  [13.589057922363281, 51.06950206859349]
+                ]
+              ]
+            }
+          }, {
+            'color': '#00FF00',
+            'weight': 3,
+            'fill': false
+          }).addTo(map);
+
+          map.setMaxBounds([
+            [50.99841640882189, 13.468551635742186],
+            [51.16556659836182, 13.803634643554688]
+          ]);
+          map._layersMinZoom = 12;
+
 
           // Initialise the FeatureGroup to store editable layers
           var drawnItems = window.drawnItems = new L.FeatureGroup();
