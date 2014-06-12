@@ -84,14 +84,14 @@ angular.module('CollaborativeMap')
           var aerial = L.tileLayer(
             'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
               maxZoom: 16,
-            }).addTo(map);
+            });
 
-          var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+          var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
           var water = L.tileLayer.wms('https://geodienste.sachsen.de/wms_geosn_dopsb2013/guest', {
             format: 'image/png',
             transparent: true,
-            opacity: 0.9,
+            opacity: 0.8,
             layers: '1'
           }).addTo(map);
 
