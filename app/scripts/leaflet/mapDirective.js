@@ -81,12 +81,10 @@ angular.module('CollaborativeMap')
 
           var mapLink = '<a href="http://www.esri.com/">Esri</a>';
           var wholink = 'i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
-          var aerial = L.tileLayer(
-            'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-              maxZoom: 16,
-            });
+          
+          var aerial = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
 
-          var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+          var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 
           var water = L.tileLayer.wms('https://geodienste.sachsen.de/wms_geosn_dopsb2013/guest', {
             format: 'image/png',
@@ -95,14 +93,7 @@ angular.module('CollaborativeMap')
             layers: '1'
           }).addTo(map);
 
-          L.control.layers({
-            'Aerial': aerial,
-            'OpenStreetMap': osm
-          }, {
-            'Floodings': water
-          }, {
-            position: 'topleft'
-          }).addTo(map);
+
 
           map.addControl(L.mapbox.infoControl({
               position: 'bottomleft'
@@ -142,6 +133,16 @@ angular.module('CollaborativeMap')
           // Initialise the FeatureGroup to store editable layers
           var drawnItems = window.drawnItems = new L.FeatureGroup();
           map.addLayer(drawnItems);
+
+          L.control.layers({
+            'Aerial': aerial,
+            'OpenStreetMap': osm
+          }, {
+            'Floodings': water,
+            'Drawn Items': drawnItems
+          }, {
+            position: 'topleft'
+          }).addTo(map);
 
           // Initialise the draw control and pass it the FeatureGroup of editable layers
           var drawControl = window._drawControl = new L.Control.Draw({
