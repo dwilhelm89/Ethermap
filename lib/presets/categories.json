@@ -12,6 +12,19 @@
       "fill": "#00F"
     }
   },
+  "category-freeArea": {
+    "geometry": "area",
+    "name": "Accessible Area",
+    "members": [
+      "blocked/building",
+      "blocked/land",
+      "blocked/street"
+    ],
+    "style": {
+      "stroke": "#0F0",
+      "fill": "#0F0"
+    }
+  },
   "category-blockedArea": {
     "geometry": "area",
     "name": "Blocked Area",
@@ -23,6 +36,36 @@
     "style": {
       "stroke": "#F0F",
       "fill": "#F0F"
+    }
+  },
+"category-freeStreet": {
+    "geometry": "line",
+    "name": "Accessible Street",
+    "members": [],
+    "style": {
+      "stroke": "#0F0",
+      "stroke-width": 2,
+      "fill": "#0F0"
+    }
+  },
+  "category-freeRail": {
+    "geometry": "line",
+    "name": "Accessible Rail",
+    "members": [],
+    "style": {
+      "stroke": "#0F0",
+      "stroke-width": 2,
+      "fill": "#0F0"
+    }
+  },
+  "category-freePath": {
+    "geometry": "line",
+    "name": "Accessible Path",
+    "members": [],
+    "style": {
+      "stroke": "#0F0",
+      "stroke-width": 2,
+      "fill": "#0F0"
     }
   },
   "category-floodedStreet": {
