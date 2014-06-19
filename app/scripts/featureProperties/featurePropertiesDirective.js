@@ -2,12 +2,17 @@
 /**
  * @memberof CollaborativeMap
  * @fileOverview Directive which to handle feature properties. Allows adding/editing/deleting properties
- * @exports CollaborativeMap.FeaturePropertiesDirective
+ * @exports CollaborativeMap.FeaturePropertiesDirective *
+ * 
+ * @requires  $compile
+ * @requires ApiService
+ * @requires MapHandler
+ * 
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('featureproperties', ['$compile', 'MapHandler', '$http', '$q',
-    function($compile, MapHandler, $http, $q) {
+  .directive('featureproperties', ['$compile', 'MapHandler', 'ApiService',
+    function($compile, MapHandler, ApiService) {
 
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
@@ -328,21 +333,12 @@ angular.module('CollaborativeMap')
            */
 
           function getPresetData() {
-            var categoriesPromise = $http.get('presets/categories'),
-              fieldsPromise = $http.get('presets/fields'),
-              presetsPromise = $http.get('presets/presets');
-
-            $q.all([categoriesPromise, fieldsPromise, presetsPromise]).then(function(resultArray) {
-              if (resultArray) {
-                if (resultArray[0] && resultArray[0].data) {
-                  categories = resultArray[0].data;
-                }
-                if (resultArray[1] && resultArray[1].data) {
-                  fields = resultArray[1].data;
-                }
-                if (resultArray[2] && resultArray[2].data) {
-                  presets = resultArray[2].data;
-                }
+            
+            ApiService.getPresetData().then(function(result){
+              if(result && result.length === 3){
+                categories = result[0];
+                fields = result[1];
+                presets = result[2];
               }
             });
           }

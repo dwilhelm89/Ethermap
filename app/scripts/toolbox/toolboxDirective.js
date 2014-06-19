@@ -4,7 +4,6 @@
  * @memberof CollaborativeMap
  * @fileOverview Toolbox directive for all sidebar related functions (User, Tools, History, Help).
  *
- * @requires $http
  * @requires $compile
  * @requires MapHandler
  *
@@ -13,8 +12,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('toolbox', ['$http', '$compile', 'MapHandler','Users',
-    function($http, $compile, MapHandler, Users) {
+  .directive('toolbox', ['$compile', 'MapHandler','Users',
+    function($compile, MapHandler, Users) {
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
         templateUrl: 'partials/toolbox',

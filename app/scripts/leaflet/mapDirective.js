@@ -7,14 +7,16 @@
  * Loads already existing features from the Database.
  * Initializes the map Synchronization and the MapHandler
  * @exports CollaborativeMap.MapDirective
- * @requires  $http
+ * 
+ * @requires  ApiService
  * @requires MapHandler
  * @requires SynchronizeMap
+ * 
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('map', ['MapHandler', 'SynchronizeMap',
-    function(MapHandler, SynchronizeMap) {
+  .directive('map', ['MapHandler', 'SynchronizeMap', 'ApiService',
+    function(MapHandler, SynchronizeMap, ApiService) {
       var mapLoadingDiv;
 
       /**
@@ -26,7 +28,7 @@ angular.module('CollaborativeMap')
 
       function loadFeatures(mapId, map, drawnItems) {
         showLoading();
-        oboe('/api/features/' + mapId)
+        ApiService.getFeaturesOboe(mapId)
           .node('rows.*', function(row) {
 
             // This callback will be called everytime a new object is

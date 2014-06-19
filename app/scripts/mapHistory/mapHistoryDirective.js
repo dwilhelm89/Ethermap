@@ -4,7 +4,7 @@
  * @memberof CollaborativeMap
  * @fileOverview MapHistory directive. Displays the actions which where performed on the map as a list (feature editing/creating/removing/reverting, etc.)
  *
- * @requires $http
+ * @requires ApiService
  * @requires MapHandler
  *
  * @exports CollaborativeMap.mapHistory
@@ -13,8 +13,8 @@
  */
 
 angular.module('CollaborativeMap')
-  .directive('mapHistory', ['$http', 'MapHandler',
-    function($http, MapHandler) {
+  .directive('mapHistory', ['MapHandler', 'ApiService',
+    function(MapHandler, ApiService) {
 
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
@@ -55,7 +55,7 @@ angular.module('CollaborativeMap')
            * Event listener for the feature history close event.
            * Toggle the view for the map history and reload the history.
            */
-          scope.$on('closeFeatureHistory', function(){
+          scope.$on('closeFeatureHistory', function() {
             scope.isShowFeatureHistory = false;
             scope.isShowMapHistory = true;
             loadMapHistory();
@@ -85,26 +85,20 @@ angular.module('CollaborativeMap')
 
           function loadMapHistory() {
             scope.loading = true;
-            $http({
-              method: 'GET',
-              url: '/api/history/' + scope.$root.mapId
-            })
-              .
-            success(function(data) { //, status, headers, config) {
-              data.forEach(function(action) {
-                if (action.date) {
-                  action.dateString = createDateString(action.date);
-                }
-              });
-              scope.history = reduceActions(data);
-              scope.loading = false;
 
-            })
-              .
-            error(function(data) { //, status, headers, config) {
-              console.log(data);
-              scope.loading = false;
-            });
+            ApiService.getMapHistory(scope.$root.mapId)
+              .then(function(result) {
+                if (result && result.data) {
+                  result.data.forEach(function(action) {
+                    if (action.date) {
+                      action.dateString = createDateString(action.date);
+                    }
+                  });
+                  scope.history = reduceActions(result.data);
+                }
+                scope.loading = false;
+
+              });
           }
 
           /**
@@ -112,6 +106,7 @@ angular.module('CollaborativeMap')
            * @param  {Array} values the history actions
            * @return {Array}        the aggregated history actions
            */
+
           function reduceActions(values) {
             var result = [];
             values.forEach(function(elem) {
@@ -145,7 +140,7 @@ angular.module('CollaborativeMap')
            * Replace aggregated object in the history with the single actions
            * @param  {Object} action the aggregated object
            */
-          scope.showHistoryDetails = function(action){
+          scope.showHistoryDetails = function(action) {
             var index = scope.history.indexOf(action);
             var tmp = scope.history[index];
             delete scope.history[index];

@@ -23,6 +23,7 @@
     "io": false,
     "L": false,
     "$": false,
-    "oboe": false
+    "oboe": false,
+    "randomColor": false
   }
 }

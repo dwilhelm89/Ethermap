@@ -3,7 +3,6 @@ angular.module('CollaborativeMap').service('Users', [
   function() {
 
     var users = {};
-    console.log('users');
 
     return {
 

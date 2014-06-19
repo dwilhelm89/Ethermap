@@ -4,11 +4,15 @@
  * @fileOverview History diretctive. Shows the history of a single feature within a bootstrap modal. Allows reverting features.
  * Shows diffs either as a map view or as a textual diff.
  * @exports CollaborativeMap.History
+ *
+ * @requires ApiService
+ * @requires MapHandler
+ * 
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('featureHistory', ['$http', 'MapHandler',
-    function($http, MapHandler) {
+  .directive('featureHistory', ['MapHandler', 'ApiService',
+    function(MapHandler, ApiService) {
 
       /**
        * Initialize the textual diff
@@ -151,6 +155,7 @@ angular.module('CollaborativeMap')
            * Load the document revisions history and clear eixisting values.
            * @param  {string} fid feature id
            */
+
           function init(fid) {
             $scope.documentRevision = [];
             $scope.currentRevisionIndex = 0;
@@ -162,6 +167,7 @@ angular.module('CollaborativeMap')
            * This automatically clears the view.
            * Redraws the newest revision in the map.
            */
+
           function cleanUp() {
             setOriginalFeature();
             $scope.currentRevisionIndex = 0;
@@ -173,15 +179,17 @@ angular.module('CollaborativeMap')
           /**
            * Remove the "diffFeature" from the map and redraw the newest revision
            */
+
           function setOriginalFeature() {
-            MapHandler.removeLayerFid('diff-'+$scope.currentRevision._id);
+            MapHandler.removeLayerFid('diff-' + $scope.currentRevision._id);
             MapHandler.addFeatureAfterDiff($scope.currentRevision._id, documentRevisions[0]);
           }
 
           /**
            * Remove the original feature from the map
            */
-          function removeOriginalFeature(){
+
+          function removeOriginalFeature() {
             var fid = documentRevisions[0]._id;
             MapHandler.removeLayerFid(fid);
           }
@@ -191,6 +199,7 @@ angular.module('CollaborativeMap')
            * Removes the original feature from the map so that only the "diff features" are shown.
            * Init the slider setup.
            */
+
           function initView() {
             if (documentRevisions) {
               $scope.numberOfRevisions = documentRevisions.length;
@@ -206,8 +215,9 @@ angular.module('CollaborativeMap')
            * Initializes the range slider with the number of document revisions.
            * Sets the current value to the number of revisions so that the slider starts with the top position.
            */
-          function setUpSlider(){
-            if(slider){
+
+          function setUpSlider() {
+            if (slider) {
               slider.max = $scope.numberOfRevisions;
               $scope.sliderValue = $scope.numberOfRevisions;
               slider.min = 1;
@@ -217,7 +227,7 @@ angular.module('CollaborativeMap')
           /**
            * OnChange method of the range slider. Numbers have to be inverted so that the newest revision is on top.
            */
-          $scope.sliderChange = function(){
+          $scope.sliderChange = function() {
             setCurrentRevision($scope.numberOfRevisions - $scope.sliderValue);
           };
 
@@ -225,6 +235,7 @@ angular.module('CollaborativeMap')
            * Fill the changes diff with the textual diff representation
            * @param  {Number} index document revision array index
            */
+
           function getPropertyDiff(index) {
             if ($scope.numberOfRevisions > index + 1 && !$scope.currentRevision._deleted) {
               //Textual diff for properties
@@ -254,14 +265,15 @@ angular.module('CollaborativeMap')
 
           /**
            * Sets a revision to the scope variables based on its index in the revisions array.
-           * 
+           *
            * @param {Number} index array index
            */
+
           function setCurrentRevision(index) {
             $scope.currentRevisionIndex = index;
             $scope.currentRevision = documentRevisions[index];
             getPropertyDiff(index);
-            var fid = 'diff-'+$scope.currentRevision._id;
+            var fid = 'diff-' + $scope.currentRevision._id;
             $scope.sliderValue = $scope.numberOfRevisions - index;
             MapHandler.removeLayerFid(fid);
             MapHandler.updateLayerForDiff(fid, $scope.currentRevision);
@@ -279,22 +291,15 @@ angular.module('CollaborativeMap')
             if (fid) {
               $scope.loading = true;
               init();
-              $http({
-                method: 'GET',
-                url: '/api/documentRevisions/' + $scope.$root.mapId + '/' + fid
-              })
-                .
-              success(function(data) { //, status, headers, config) {
-                documentRevisions = data;
-                $scope.loading = false;
-                initView();
-              })
-                .
-              error(function() { //, status, headers, config) {
-                $scope.loading = false;
-              });
+              ApiService.getFeatureHistory($scope.$root.mapId, fid)
+                .then(function(result) {
+                  $scope.loading = false;
+                  if (result.data) {
+                    documentRevisions = result.data;
+                    initView();
+                  }
+                });
             }
-
           }
 
           /**
