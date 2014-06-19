@@ -27,7 +27,7 @@ describe('SynchronizeMap', function() {
   }));
 
   beforeEach(function() {
-  	//Create the map element
+    //Create the map element
     var element = document.createElement('div');
     /*global L:false */
     map = L.mapbox.map(element);
@@ -100,6 +100,154 @@ describe('SynchronizeMap', function() {
     expect(scope.userBounds.dnns).toBeDefined();
   }));
 
+  it('feature should be created if received via Websockets', inject(function(MapHandler) {
+    //Mock the scope and initialize the sync
+    var scope = {
+      '$root': {
+        '$on': function() {}
+      },
+      selectedFeature: {
+        fid: ''
+      },
+      views: {},
+      mapId: 'test',
+      userName: 'dnns'
+    };
+    synchronizeMapService.init(map, scope, drawnItems);
+    MapHandler.initMapHandler(map, drawnItems, {}, undefined);
+
+    var event = {
+      'event': {
+        'action': 'created feature',
+        'feature': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [13.597211837768553, 51.10513874599324]
+          },
+          'lastAction': 'created feature'
+        },
+        'fid': '140318644934434313',
+        'user': 'dnns'
+      }
+    };
+
+    sockets['test-mapDraw'](event);
+    expect(drawnItems._layers[event.event.fid]).toBeDefined();
+  }));
+
+  it('feature should be updated if received via Websockets', inject(function(MapHandler) {
+    //Mock the scope and initialize the sync
+    var scope = {
+      '$root': {
+        '$on': function() {}
+      },
+      selectedFeature: {
+        fid: ''
+      },
+      views: {},
+      mapId: 'test',
+      userName: 'dnns'
+    };
+    synchronizeMapService.init(map, scope, drawnItems);
+    MapHandler.initMapHandler(map, drawnItems, {}, undefined);
+
+
+    var originalFeature = {
+      'action': 'created feature',
+      'feature': {
+        'type': 'Feature',
+        'properties': {},
+        'geometry': {
+          'type': 'Point',
+          'coordinates': [13.705015182495117, 51.064539870065275]
+        },
+        'lastAction': 'created feature'
+      },
+      'fid': '140318644934434313',
+      'user': 'dnns'
+    };
+    MapHandler.addGeoJSONFeature(map, originalFeature, drawnItems, false, '#FFFFFF');
+    map.addLayer(drawnItems._layers[originalFeature.fid]);
+
+    var oldLat = drawnItems._layers['140318644934434313']._latlng.lat;
+
+    var event = {
+      'event': {
+        'action': 'edited geometry',
+        'feature': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [0, 0]
+          },
+          'lastAction': 'created feature'
+        },
+        'fid': '140318644934434313',
+        'user': 'paul'
+      }
+    };
+    sockets['test-mapDraw'](event);
+    expect(drawnItems._layers['140318644934434313']._latlng.lat).toNotEqual(oldLat);
+  }));
+
+  it('feature should be deleted if received via Websockets', inject(function(MapHandler) {
+    //Mock the scope and initialize the sync
+    var scope = {
+      '$root': {
+        '$on': function() {}
+      },
+      selectedFeature: {
+        fid: ''
+      },
+      views: {},
+      mapId: 'test',
+      userName: 'dnns'
+    };
+    synchronizeMapService.init(map, scope, drawnItems);
+    MapHandler.initMapHandler(map, drawnItems, {}, undefined);
+
+
+    var originalFeature = {
+      'action': 'created feature',
+      'feature': {
+        'type': 'Feature',
+        'properties': {},
+        'geometry': {
+          'type': 'Point',
+          'coordinates': [13.705015182495117, 51.064539870065275]
+        },
+        'lastAction': 'created feature'
+      },
+      'fid': '140318644934434313',
+      'user': 'dnns'
+    };
+    MapHandler.addGeoJSONFeature(map, originalFeature, drawnItems, false, '#FFFFFF');
+    map.addLayer(drawnItems._layers[originalFeature.fid]);
+
+    expect(drawnItems._layers['140318644934434313']).toBeDefined();
+
+    var event = {
+      'event': {
+        'action': 'deleted feature',
+        'feature': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [0, 0]
+          },
+          'lastAction': 'created feature'
+        },
+        'fid': '140318644934434313',
+        'user': 'paul'
+      }
+    };
+    sockets['test-mapDraw'](event);
+    expect(drawnItems._layers['140318644934434313']).toBeUndefined();
+  }));
 
 
 });
