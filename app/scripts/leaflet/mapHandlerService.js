@@ -51,6 +51,10 @@ angular.module('CollaborativeMap')
           */
         },
 
+        getMap: function(){
+          return map;
+        },
+
         /**
          * Called to start editing a feature with leaflet.draw manually.
          * @param {Object} layer the leaflet layer
