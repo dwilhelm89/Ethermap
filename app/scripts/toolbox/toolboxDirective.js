@@ -122,6 +122,16 @@ angular.module('CollaborativeMap')
             }
           };
 
+          $scope.getAllUserBounds = function(){
+            var users = {};
+            for(var key in $scope.userBounds){
+              users[key] = {};
+              users[key].bounds = $scope.userBounds[key];
+              users[key].color = Users.getUserById(key).color;
+            }
+            MapHandler.paintAllUserBounds(users);
+          };
+
           /**
            * Watch all users
            */

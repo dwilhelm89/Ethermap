@@ -2,7 +2,12 @@
 
 /**
  * @memberof CollaborativeMap
- * @fileOverview Listeners for the leaflet draw events. 
+ * 
+ * @fileOverview Adds listeners for all leaflet specific draw events.
+ * 
+ * Adds click handlers for new features (through the MapHandler).
+ * Edit/delete events call a Callback (further handling is done in the SynchronizeMapService)
+ * 
  * @exports CollaborativeMap.MapHandler
  * @requires  MapHandler
  * @author Dennis Wilhelm
@@ -58,6 +63,7 @@ angular.module('CollaborativeMap')
             }
           });
 
+          //Property ofa feature edited through the toolbox
           map.on('propertyEdited', function(event) {
             if (event && event.layer && event.fid) {
               callback({

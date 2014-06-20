@@ -42,17 +42,6 @@ angular.module('CollaborativeMap')
             }
           }.bind(this));
 
-          /* Cancels the editing if the mouse still moves while ending a drag operation
-          m.on('click', function() {
-            if (editHandler) {
-              this.revertEditedFeature();
-            }
-          }.bind(this));
-          */
-        },
-
-        getMap: function(){
-          return map;
         },
 
         /**
@@ -66,7 +55,34 @@ angular.module('CollaborativeMap')
             editFeatureId = undefined;
           }
 
-          var editPathOptions = {
+          var editPathOptions = this.getEditStyle();
+
+          //Create a new edit handler
+          editHandler = new L.EditToolbar.Edit(map, {
+            featureGroup: L.featureGroup([layer]),
+            selectedPathOptions: editPathOptions
+          });
+
+          //jshint camelcase:false
+          editFeatureId = layer._leaflet_id;
+          editHandler.enable();
+          mapScope.$emit('editHandler', true, editFeatureId);
+
+          //Directly save the feature on every change
+          layer.on('dragend', function() {
+            editHandler.save();
+          });
+          layer.on('edit', function() {
+            editHandler.save();
+          });
+        },
+
+        /**
+         * Returns a JSON object with style properties for the Leaflet.draw editing
+         * @return {Object} leaflet style object
+         */
+        getEditStyle: function() {
+          return {
             color: '#fe57a1',
             /* Hot pink all the things! */
             opacity: 0.6,
@@ -79,27 +95,10 @@ angular.module('CollaborativeMap')
             // Whether to user the existing layers color
             maintainColor: false
           };
-
-          editHandler = new L.EditToolbar.Edit(map, {
-            featureGroup: L.featureGroup([layer]),
-            selectedPathOptions: editPathOptions
-          });
-
-          //jshint camelcase:false
-          editFeatureId = layer._leaflet_id;
-          editHandler.enable();
-          mapScope.$emit('editHandler', true, editFeatureId);
-
-          layer.on('dragend', function() {
-            editHandler.save();
-          });
-          layer.on('edit', function() {
-            editHandler.save();
-          });
         },
 
         /**
-         * Save the changes made via the leaflet.draw edit
+         * Save the changes made via the leaflet.draw edit and remove the edit handler
          */
         saveEditedFeature: function() {
           if (editHandler) {
@@ -110,6 +109,7 @@ angular.module('CollaborativeMap')
 
         /**
          * Remove an existing editHandler and cancel the edit mode.
+         * Emits an "editHandler" event
          */
         removeEditHandler: function() {
           if (editHandler) {
@@ -122,6 +122,7 @@ angular.module('CollaborativeMap')
         editByUser: {},
         /**
          * Stores the current editors by feature id. Called through the synchronizeMapService socket listeners.
+         * Used to display if different persons are editing the same geometry
          * @param {Object} event {user, id, active, mapId}
          */
         setEditFeatureEvent: function(event) {
@@ -142,6 +143,11 @@ angular.module('CollaborativeMap')
           }
         },
 
+        /**
+         * Fires an angular event if a feature is being edited
+         * @param  {[type]} event [description]
+         * @return {[type]}       [description]
+         */
         fireEditFeatureEvent: function(event) {
           if (editFeatureId === event.fid) {
             mapScope.$emit('editHandlerUpdate', this.editByUser[editFeatureId]);
@@ -152,9 +158,11 @@ angular.module('CollaborativeMap')
          * Deletes the currently selected feature
          */
         deleteFeature: function() {
+          //Stop the edit mode
           if (editHandler) {
             editHandler.disable();
           }
+          //Create a delete handler
           var delLayer = map._layers[editFeatureId];
           var deleteHandler = new L.EditToolbar.Delete(map, {
             featureGroup: L.featureGroup([delLayer]),
@@ -163,6 +171,8 @@ angular.module('CollaborativeMap')
           deleteHandler._removeLayer(delLayer);
           deleteHandler.save();
           deleteHandler.disable();
+
+          //remove the layer from the map
           this.removeLayer(map, {
             fid: editFeatureId
           }, drawnItems);
@@ -332,6 +342,39 @@ angular.module('CollaborativeMap')
           setTimeout(function() {
             map.removeLayer(bound);
           }, 3000);
+        },
+
+        /**
+         * Same functionality as paintUserBounds but creates boundaries for multiple users.
+         * Therefore creates a LayerGroup to get the bounds of all rectangles
+         * @param  {Object} user {userid:{bounds, color}}
+         */
+        paintAllUserBounds: function(user) {
+          var lGroup = L.featureGroup();
+          map.addLayer(lGroup);
+
+          for (var key in user) {
+            var bound = L.rectangle(user[key].bounds, {
+              color: user[key].color,
+              weight: 2,
+              fill: false,
+              opacity: 1
+            });
+            bound.addTo(lGroup);
+            setTimeout(function() {
+              lGroup.removeLayer(bound);
+            }, 3000);
+          }
+          var allBounds = lGroup.getBounds();
+          if (allBounds.isValid()) {
+            map.fitBounds(lGroup.getBounds(), {
+              'paddingBottomRight': [300, 1],
+              'paddingTopLeft': [1, 1]
+            });
+          }
+          setTimeout(function() {
+            map.removeLayer(lGroup);
+          }, 3500);
         },
 
         /**

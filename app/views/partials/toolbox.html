@@ -12,6 +12,7 @@
     <div class="toolbox-content" ng-class="{'hide': views.userView}">
       <div class="users">
         <div class="btn btn-default" ng-class="{'watching': isWatchingAll}" ng-click="watchAll()" title="Your map will automatically change if other users zoom or pan in their map so you can see what they are editing.">Watch all</div>
+        <div class="btn btn-default" ng-click="getAllUserBounds()" title="Displays the map extent of all users.">Show all Workareas</div>
 
         <div ng-repeat="(key, value) in users">
           <span ng-if="value.name !== userName" style="display: inline-block;">
@@ -25,7 +26,7 @@
 
     </div>
     <div class="toolbox-content" ng-class="{'hide': views.historyView}">
-    <map-history></map-history>
+      <map-history></map-history>
     </div>
     <div class="toolbox-content" ng-class="{'hide': views.toolsView}">
       <featureproperties></featureproperties>
