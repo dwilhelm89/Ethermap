@@ -12,8 +12,8 @@ Ethermap is a real-time collaborative map editor allowing:
 The application has been built as part of my master thesis at the ifgi (Institue for Geoinformatics, WWU Münster).
 
 
-Technologies
---
+###Technologies
+
 * [node.js]
 * [AngularJS]
 * [socket.io]
@@ -24,8 +24,8 @@ Technologies
 
 
 
-Install dependencies (Ubuntu)
---------------
+###Install dependencies (Ubuntu)
+
 It is assumed that you have installed node.js (> 0.10.26)
 ```
 sudo apt-get install couchdb
@@ -36,8 +36,8 @@ npm install -g forever
 ```
 
 
-Run for Development
---
+###Run for Development
+
 
 ```
 npm install
@@ -46,8 +46,8 @@ grunt serve
 
 ```
 
-Run for Production
---
+###Run for Production
+
 
 ```
 npm install
@@ -58,8 +58,8 @@ NODE_ENV=production forever -o out.log -e err.log start dist/server.js
 ```
 
 
-Testing
---
+###Testing
+
 Tests are based on Karma + Jasmine
 
 For single test runs:
@@ -72,16 +72,16 @@ npm install -g karma-cli
 karma start
 ```
 
-Create the JSDoc pages
---
+###Create the JSDoc pages
+
 ```
 grunt docs
 ```
 
 
-License
---
-[Apache v2.0](license.md)
+###License
+
+[Apache v2.0](license.md) - Dennis Wilhelm 2014
 
 
 
