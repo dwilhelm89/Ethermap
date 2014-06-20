@@ -6,6 +6,7 @@
         <span class="glyphicon glyphicon-trash"></span>  Delete
       </button>
       <br>
+      Last edited by: {{selectedFeature.user}}
       <select ng-model="$parent.selectedCategory" id="categorySelect" ng-change="selectPresets()">
         <option value="" disabled selected>Select a category</option>
         <option value="{{key}}" ng-repeat="(key, value) in categories">{{categories[key].name}}</option>

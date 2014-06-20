@@ -3,11 +3,11 @@
  * @memberof CollaborativeMap
  * @fileOverview Directive which to handle feature properties. Allows adding/editing/deleting properties
  * @exports CollaborativeMap.FeaturePropertiesDirective *
- * 
+ *
  * @requires  $compile
  * @requires ApiService
  * @requires MapHandler
- * 
+ *
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
@@ -49,10 +49,17 @@ angular.module('CollaborativeMap')
             activateToolbox();
 
             cleanSelection();
+            var lastEditedBy;
+            if (feature.feature && feature.feature.user) {
+              lastEditedBy = feature.feature.user;
+            }else{
+              lastEditedBy = $scope.userName;
+            }
 
             $scope.selectedFeature = {
               'properties': [],
-              'fid': feature._leaflet_id
+              'fid': feature._leaflet_id,
+              'user': lastEditedBy
             };
 
             selectCategoriesForGeomType(feature);
@@ -333,9 +340,9 @@ angular.module('CollaborativeMap')
            */
 
           function getPresetData() {
-            
-            ApiService.getPresetData().then(function(result){
-              if(result && result.length === 3){
+
+            ApiService.getPresetData().then(function(result) {
+              if (result && result.length === 3) {
                 categories = result[0];
                 fields = result[1];
                 presets = result[2];
