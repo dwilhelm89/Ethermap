@@ -6,6 +6,7 @@ Ethermap is a real-time collaborative map editor allowing:
 * highlight changes for user-awareness
 * store each change as a new revision
 * browse revisions and show changes in the map context
+* revert to older revisions or restore deleted features
 
 
 
