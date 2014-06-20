@@ -361,9 +361,6 @@ angular.module('CollaborativeMap')
               opacity: 1
             });
             bound.addTo(lGroup);
-            setTimeout(function() {
-              lGroup.removeLayer(bound);
-            }, 3000);
           }
           var allBounds = lGroup.getBounds();
           if (allBounds.isValid()) {
