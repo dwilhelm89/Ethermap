@@ -13,8 +13,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('toolbox', ['$http', '$compile', 'MapHandler','Users',
-    function($http, $compile, MapHandler, Users) {
+  .directive('toolbox', ['$http', '$compile', 'MapHandler','Users', 'LoggingService',
+    function($http, $compile, MapHandler, Users, Logging) {
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
         templateUrl: 'partials/toolbox',
@@ -58,6 +58,7 @@ angular.module('CollaborativeMap')
            */
           $scope.startIntroJS = function() {
             setUpIntroJS().start();
+            Logging.logging($scope.$root.mapId, 'help');
 
           };
 
@@ -94,6 +95,7 @@ angular.module('CollaborativeMap')
             }
             //emit event if toolbox windows opens/closes
             $scope.$broadcast('toolbox', view, vs[view]);
+            Logging.logging($scope.mapId, 'toolbox-'+view);
           };
 
           function hideAllViews() {
@@ -115,6 +117,7 @@ angular.module('CollaborativeMap')
               $scope.watchUsers[userId] = true;
               event.currentTarget.innerHTML = 'Unwatch';
             }
+            Logging.logging($scope.mapId, 'watchUser-'+userId, $scope.userName);
           };
 
           /**
@@ -128,6 +131,7 @@ angular.module('CollaborativeMap')
             } else {
               window.alert('The user hasn\'t mooved since you logged in');
             }
+            Logging.logging($scope.mapId, 'userBounds-'+userId);
           };
 
           /**
@@ -136,6 +140,7 @@ angular.module('CollaborativeMap')
           $scope.isWatchingAll = false;
           $scope.watchAll = function() {
             $scope.isWatchingAll = !$scope.isWatchingAll;
+            Logging.logging($scope.mapId, 'watchAll');
           };
 
           /**

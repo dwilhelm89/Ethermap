@@ -7,8 +7,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('featureHistory', ['$http', 'MapHandler',
-    function($http, MapHandler) {
+  .directive('featureHistory', ['$http', 'MapHandler','LoggingService',
+    function($http, MapHandler, Logging) {
 
       /**
        * Initialize the textual diff
@@ -219,6 +219,7 @@ angular.module('CollaborativeMap')
            */
           $scope.sliderChange = function(){
             setCurrentRevision($scope.numberOfRevisions - $scope.sliderValue);
+            Logging.logging($scope.$root.mapId, 'featureHistory-changeRevision');
           };
 
           /**
@@ -241,6 +242,7 @@ angular.module('CollaborativeMap')
             if ($scope.numberOfRevisions > $scope.currentRevisionIndex + 1) {
               setCurrentRevision($scope.currentRevisionIndex + 1);
             }
+            Logging.logging($scope.$root.mapId, 'featureHistory-changeRevision');
           };
 
           /**
@@ -250,6 +252,7 @@ angular.module('CollaborativeMap')
             if ($scope.currentRevisionIndex > 0) {
               setCurrentRevision($scope.currentRevisionIndex - 1);
             }
+            Logging.logging($scope.$root.mapId, 'featureHistory-changeRevision');
           };
 
           /**
@@ -266,6 +269,7 @@ angular.module('CollaborativeMap')
             MapHandler.removeLayerFid(fid);
             MapHandler.updateLayerForDiff(fid, $scope.currentRevision);
             MapHandler.highlightFeatureId(fid);
+
           }
 
 

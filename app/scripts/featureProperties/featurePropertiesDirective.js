@@ -6,8 +6,8 @@
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('featureproperties', ['$compile', 'MapHandler', '$http', '$q',
-    function($compile, MapHandler, $http, $q) {
+  .directive('featureproperties', ['$compile', 'MapHandler', '$http', '$q', 'LoggingService',
+    function($compile, MapHandler, $http, $q, Logging) {
 
       return {
         restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
@@ -107,6 +107,7 @@ angular.module('CollaborativeMap')
           $scope.showFeatureHistory = function(id) {
             $scope.$root.$broadcast('showFeatureHistory', id);
             $scope.$root.$broadcast('openToolbox', 'historyView');
+            Logging.logging($scope.$root.mapId, 'showFeatureHistory');
           };
 
           /**
