@@ -38,3 +38,4 @@ angular.module('CollaborativeMap', [
   });
 
 angular.module('SocketModule', []);
+angular.module('myApp', ['angulartics', 'angulartics.google.analytics']);
