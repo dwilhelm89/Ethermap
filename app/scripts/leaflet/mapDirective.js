@@ -76,12 +76,12 @@ angular.module('CollaborativeMap')
           //expose map for debugging purposes
           //var map = window._map = L.mapbox.map('map', 'dnns.h8dkb1bh');
           var map = window._map = L.mapbox.map('map')
-            .setView([51.08921076570122, 13.625020980834961], 14);
+            .setView([51.08921076570122, 13.625020980834961], 12);
 
 
           var mapLink = '<a href="http://www.esri.com/">Esri</a>';
           var wholink = 'i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
-          
+
           var aerial = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(map);
 
           var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
@@ -109,11 +109,11 @@ angular.module('CollaborativeMap')
               'type': 'Polygon',
               'coordinates': [
                 [
-                  [13.589057922363281, 51.06950206859349],
-                  [13.589057922363281, 51.11128208389564],
-                  [13.672828674316406, 51.11128208389564],
-                  [13.672828674316406, 51.06950206859349],
-                  [13.589057922363281, 51.06950206859349]
+                  [13.547515869140623, 51.04819321568309],
+                  [13.547515869140623, 51.131753979785934],
+                  [13.70767593383789, 51.131753979785934],
+                  [13.70767593383789, 51.04819321568309],
+                  [13.547515869140623, 51.04819321568309]
                 ]
               ]
             }
