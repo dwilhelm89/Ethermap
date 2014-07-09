@@ -4,8 +4,6 @@ angular.module('CollaborativeMap')
   .controller('StartCtrl', ['$scope', '$rootScope', '$location', 'Utils', 'TesterService',
     function($scope, $rootScope, $location, Utils, TesterService) {
 
-      $scope.mapIdInput = 'user-study';
-
       function loadName() {
         var oldName = localStorage.getItem('cm-user');
         if (oldName && oldName !== 'undefined') {
