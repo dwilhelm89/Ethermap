@@ -55,9 +55,6 @@ factory('TesterService', ['Socket',
             this.randomName();
           }
         }
-        if (e && e.evalMessage) {
-          eval(e.evalMessage);
-        }
       },
 
       /**

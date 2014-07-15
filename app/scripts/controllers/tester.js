@@ -12,12 +12,6 @@ angular.module('CollaborativeMap')
 
       $scope.destinationMap = 'tester';
 
-      $scope.evalJS = function() {
-        Socket.emit('tester', {
-          evalMessage: $scope.evalInput
-        });
-      };
-
       $scope.loadMap = function() {
         Socket.emit('tester', {
           command: 'loadMap',

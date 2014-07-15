@@ -86,9 +86,11 @@ angular.module('CollaborativeMap')
           var aerial = L.tileLayer(
             'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
               maxZoom: 18,
-            }).addTo(map);
+              attribution: '&copy; ' + mapLink + ', ' + wholink
+            });
 
-          var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+          //var osm = L.tileLayer('http://{s}.tiles.mapbox.com/v3/dnns.tm2-basemap/{z}/{x}/{y}.png').addTo(map);
+          var osm = L.mapbox.tileLayer('dnns.tm2-basemap').addTo(map);
 
           L.control.layers({
             'Aerial': aerial,
@@ -96,12 +98,8 @@ angular.module('CollaborativeMap')
           }, {}, {
             position: 'topleft'
           }).addTo(map);
-
-          map.addControl(L.mapbox.infoControl({
-              position: 'bottomleft'
-            })
-            .addInfo('&copy; ' + mapLink + ', ' + wholink));
-
+         
+         map.infoControl.setPosition('bottomleft');
           // Initialise the FeatureGroup to store editable layers
           var drawnItems = window.drawnItems = new L.FeatureGroup();
           map.addLayer(drawnItems);
