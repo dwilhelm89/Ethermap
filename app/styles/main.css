@@ -30,16 +30,16 @@ h1, h2, h3 {
  .footer {
   color: rgb(231, 231, 231);
   position: absolute;
-  z-index: 100000;
   bottom: 0;
   height: 30px;
   width: 100%;
 }
 .footerContainer{
   padding: 5px;
-  margin: auto;
   width: 300px;
-  background-color:#3c4e5a;
+  background-color: #3c4e5a;
+  right: 0;
+  position: absolute;
 }
 .footerText{
   margin: auto;
@@ -123,6 +123,7 @@ input {
   height: 100%;
   width: 300px;
   background-color: rgba(231, 231, 231, 0.9);
+  z-index: 1000;
 }
 .toolbox-buttons {
   position: fixed;
