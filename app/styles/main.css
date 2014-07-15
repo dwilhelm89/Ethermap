@@ -28,9 +28,16 @@ h1, h2, h3 {
 }
 /* Custom page footer */
  .footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
+  color: rgb(231, 231, 231);
+  position: absolute;
+  bottom: 0;
+  height: 30px;
+  width: 100%;
+}
+.footerText{
+  padding-top: 5px;
+  margin: auto;
+  width: 200px;
 }
 /* Customize container */
  @media (min-width: 768px) {
@@ -68,6 +75,7 @@ html, body {
 #map {
   height: 100%;
   width: 100%;
+  bottom: 30px;
 }
 .leaflet-bar {
   border-radius: 0;
