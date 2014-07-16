@@ -10,6 +10,9 @@ Ethermap is a real-time collaborative map editor allowing:
 
 
 
+For a [demo](http://giv-wilhelm.uni-muenster.de), open the following website with several browsers log into the same map id and different user names.
+
+
 The application has been built as part of my master thesis at the ifgi (Institue for Geoinformatics, WWU Münster).
 
 
