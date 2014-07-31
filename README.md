@@ -31,7 +31,7 @@ The application has been built as part of my master thesis at the ifgi (Institut
 
 ###Install dependencies (Ubuntu)
 
-It is assumed that you have installed node.js (> 0.10.26)
+It is assumed that you have installed node.js (developed using 0.10.26)
 ```
 sudo apt-get install couchdb
 npm install -g grunt-cli
