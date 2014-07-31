@@ -9,6 +9,7 @@ Ethermap is a real-time collaborative map editor allowing:
 * revert to older revisions or restore deleted features
 
 
+[How does it work?](How_does_it_work.md) shortly explains the overall concept.
 
 For a [demo](http://giv-wilhelm.uni-muenster.de), open the following website with several browsers log into the same map id and different user names.
 
