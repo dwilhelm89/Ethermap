@@ -3,14 +3,18 @@ Ethermap
 
 Ethermap is a real-time collaborative map editor allowing:
 * synchronization of geoobjects between all clients
-* highlight changes for user-awareness
-* store each change as a new revision
-* browse revisions and show changes in the map context
-* revert to older revisions or restore deleted features
+* visual highlights of changes for user-awareness
+* watching other users or show their current workarea
+* basic feature version control (browse older revisions and revert changes)
+* communicating about specific features within the chat
 
 
+[How does it work?](How_does_it_work.md) shortly explains the overall concept.
 
-The application has been built as part of my master thesis at the ifgi (Institue for Geoinformatics, WWU Münster).
+For a [demo](http://giv-wilhelm.uni-muenster.de), open the following website with several browsers log into the same map id and different user names.
+
+
+The application has been built as part of my master thesis at the ifgi (Institute for Geoinformatics, WWU Münster).
 
 
 ###Technologies
@@ -27,7 +31,7 @@ The application has been built as part of my master thesis at the ifgi (Institue
 
 ###Install dependencies (Ubuntu)
 
-It is assumed that you have installed node.js (> 0.10.26)
+It is assumed that you have installed node.js (developed using 0.10.26)
 ```
 sudo apt-get install couchdb
 npm install -g grunt-cli
