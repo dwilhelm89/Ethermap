@@ -18,10 +18,6 @@ angular.module('CollaborativeMap', [
         templateUrl: 'partials/start',
         controller: 'StartCtrl'
       })
-      .when('/tester', {
-        templateUrl: 'partials/tester',
-        controller: 'TesterCtrl'
-      })
       .when('/map/:mapid', {
         templateUrl: 'partials/main',
         controller: 'MainCtrl'
