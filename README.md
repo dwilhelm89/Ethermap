@@ -3,7 +3,7 @@ Ethermap
 
 Ethermap is a real-time collaborative map editor allowing:
 * synchronization of geoobjects between all clients
-* visual highlights of changes for user-awareness
+* visual highlights of changes creating user-awareness
 * watching other users or show their current workarea
 * basic feature version control (browse older revisions and revert changes)
 * communicating about specific features within the chat
@@ -11,7 +11,7 @@ Ethermap is a real-time collaborative map editor allowing:
 
 [How does it work?](How_does_it_work.md) shortly explains the overall concept.
 
-For a [demo](http://giv-wilhelm.uni-muenster.de), open the following website with several browsers log into the same map id and different user names.
+For a [demo](http://giv-wilhelm.uni-muenster.de), open the website with several browsers log into the same map id with different user names. Or check out the [video](https://www.youtube.com/watch?v=ByRp-g3egLk).
 
 
 The application has been built as part of my master thesis at the ifgi (Institute for Geoinformatics, WWU Münster).
