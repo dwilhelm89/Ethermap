@@ -20,6 +20,7 @@ The application has been built as part of my master thesis at the ifgi (Institut
 ###Technologies
 
 * [node.js]
+* [Leaflet] + [Leaflet.draw]
 * [AngularJS]
 * [socket.io]
 * [CouchDB]
@@ -96,3 +97,5 @@ grunt docs
 [Grunt]:http://gruntjs.com/
 [Bower]:http://bower.io/
 [socket.io]:http://socket.io/
+[Leaflet]:http://leafletjs.com/
+[Leaflet.draw]:https://github.com/Leaflet/Leaflet.draw
