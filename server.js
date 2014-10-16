@@ -2,6 +2,12 @@
 
 var express = require('express');
 
+//Catch all errors so that the node app won't crash
+process.on('uncaughtException', function (err) {
+  console.error(err);
+  console.log('Node NOT Exiting...');
+});
+
 /**
  * Main application file
  */
