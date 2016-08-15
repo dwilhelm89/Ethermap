@@ -14,11 +14,12 @@ angular.module('CollaborativeMap')
   .service('DataImport', ['MapHandler', 'Utils',
     function(MapHandler, Utils) {
 
-      var map;
+      var map, drawnItems;
 
       return {
-        init: function(mapInstance) {
+        init: function(mapInstance, drawn) {
           map = mapInstance;
+          drawnItems = drawn;
         },
 
         /**
@@ -39,6 +40,11 @@ angular.module('CollaborativeMap')
           });
 
           map.fitBounds(geojson);
+        },
+
+        exportGeoJson: function() {
+          // TODO: strip internal attributes (_rev, _id, user, ...)
+          return drawnItems.toGeoJSON();
         }
       };
 

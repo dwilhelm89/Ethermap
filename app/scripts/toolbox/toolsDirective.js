@@ -36,6 +36,10 @@ angular.module('CollaborativeMap')
             }
           };
 
+          $scope.exportMap = function() {
+            $scope.dataInputField = JSON.stringify(DataImport.exportGeoJson(), null, 2);
+          };
+
         }
       };
     }

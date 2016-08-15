@@ -28,9 +28,10 @@ angular.module('CollaborativeMap')
 
       function loadFeatures(mapId, map, drawnItems) {
         showLoading();
+        var featuresLength = 0;
         ApiService.getFeaturesOboe(mapId)
           .node('rows.*', function(row) {
-
+            featuresLength++;
             // This callback will be called everytime a new object is
             // found in the foods array.
             MapHandler.addGeoJSONFeature(map, {
@@ -39,7 +40,7 @@ angular.module('CollaborativeMap')
             }, drawnItems);
           })
           .done(function() {
-            map.fitBounds(drawnItems.getBounds());
+            if (featuresLength) map.fitBounds(drawnItems.getBounds());
             removeLoading();
           });
       }
@@ -153,7 +154,7 @@ angular.module('CollaborativeMap')
           SynchronizeMap.init(map, $scope.$parent, drawnItems);
 
           //Pass the map instance to the DataImporter
-          DataImport.init(map);
+          DataImport.init(map, drawnItems);
         }
       };
     }
