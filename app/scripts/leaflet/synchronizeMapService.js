@@ -46,7 +46,6 @@ angular.module('CollaborativeMap')
       /**
        * Stores the mapBounds of a user. If the user is being watched, update the current map bounds
        * @param  {Object} movement = {event: {nE, sW, userId}}
-       * @param  {Object} map
        */
 
       function handleMapMovements(movement) {
@@ -63,7 +62,6 @@ angular.module('CollaborativeMap')
       /**
        * Connects to the Websocket mapMovement channel
        * @param  {String} mapId
-       * @param  {Object} map
        */
 
       function receiveMapMovements(mapId) {
@@ -98,7 +96,7 @@ angular.module('CollaborativeMap')
        * @param  {Object} event = mapDraw event
        */
 
-      function updateToolsView(map, event) {
+      function updatePropertiesView(map, event) {
         //without a timeout, the autobinding of angular doesn't seem to work
         setTimeout(function() {
           mapScope.selectFeature(map._layers[event.fid]);
@@ -114,9 +112,9 @@ angular.module('CollaborativeMap')
 
       function refreshToolbox(map, event) {
         var views = mapScope.views;
-        if (!views.toolsView) {
+        if (!views.propertiesView) {
           if (mapScope.selectedFeature.fid === event.fid) {
-            updateToolsView(map, event);
+            updatePropertiesView(map, event);
           }
         }
       }

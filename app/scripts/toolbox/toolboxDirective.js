@@ -65,6 +65,7 @@ angular.module('CollaborativeMap')
             userView: true,
             historyView: true,
             toolBarIn: true,
+            propertiesView: true,
             toolsView: true
           };
 

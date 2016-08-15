@@ -8,7 +8,7 @@
  * @requires Socket
  * @requires MapHandler
  * @requires Tooltip
- * 
+ *
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
@@ -109,7 +109,7 @@ angular.module('CollaborativeMap')
               },50);
               Tooltip.hideTooltip();
               $scope.isReferTo = false;
-              $scope.$apply();
+              $scope.safeApply();
             });
           };
 
