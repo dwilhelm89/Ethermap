@@ -2,12 +2,12 @@
 
 /**
  * @memberof CollaborativeMap
- * 
+ *
  * @fileOverview Adds listeners for all leaflet specific draw events.
- * 
+ *
  * Adds click handlers for new features (through the MapHandler).
  * Edit/delete events call a Callback (further handling is done in the SynchronizeMapService)
- * 
+ *
  * @exports CollaborativeMap.MapHandler
  * @requires  MapHandler
  * @author Dennis Wilhelm
@@ -40,7 +40,7 @@ angular.module('CollaborativeMap')
          * Listens for leaflet draw events. Packs the events in a message and calls the callback
          * @param  {Object}   map      the map
          * @param  {Object}   scope    Angular scope
-         * @param  {Function} callback 
+         * @param  {Function} callback
          */
         connectMapEvents: function(map, scope, callback) {
           mapScope = scope;
@@ -48,7 +48,7 @@ angular.module('CollaborativeMap')
           map.on('draw:created', function(event) {
             scope.selectFeature(event.layer);
             MapHandler.addClickEvent(event.layer);
-            callback(eventToMessage(event, 'created feature'));
+            callback(eventToMessage(event, event.action || 'created feature'));
           });
 
           map.on('draw:edited', function(event) {

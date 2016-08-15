@@ -7,16 +7,16 @@
  * Loads already existing features from the Database.
  * Initializes the map Synchronization and the MapHandler
  * @exports CollaborativeMap.MapDirective
- * 
+ *
  * @requires  ApiService
  * @requires MapHandler
  * @requires SynchronizeMap
- * 
+ *
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
-  .directive('map', ['MapHandler', 'SynchronizeMap', 'ApiService',
-    function(MapHandler, SynchronizeMap, ApiService) {
+  .directive('map', ['MapHandler', 'SynchronizeMap', 'ApiService', 'DataImport',
+    function(MapHandler, SynchronizeMap, ApiService, DataImport) {
       var mapLoadingDiv;
 
       /**
@@ -39,6 +39,7 @@ angular.module('CollaborativeMap')
             }, drawnItems);
           })
           .done(function() {
+            map.fitBounds(drawnItems.getBounds());
             removeLoading();
           });
       }
@@ -46,7 +47,6 @@ angular.module('CollaborativeMap')
       /**
        * Creates a loading div
        */
-
       function showLoading() {
         mapLoadingDiv = document.createElement('div');
         mapLoadingDiv.className = 'mapLoading';
@@ -59,7 +59,6 @@ angular.module('CollaborativeMap')
       /**
        * Removes the loading div from the page
        */
-
       function removeLoading() {
         document.body.removeChild(mapLoadingDiv);
       }
@@ -98,8 +97,8 @@ angular.module('CollaborativeMap')
           }, {}, {
             position: 'topleft'
           }).addTo(map);
-         
-         map.infoControl.setPosition('bottomleft');
+
+          map.infoControl.setPosition('bottomleft');
           // Initialise the FeatureGroup to store editable layers
           var drawnItems = window.drawnItems = new L.FeatureGroup();
           map.addLayer(drawnItems);
@@ -153,6 +152,8 @@ angular.module('CollaborativeMap')
           //Initialize the map synchronization (handles all Websocket related sync stuff)
           SynchronizeMap.init(map, $scope.$parent, drawnItems);
 
+          //Pass the map instance to the DataImporter
+          DataImport.init(map);
         }
       };
     }
