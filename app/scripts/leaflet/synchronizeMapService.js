@@ -137,7 +137,7 @@ angular.module('CollaborativeMap')
 
             var event = res.event;
 
-            if (event.action === 'created' || event.action === 'created feature') {
+            if (event.action === 'created' || event.action === 'created feature' || event.action === 'imported feature') {
 
               MapHandler.addGeoJSONFeature(map, event, drawnItems, false, Users.getUserColorByName(res.event.user));
 
