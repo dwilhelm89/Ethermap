@@ -26,11 +26,11 @@ angular.module('CollaborativeMap')
 
           function activateToolbox() {
             if ($scope.views.toolBarIn) {
-              $scope.toggleToolbar('toolsView');
-              $scope.$apply();
-            } else if ($scope.views.toolsView) {
-              $scope.toggleToolbar('toolsView');
-              $scope.$apply();
+              $scope.toggleToolbar('propertiesView');
+              $scope.safeApply();
+            } else if ($scope.views.propertiesView) {
+              $scope.toggleToolbar('propertiesView');
+              $scope.safeApply();
             }
 
           }
@@ -97,18 +97,13 @@ angular.module('CollaborativeMap')
             $scope.editByUser = editByUser;
 
             //$apply has to be called manually, if the function is called from a different event (here leaflet click)
-            if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-              $scope.$apply();
-            }
-
+            $scope.safeApply();
           };
 
           $scope.$on('editHandlerUpdate', function(event, data) {
             $scope.editByUser = data;
             //$apply has to be called manually, if the function is called from a different event (here leaflet click)
-            if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-              $scope.$apply();
-            }
+            $scope.safeApply();
           });
 
 
@@ -167,8 +162,7 @@ angular.module('CollaborativeMap')
           $scope.deleteFeature = function() {
             MapHandler.deleteFeature();
             $scope.selectedFeature = undefined;
-            $scope.toggleToolbar('toolsView');
-
+            $scope.toggleToolbar('propertiesView');
           };
 
           /**
@@ -266,7 +260,7 @@ angular.module('CollaborativeMap')
            */
 
           function hideStopEditingBtn() {
-            $('#stopEditBtn')[0].className += ' hidden';
+            $('#stopEditBtn').addClass('hidden');
           }
 
           /**
@@ -295,7 +289,7 @@ angular.module('CollaborativeMap')
            * Cancel the edit mode if the toolbox window is closed.
            */
           $scope.$on('toolbox', function() {
-            if ($scope.views.toolsView) {
+            if ($scope.views.propertiesView) {
               MapHandler.removeEditHandler();
             }
           });

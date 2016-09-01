@@ -65,6 +65,7 @@ angular.module('CollaborativeMap')
             userView: true,
             historyView: true,
             toolBarIn: true,
+            propertiesView: true,
             toolsView: true
           };
 
@@ -118,7 +119,7 @@ angular.module('CollaborativeMap')
             if (bounds) {
               MapHandler.paintUserBounds(bounds, Users.getUserById(userId).color || 'undefined');
             } else {
-              window.alert('The user hasn\'t mooved since you logged in');
+              window.alert('The user hasn\'t moved since you logged in');
             }
           };
 

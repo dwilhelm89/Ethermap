@@ -6,14 +6,14 @@
     <br>
     <chat-message message="message"></chat-message>
   </div>
-  <div ng-hide="messages.length">Start typing in the input field below to start chatting with other users in this map.</div>
-
-</div>
-<div class="chat">
-  <div class="chatNew">
-    <input type="text" ng-model="chatMessage" ng-keypress="sendMessage($event)" style="width: 250px;"><br>
-    <input type="button" class="btn btn-default" ng-show="isReferTo" ng-click="cancelReferToFeature()" value="Cancel referring">
-    <input type="button" class="btn btn-default" ng-hide="isReferTo" ng-click="referToFeature()" value="Refer to feature">
-    <input type="button" class="btn btn-default" ng-click="sendMessage()" value="Send" style="float:right;">
+  <div ng-hide="messages.length" style="padding: 10px">
+    Start typing in the input field below to start chatting with other users in this map.
   </div>
+</div>
+
+<div class="chat">
+  <input type="text" ng-model="chatMessage" ng-keypress="sendMessage($event)" style="width: 100%;"><br>
+  <input type="button" class="btn btn-default" ng-show="isReferTo" ng-click="cancelReferToFeature()" value="Cancel referring">
+  <input type="button" class="btn btn-default" ng-hide="isReferTo" ng-click="referToFeature()" value="Refer to feature">
+  <input type="button" class="btn btn-default" ng-click="sendMessage()" value="Send" style="float:right;">
 </div>

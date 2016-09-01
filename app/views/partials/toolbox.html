@@ -2,10 +2,9 @@
   <div class="toolbox-buttons">
     <input type="button" class="btn btn-dark" ng-click="toggleToolbar('userView')" value="Users" data-intro='Shows all users within this map and provides a chat function. The watch function within this tab allows you to keep the current map synchronized with another user. <br><a href="images/users.gif" target="_blank">Demo</a>' data-step="2">
     <input type="button" class="btn btn-dark" ng-click="toggleToolbar('historyView')" value="History" data-intro='Shows all actions performed in this map.<br><a href="images/history.gif" target="_blank">Demo</a>' data-step="3">
-    <input type="button" class="btn btn-dark" ng-click="toggleToolbar('toolsView')" value="Feature" data-intro='Edit or delete the properties of a single feature within the map. This view will automatically open if you click on a feature in the map.<br><a href="images/feature.gif" target="_blank">Demo</a>' data-step="4">
+    <input type="button" class="btn btn-dark" ng-click="toggleToolbar('propertiesView')" value="Feature" data-intro='Edit or delete the properties of a single feature within the map. This view will automatically open if you click on a feature in the map.<br><a href="images/feature.gif" target="_blank">Demo</a>' data-step="4">
+    <input type="button" class="btn btn-dark" ng-click="toggleToolbar('toolsView')" value="Tools" data-intro='Shows various tools (data import/export).' data-step="5">
     <input type="button" class="btn btn-dark" ng-click="startIntroJS()" value="Help">
-    <!--
-  <input type="button" class="btn btn-dark" ng-click="toggleToolbar('settingsView')" value="Settings">-->
   </div>
   <div id="toolbox" class="toolbox animate-slideIn" ng-class="{'zeroWidth':views.toolBarIn}">
 
@@ -28,8 +27,11 @@
     <div class="toolbox-content" ng-class="{'hide': views.historyView}">
       <map-history></map-history>
     </div>
-    <div class="toolbox-content" ng-class="{'hide': views.toolsView}">
+    <div class="toolbox-content" ng-class="{'hide': views.propertiesView}">
       <featureproperties></featureproperties>
+    </div>
+    <div class="toolbox-content" ng-class="{'hide': views.toolsView}">
+      <tools></tools>
     </div>
   </div>
 </div>

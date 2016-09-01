@@ -1,0 +1,7 @@
+<div class="tools">
+  <h4>GeoJSON import / export</h4>
+  <textarea ng-model="dataInputField" placeholder="...paste some valid GeoJSON here"></textarea>
+  <div class="orangeBackground">{{jsonError}}</div>
+  <input class="btn btn-default" type="button" value="Import into map" ng-click="importDataString()"/>
+  <input class="btn btn-default" type="button" value="Export map" ng-click="exportMap()"/>
+</div>

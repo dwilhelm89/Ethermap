@@ -7,7 +7,7 @@
  *
  * @requires ApiService
  * @requires MapHandler
- * 
+ *
  * @author Dennis Wilhelm
  */
 angular.module('CollaborativeMap')
@@ -339,7 +339,7 @@ angular.module('CollaborativeMap')
            * @return {Boolean}        true if there are geometry changes
            */
           $scope.hasGeomChanges = function(action) {
-            var geomChanges = ['created feature', 'deleted feature', 'edited geometry', 'restored'];
+            var geomChanges = ['created feature', 'deleted feature', 'edited geometry', 'restored', 'imported feature'];
             return geomChanges.indexOf(action) > -1;
           };
 
