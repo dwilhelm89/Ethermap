@@ -17,7 +17,7 @@ For a [demo](http://giv-wilhelm.uni-muenster.de) (desktop only), open the websit
 The application has been built as part of my master thesis at the ifgi (Institute for Geoinformatics, WWU Münster).
 
 
-###Technologies
+### Technologies
 
 * [node.js]
 * [Leaflet] + [Leaflet.draw]
@@ -30,7 +30,7 @@ The application has been built as part of my master thesis at the ifgi (Institut
 
 
 
-###Install dependencies (Ubuntu)
+### Install dependencies (Ubuntu)
 
 It is assumed that you have installed node.js (developed using 0.10.26)
 ```
@@ -42,7 +42,7 @@ npm install -g forever
 ```
 
 
-###Run for Development
+### Run for Development
 
 
 ```
@@ -52,7 +52,7 @@ grunt serve
 
 ```
 
-###Run for Production
+### Run for Production
 
 
 ```
@@ -73,7 +73,7 @@ sudo fig up
 Ethermap will be available from http://localhost:8080
 
 
-###Testing
+### Testing
 
 Tests are based on Karma + Jasmine
 
@@ -87,14 +87,14 @@ npm install -g karma-cli
 karma start
 ```
 
-###Create the JSDoc pages
+### Create the JSDoc pages
 
 ```
 grunt docs
 ```
 
 
-###License
+### License
 
 [Apache v2.0](license.md) - Dennis Wilhelm 2014
 
