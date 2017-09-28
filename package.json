@@ -8,11 +8,11 @@
   },
   "author": "Dennis Wilhelm",
   "dependencies": {
-    "express": "~3.4.3",
+    "express": "~4.15.5",
     "lodash": "~2.4.1",
     "ejs": "~0.8.4",
     "socket.io": "~0.9.x",
-    "nano": "^5.7.1",
+    "nano": "^6.1.2",
     "raven": "0.6.3",
     "q": "^1.0.1"
   },
